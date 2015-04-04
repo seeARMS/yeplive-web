@@ -1,0 +1,22 @@
+{
+  "name": "yeplive-web-client",
+  "version": "0.0.0",
+  "authors": [
+    "Evan Marsland <ERmarsland@gmail.com>"
+  ],
+  "description": "web client for yeplive",
+  "license": "no",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/assets/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.4",
+    "gmap3": "~6.0.0"
+  }
+}
