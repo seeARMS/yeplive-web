@@ -5,11 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-		"start": "node app/app.js"
+    "start": "node app/app.js",
+    "postinstall": "node_modules/bower/bin/bower install -F"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bower": "^1.4.1",
     "express": "^4.12.3"
   }
 }
