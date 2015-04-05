@@ -1,7 +1,6 @@
 .DS_Store
 node_modules
 npm-debug.log
-app/assets/vendor/*
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
