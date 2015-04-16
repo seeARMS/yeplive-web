@@ -3,11 +3,9 @@
 	//google maps jquery plugin http://gmap3.net/en/
 	App = App || {};
 	var Map = {};
-	Map.el = document.getElementById('map-canvas');
-	Map.$el = $('#map-canvas');
 	Map.options = {
-			center: { lat: -34.397, lng: 150.644},
-			zoom: 8,
+			center: { lat: 35.397, lng: -40.644},
+			zoom: 2,
 			//disable street view
 			streetViewControl: false,
 			//disable map control changes
@@ -27,30 +25,35 @@
 	//PRIVATE METHODS
 	//MAP MARKERS
 	var markerClicked = function(marker, event, context){
-		console.log('clicked');
-		console.log(arguments);
+		var yepID = context.data;
+		App.events.trigger('yep:clicked', yepID);
 	};
 
 	var markerMousedOver = function(marker, event, context){
-		console.log('moused over');
 	};
 
 	var markerMousedOut = function(marker, event, context){
-		console.log('moused out');
 	};
 
 	//PUBLIC METHODS
-	Map.addMarker = function(latitude, longitude, message){
-		console.log('lat',latitude,'long',longitude);
+	Map.populate = function(data){
+		Map.$el.gmap3('clear', 'markers');
 		Map.$el.gmap3({
 			marker:{
-				values: [
-					{ latLng:[latitude, longitude], data: message, 
-						options:{
-							icon: 'img/yeplive-marker.png'
-						}
+				values: data,
+				/*
+				cluster:{
+					radius: 100,
+					0:{
+						content: '<div class="cluster cluster-1">CLUSTER_COUNT</div>',
+						width:50,
+						height:50
 					}
-				],
+				},
+				*/
+				options:{
+					icon: 'img/yeplive-marker.png',
+				},
 				events:{
 					click: markerClicked,
 					mouseover: markerMousedOver,
@@ -58,6 +61,10 @@
 				}
 			}
 		});
+	};
+
+	Map.clear = function(){
+		Map.$el.gmap3('clear','markers');
 	};
 
 	Map.initialize = function(){
@@ -70,11 +77,10 @@
 				position: google.maps.ControlPosition.LEFT_CENTER
 			}
 		});
-		Map.addMarker(-35, 150, "test marker"); 
 	};
 
 	//Call initialze method when google maps ready
-	google.maps.event.addDomListener(window, 'load', Map.initialize);
+	//google.maps.event.addDomListener(window, 'load', Map.initialize);
 
 	//expose Map object	
 	App.Map = Map;

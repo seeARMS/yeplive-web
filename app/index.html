@@ -1,35 +1,149 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<link href="http://vjs.zencdn.net/4.11/video-js.css" rel="stylesheet">
 		<link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="/css/main.css" />
 	</head>
 	<body>
-		<div class="navbar-background"></div>
-		<div class="navbar">
-			<img src="/img/yeplive-logo.png" />
-			<ul>
-				<a href="#"><li>About</li></a>
-				<a href="#"><li>Sign In</li></a>
-				<a href="#"><li>Sign Up</li></a>
-			</ul>
-		</div>
-		<div id="map-canvas"></div>
-		<div class="footer"></div>
-		<div class="overlay"></div>
-
+		<div id="navbar-div"></div>
+		<div id="main"></div>
+		<div id="modal-div"></div>
+		
+		<div class="modal fade" id="login-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Login/Signup to Yeplive</h4>
+      </div>
+      <div class="modal-body">
+				<a href="/auth/facebook"><button class="btn btn-primary">Facebook</button></a>
+				<a href="/auth/google"><button class="btn btn-primary js-google-login">Google</button></a>
+				<a href="/auth/twitter"><button class="btn btn-primary js-twitter-login">Twitter</button></a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <!-- VENDOR SCRIPTS -->
 <!-- LOAD IN THE GOOGLE MAPS JAVASCIPT API -->
 <!-- CURRENT CODE IS MY PERSONAL API CODE -->
 		<script type="text/javascript" src="/vendor/jquery/dist/jquery.min.js"></script>
 	 <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAoTjiA0p1e_BUnWhOHK7vyC9Y7dCjKIg"></script>	
-	<script type="text/javascript" src="/vendor/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="/vendor/gmap3/dist/gmap3.min.js"></script>
+	<script type="text/javascript" src="/vendor/underscore/underscore.js"></script>
+	<script type="text/javascript" src="/vendor/backbone/backbone.js"></script>
+	<script type="text/javascript" src="/vendor/backbone/backbone.wreqr.js"></script>
+  <script src="http://vjs.zencdn.net/4.11/video.js"></script>
+	<script src="https://cdn.socket.io/socket.io-1.3.4.js"></script>
+
+<!-- TEMPLATES -->
+<script type="text/template" id="loading-tpl">
+	<img src="/img/yeplive-big-logo.png" style="display:block; margin: 0 auto;  margin-top:150px" /> 
+	<div class="loader" style="font-size:5px"></div>
+</script>
+
+<script type="text/template" id="main-tpl">
+		<div id="map-canvas"></div>
+		<div class="footer"></div>
+		<div class="overlay"></div>
+</script>
+
+<script type="text/template" id="navbar-tpl">
+	<div class="navbar-background"></div>
+		<div class="navbar">
+			<img src="/img/yeplive-logo.png" />
+			<ul>
+				<a href="#"><li>About</li></a>
+				<% if (Auth.authed){ %>
+				<a href="#" class="js-profile"><li>My Profile</a>
+				<% } else { %>
+				<a href="#" class="js-login"><li>Sign In</li></a>
+				<a href="#" class="js-login"><li>Sign Up</li></a>
+				<% } %>
+			</ul>
+		</div>
+
+</script>
+
+	<script type="text/template" id="yep-modal-tpl">
+<div class="modal fade yep-modal" role="dialog" aria-labelledby="gridSystemModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="gridSystemModalLabel"><%- title %></h4>
+        </div>
+        <div class="modal-body yep-body">
+				<div class="col-md-6">
+					<div class="row">
+						<div id="yep-description"></div>
+					</div>
+					<div class="row">		
+						<h3 class="text-center">
+							<span class="glyphicon glyphicon-user"></span>
+							<span class="js-connections"><%- connect_count %></span>
+						</h3>
+						<div id="yep-chat"></div>
+					</div>
+				</div>
+				<div class="col-md-6">
+			<div class="yep-container">
+  <video  class="video-js vjs-default-skin yep-<%- id %>" controls preload="auto" width="400" height="600">
+	<source src="<%- source %>" type="rtmp/mp4">
+</video>
+			</div>
+				</div>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+	</script>
+
+	<script type="text/template" id="yep-chat-tpl">
+			<div class="chat-box"></div>
+			<input class="form-control js-chat-input" type="text">
+			<button class="js-send btn btn-default">Send</button>
+	</script>
+
+	<script type="text/template" id="yep-chat-message-tpl">
+		<div class="message">
+			<b><%- display_name %></b>
+			<p><%- message %></p>
+		</div>
+	</script>
+
+	<script type="text/template" id="yep-description-tpl">
+		<div class="panel">
+			<img src="<%- user.picture_path %>" class="img-circle" width="50" height="50"/>
+			<%- description %>
+			<%- tags %>
+			<%- user.display_name %>
+			<%- user.status %>
+			<%- created_at %>
+			<%- connect_count %>
+			<%- location %>
+			<button class="js-follow btn btn-default">Follow</button>
+		</div>
+	</script>
+
+	<script type="text/template" id="yep-fixed-video-tpl">
+		<div class="fixed-yep-video">
+			<video  class="video-js vjs-default-skin yep-<%- id %>" controls preload="auto" width="400" height="600">
+			<source src="<%- source %>" type="rtmp/mp4">
+		</video>		
+		</div>
+	</script>
 
 <!-- APPLICATION SCRIPTS -->
 	<script type="text/javascript" src="/js/init.js"></script>
+	<script type="text/javascript" src="/js/authentication.js"></script>
 	<script type="text/javascript" src="/js/map.js"></script>
+	<script type="text/javascript" src="/js/models.js"></script>
+	<script type="text/javascript" src="/js/views.js"></script>
+	<script type="text/javascript" src="/js/socket.js"></script>
 	<script type="text/javascript" src="/js/main.js"></script>
 	</body>
 </html>

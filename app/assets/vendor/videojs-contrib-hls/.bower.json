@@ -1,0 +1,15 @@
+{
+  "name": "videojs-contrib-hls",
+  "homepage": "https://github.com/videojs/videojs-contrib-hls",
+  "version": "0.12.0",
+  "_release": "0.12.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.12.0",
+    "commit": "9f986e773ee078e3d602208b0a9f1cf6e306df54"
+  },
+  "_source": "git://github.com/videojs/videojs-contrib-hls.git",
+  "_target": "~0.12.0",
+  "_originalSource": "videojs-contrib-hls",
+  "_direct": true
+}
