@@ -3,56 +3,106 @@ html, body{
 	height:100%;
 }
 
+.liked{
+	color: #2ecc71;
+}
+
 #map-canvas{
+	margin-top:-100px;
 	position:absolute;
 	width:100%;
 	height:100%;
+}
+
+#main{
+	margin-top:100px;
 }
 
 /* NAVBAR */
 .navbar{
 	height:75px;
 	width:100%;
-	position:absolute;
+	position:fixed;
 	top:0px;
 	left:0px;
 	z-index:11;
 }
 
-.navbar img{
+.navbar-center{
+	left:50%;
+	width:100px;
+	position:absolute;
+}
+
+.navbar .record-button{
+	position:absolute;
+	left:-50%;
+	top:20px;
+	background-color:white;
+	border-radius:50px;
+	-webkit-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.75);
+	
+}
+
+.yeplive-red{
+	color:#AB252A;
+}
+
+.yeplive-red-bg{
+	background: #AB252A;
+}
+
+.login-btn{
+	font-family: Lato, sans-serif;
+	font-size:20px;
+	margin-top:10px;
+	height:50px;
+	width:100px;
+}
+
+.yeplive-img{
 	position:absolute;
 	left:10em;
 	top:0.5em;
+	height:60px;
+}
+
+.img-user{
+	margin-top:0.5em;
+	height:60px;
+	width:60px;
+	
 }
 
 .navbar ul{
-	top:1.5em;
 	position:absolute;
+	right:15em;
 	list-style:none;
-	left:70em;
-}
-
-.navbar li{
-	display: inline-block;
-	font-size:20px;
-	margin-left:2em;
-	color:black;
 }
 
 .navbar-background{
 	background:white;
 	height:75px;
 	width:100%;
-	position:absolute;
+	position:fixed;
 	top:0px;
 	left:0px;
 	z-index:10;
-	opacity:0.8;
+	opacity:1;
+	-webkit-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.75);
 }
 
 /* YEP MODAL */
 .yep-container{
 	height:800px;
+}
+
+.dropdown{
+	display:inline-block;
 }
 
 .yep-body{
@@ -65,6 +115,15 @@ html, body{
 }
 
 /* FOOTER */
+#footer-div{
+	height:50px;
+	width:100%;
+	position:absolute;
+	bottom:0px;
+	left:0px;
+	z-index:10;
+}
+
 .footer{
 	background:black;
 	height:50px;
@@ -74,6 +133,15 @@ html, body{
 	left:0px;
 	z-index:10;
 	opacity:0.5;
+}
+
+.down-arrow{
+	z-index:11;
+	color:white;
+	margin-top:10px;
+	font-size:30px;
+	position:absolute;
+	left:50%;
 }
 
 .loader {
@@ -143,3 +211,4 @@ html, body{
 .cluster{
 	background-color:black;
 }
+
