@@ -5,6 +5,7 @@
 			'': 'root',
 			'me': 'me',
 			'_=_': 'facebookRedirect',
+			'new': 'new',
 			'*notFound': 'notFound'
 		}
 	});
@@ -16,9 +17,16 @@
 	});
 
 	App.Router.on('route:notFound', function(actions){
-		console.log(actions);
-		App.events.trigger('route:404');
+		$.get('/api/users?name='+actions).then(function(res){
+				App.events.trigger('route:user', res);
+		}, function(err){
+				App.events.trigger('route:404');
+		});
 	});	
+
+	App.Router.on('route:new', function(){
+		App.events.trigger('route:new');
+	});
 
 	App.Router.on('route:facebookRedirect', function(actions){
 		App.Router.navigate('',true);

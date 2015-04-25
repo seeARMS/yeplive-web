@@ -2,7 +2,7 @@
 	App = App || {};
 	App.Auth = {};
 
-	$.get('/auth').then(function(response){
+	$.get('/api/auth').then(function(response){
 		if(response.error){
 			App.Auth.authed = false;
 				App.events.trigger('loaded');
@@ -11,7 +11,7 @@
 			App.Auth.token = response.token;
 			$.ajax(
 				{
-					url:"/me",
+					url:"/api/me",
 					type: "GET",
 					beforeSend: function(xhr){
 						xhr.setRequestHeader('Authorization', 'Bearer '+App.Auth.token);

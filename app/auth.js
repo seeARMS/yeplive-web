@@ -1,4 +1,10 @@
 module.exports = function(app){
+var GOOGLE_CONSUMER_KEY="757029635679-3t8dr78cejogedbv3neac7gjckeb2ilb";
+var GOOGLE_CONSUMER_SECRET="i0HLYf0gzCmfztR1nOm9h-WP";
+var FACEBOOK_APP_ID = '1574335682844343';
+var FACEBOOK_APP_SECRET = '434b5073d101f047c31c4f011f8fc9fb';
+var TWITTER_CONSUMER_KEY = 'VTHbMSfNL8JFWbkTVQ6MZPgHJ';
+var TWITTER_CONSUMER_SECRET = 'JWJ0Hv9zQYNZiLqEBjj0jA5fhMMefjw7l4wzBDTg8ZGhwzcE3Y';
 		//SOCIAL LOGIN
 var helpers = require('./helpers');
 var passport = require('passport')
@@ -93,5 +99,5 @@ app.post('/auth', function(req, res){
 		return res.status(400).json({ error: 'auth unsuccessful' });	
 	}
 });
-*
+*/
 };

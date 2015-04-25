@@ -1,6 +1,7 @@
 module.exports = (function(){
 	var express = require('express');	
 	var router = new express.Router();
+	var helpers = require('./helpers');
 
 	router.post('/logout', function(req,res){
 		req.logout();
@@ -16,7 +17,7 @@ module.exports = (function(){
 	router.get('/auth', function(req, res){
 		if(req.session.passport && req.session.passport.user){
 		var user = req.session.passport.user;
-		postAPI('/auth/social', user, function(err, response, body){
+		helpers.postAPI('/auth/social', user, function(err, response, body){
 			if(response.statusCode !== 200){
 				if(response.statusCode === 500){ return res.send(body); }
 				return res.status(response.statusCode).json({error: response.statusCode});
@@ -31,7 +32,7 @@ module.exports = (function(){
 
 	router.get('/me', function(req, res){
 		var token = req.headers["authorization"];
-		getAPI('/me', token, function(err, response, body){
+		helpers.getAPI('/me', token, function(err, response, body){
 			if(response.statusCode !== 200){
 				if(response.statusCode === 500){ return res.send(body); }
 				return res.status(response.statusCode).json({error: response.statusCode});
@@ -40,11 +41,13 @@ module.exports = (function(){
 			res.status(200).json(JSON.parse(body));
 		});
 	});
+	
+	
 
 	router.post('/like', function(req, res){
 		var token = req.headers["authorization"];
 		var id = req.body.id;
-		postAPI('/yeps/'+id+'/votes',{},token,function(err, response, body){
+		helpers.postAPI('/yeps/'+id+'/votes',{},token,function(err, response, body){
 			if(response.statusCode !== 200){
 				if(response.statusCode === 500){ return res.send(body); }
 				return res.status(response.statusCode).json({error: response.statusCode});
@@ -54,8 +57,11 @@ module.exports = (function(){
 		});
 	});
 
-	app.get('/yeps', function(req, res){
-		getAPI('/yeps', function(err, response, body){
+	router.get('/yeps', function(req, res){
+		helpers.getAPI('/yeps', function(err, response, body){
+			if(err || response.statusCode !== 200 ){
+				return res.status(500).json({error: 'could not fetch yeps'});
+			}
 			var json = JSON.parse(body);
 			res.status(200).json(json.yeps);
 		});
@@ -64,7 +70,7 @@ module.exports = (function(){
 	router.get('/yeps/:id', function(req, res){
 		var token = req.headers["authorization"];
 		var id = req.params.id;
-		getAPI('/yeps/'+id,token,function(err, response, body){
+		helpers.getAPI('/yeps/'+id,token,function(err, response, body){
 			if(response.statusCode !== 200){
 				if(response.statusCode === 500){ return res.send(body); }
 				return res.status(response.statusCode).json({error: response.statusCode});
@@ -74,11 +80,24 @@ module.exports = (function(){
 		});
 	});
 
+	router.get('/users', function(req, res){
+		var name = req.query.name;
+		helpers.getAPI('/users?name='+name, function(err, response, body){
+			if (err || response.statusCode !== 200){
+				if(response.statusCode === 404){
+					return res.status(404).json({error: 'could not find user'});
+				}
+				return res.status(500).json({error:'could not get user'});
+			}
+			res.json(JSON.parse(body));
+		});
+	});
+
 	router.post('/follow/:id', function(req, res){
 		var token = req.headers["authorization"];
 		var id = req.params.id;
 		
-		postAPI('/users/'+id+'/followers',{},token,function(err, response, body){
+		helpers.postAPI('/users/'+id+'/followers',{},token,function(err, response, body){
 			console.log(body);
 			if(response.statusCode !== 200){
 				if(response.statusCode === 500){ return res.send(body); }

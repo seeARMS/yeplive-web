@@ -12,8 +12,18 @@
 	});
 	App.events.on('route:me', function(){
 		console.log('user route');
-		App.mainView = new App.Views.LoadingView({ el: '#main' });	
-		App.mainView = new App.Views.UserView({ el:'#main' });
+		App.mainView = new App.Views.UserView({ el:'#main', model: App.User });
+	});
+	App.events.on('route:new', function(){
+		console.log('new yep route');
+		App.mainView = new App.Views.NewYepView({ el:'#main' });	
+	});
+	App.events.on('route:user', function(data){
+		var user = new App.Models.User(data);
+		App.mainView = new App.Views.UserView({ el:'#main', model: user});
+	});
+	App.events.on('route:404', function(){
+		console.log('404');
 	});
 
 	App.events.on('yep:liked', function(data){
@@ -71,6 +81,6 @@
 //rtmp://54.149.106.109/vods3/_definst_/&mp4:amazons3/dev-wowza/foneeggb.mp4"
 //STREAM SOURCE
 //rtmp://54.149.106.109:1935/test/&mp4:NAME
-	Backbone.history.start({pushState: true});
+	Backbone.history.start();
 	
 }(window.App));

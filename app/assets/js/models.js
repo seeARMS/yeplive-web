@@ -15,7 +15,7 @@
 	});
 
 	App.Collections.YepsCollection = Backbone.Collection.extend({
-		url: '/yeps',
+		url: '/api/yeps',
 		model: App.Models.Yep,
 		getMapData: function(){
 			var data = [];

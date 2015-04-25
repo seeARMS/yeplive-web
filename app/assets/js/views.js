@@ -2,6 +2,57 @@
 	App = App || {};
 	App.Views = {};
 
+	App.Views.NewYepView = Backbone.View.extend({
+		events:{
+			'click .js-record': function(){
+				document.VideoRecorder.record();
+				console.log('recording');
+			}
+		},
+		tpl: _.template($('#new-yep-tpl').html()),
+		initialize: function(){
+			this.render();
+		},
+		render: function(){
+			this.$el.html(this.tpl());
+			this.setUpHDFVR();
+		},
+		setUpHDFVR: function(){
+			var flashvars = {
+				userId : "XXY",
+				qualityurl: "audio_video_quality_profiles/640x480x30x90.xml",
+				recorderId: "123",
+				sscode: "php",
+				lstext : "Loading..."	
+			};
+			var params = {
+				quality : "high",
+				bgcolor : "#18191a",
+				play : "true",
+				loop : "false",
+				allowscriptaccess: "sameDomain"
+			};
+			var attributes = {
+				name : "VideoRecorder",
+				id :   "VideoRecorder",
+				align : "middle"
+			};
+			
+			var mobile = false;
+			var ua = navigator.userAgent.toLowerCase();
+			if(navigator.appVersion.indexOf("iPad") != -1 || navigator.appVersion.indexOf("iPhone") != -1 || ua.indexOf("android") != -1 || ua.indexOf("ipod") != -1 || ua.indexOf("windows ce") != -1 || ua.indexOf("windows phone") != -1){
+				mobile = true;
+			}
+			
+			if(mobile == false){
+				swfobject.embedSWF("/hdfvr/VideoRecorder.swf", "recorder", "640", "480", "10.3.0", "", flashvars, params, attributes);
+			}else{
+				//do nothing
+			}
+
+		}
+	});
+
 	App.Views.UserModalView = Backbone.View.extend({
 		events:{
 			'click .js-logout': function(){
@@ -27,7 +78,7 @@
 			this.render();
 		},
 		render: function(){
-			this.$el.html(this.tpl(App.User));
+			this.$el.html(this.tpl(this.model.attributes));
 		}
 	});
 

@@ -1,4 +1,6 @@
 module.exports = (function(){
+	var config = require('../config');
+	var request = require('request');
 
 	//Post request to the api
 	function postAPI(route, params, auth, cb) {
