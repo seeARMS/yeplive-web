@@ -1,4 +1,5 @@
 var config = require('../config');
+var morgan = require('morgan');
 var request = require('request');
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -13,6 +14,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(session({
 	secret:'yeplive-secret'
 }));
+app.use(morgan('combined'))
 
 app.use(express.static(__dirname+'/assets'));
 
@@ -25,7 +27,11 @@ app.get('/token', function(req, res){
 });
 
 app.get('/avc_settings.php', function(req, res){
-	res.send(hdfvrconfig.generateConfig());	
+	var streamName = req.query.recorderId;
+	var params = {
+		streamName: streamName
+	};
+	res.send(hdfvrconfig.generateConfig(params));	
 });
 app.use(express.static(__dirname+'/assets/hdfvr'));
 app.get('/new', function(req, res){

@@ -1,6 +1,8 @@
 (function(App){
 	App = App || {};
+	
 
+	App.location = new App.Models.Location();
 	App.yepsCollection = new App.Collections.YepsCollection();
 	App.events.on('route:root', function(){
 		App.mainView = new App.Views.LoadingView({ el: '#main' });	
@@ -16,7 +18,17 @@
 	});
 	App.events.on('route:new', function(){
 		console.log('new yep route');
-		App.mainView = new App.Views.NewYepView({ el:'#main' });	
+		if(! App.User ||  ! App.location || ! App.location.get('latitude')){
+			return;
+		}
+		App.postAPI('/api/yeps', {
+			'latitude': App.location.get('latitude'),
+			'longitude': App.location.get('longitude')
+		}, function(data){
+			console.log(data);
+			var yepName = data.stream_name;
+			App.mainView = new App.Views.NewYepView({ el:'#main', yepName:yepName, yepId: data.id });	
+		})
 	});
 	App.events.on('route:user', function(data){
 		var user = new App.Models.User(data);
@@ -24,6 +36,13 @@
 	});
 	App.events.on('route:404', function(){
 		console.log('404');
+	});
+	App.events.on('route:settings', function(){
+		if(! App.User){
+			window.location.href="";
+		} else {
+			App.mainView = new App.Views.SettingsView({ el: '#main', model: App.User});
+		}
 	});
 
 	App.events.on('yep:liked', function(data){
@@ -35,8 +54,18 @@
 				id: id
 			}, function(res){
 				console.log(res);
-			});
-		});	
+		});
+	});	
+
+	App.events.on('yep:record', function(data){
+		console.log('toggle recording');	
+		console.log(data);
+		App.postAPI('/api/yeps/'+data+'/unstage', {},
+			function(response){
+				console.log(response);
+				document.VideoRecorder.record();
+		});
+	});
 
 	App.toggleLoginModal = function(){
 		$('#login-modal').modal();
@@ -64,6 +93,10 @@
 	});
 
 	App.events.on('logout', function(){
+		var currentRoute = Backbone.history.getFragment();
+		if(currentRoute === 'settings'){
+			window.location.href="#";
+		}
 		App.Auth.authed = false;
 		App.navbarView.render();	
 	});

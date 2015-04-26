@@ -18,8 +18,8 @@ module.exports = (function(){
 		if(req.session.passport && req.session.passport.user){
 		var user = req.session.passport.user;
 		helpers.postAPI('/auth/social', user, function(err, response, body){
-			if(response.statusCode !== 200){
-				if(response.statusCode === 500){ return res.send(body); }
+			if(err || response.statusCode !== 200){
+				if(response.statusCode === 500){ return res.json({error:'error'}); }
 				return res.status(response.statusCode).json({error: response.statusCode});
 			}
 			var json = JSON.parse(body);
@@ -29,6 +29,7 @@ module.exports = (function(){
 			res.status(200).json({error:'not logged in'});
 		}
 	});
+
 
 	router.get('/me', function(req, res){
 		var token = req.headers["authorization"];
@@ -64,6 +65,37 @@ module.exports = (function(){
 			}
 			var json = JSON.parse(body);
 			res.status(200).json(json.yeps);
+		});
+	});
+
+	router.post('/yeps', function(req, res){
+		var token = req.headers["authorization"];
+		var latitude = req.body.latitude;
+		var longitude = req.body.longitude;
+		helpers.postAPI('/yeps',{
+			staging: true,
+			latitude: latitude,
+			longitude: longitude
+		}, token , function(err, response, body){
+			console.log(body);
+			if(err || response.statusCode !== 200 ){
+				return res.status(500).json({error: 'could not fetch yeps'});
+			}
+			var json = JSON.parse(body);
+			return res.status(200).json(json);
+		});
+	});
+
+	router.post('/yeps/:id/unstage', function(req ,res){
+		var token = req.headers["authorization"];
+		var id = req.params.id;
+		helpers.postAPI('/yeps/'+id+'/unstage',{},token,function(err, response, body){
+			if(response.statusCode !== 200){
+				if(response.statusCode === 500){ return res.send(body); }
+				return res.status(response.statusCode).json({error: response.statusCode});
+			}
+			var json = JSON.parse(body);
+			res.status(200).json(json);	
 		});
 	});
 

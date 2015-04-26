@@ -2,26 +2,55 @@
 	App = App || {};
 	App.Views = {};
 
-	App.Views.NewYepView = Backbone.View.extend({
+	App.Views.SettingsView = Backbone.View.extend({
 		events:{
-			'click .js-record': function(){
-				document.VideoRecorder.record();
-				console.log('recording');
-			}
+			
 		},
-		tpl: _.template($('#new-yep-tpl').html()),
+		tpl: _.template($("#settings-tpl").html()),
 		initialize: function(){
 			this.render();
 		},
 		render: function(){
 			this.$el.html(this.tpl());
-			this.setUpHDFVR();
 		},
-		setUpHDFVR: function(){
+	});
+
+	App.Views.NewYepView = Backbone.View.extend({
+		events:{
+			'click .js-record': function(){
+				console.log(this);
+				console.log(this.yepId);
+				App.events.trigger('yep:record', this.yepId);
+			},
+			'mouseover .video-overlay-bg': function(){
+				console.log('nice');
+			}
+		},
+		tpl: _.template($('#new-yep-tpl').html()),
+		initialize: function(options){
+			this.render();
+			this.yepId = options.yepId;
+			console.log(options);
+			$('.video-overlay-wrapper').hide();
+		},
+		render: function(){
+			this.$el.html(this.tpl());
+			this.setUpHDFVR(this.streamName);
+		},
+		getLocation: function(){
+			window.navigator.geolocation.getCurrentPosition(function(location){
+				App.location = location;
+				console.log(location);
+			}, function(err){
+			App.events.trigger('error', err);
+			 console.log(err);
+			});
+		},
+		setUpHDFVR: function(streamName){
 			var flashvars = {
 				userId : "XXY",
 				qualityurl: "audio_video_quality_profiles/640x480x30x90.xml",
-				recorderId: "123",
+				recorderId: streamName,
 				sscode: "php",
 				lstext : "Loading..."	
 			};
@@ -56,7 +85,7 @@
 	App.Views.UserModalView = Backbone.View.extend({
 		events:{
 			'click .js-logout': function(){
-				$.post('/logout').then(function(){
+				$.post('/api/logout').then(function(){
 					App.events.trigger('logout');
 					$('.user-modal').modal('hide');
 				});
@@ -223,7 +252,7 @@
 				App.events.trigger('showUserModal');	
 			},
 			'click .js-logout': function(){
-				$.post('/logout').then(function(){
+				$.post('/api/logout').then(function(){
 					App.events.trigger('logout');
 				});
 			}

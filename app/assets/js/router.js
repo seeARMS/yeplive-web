@@ -6,6 +6,7 @@
 			'me': 'me',
 			'_=_': 'facebookRedirect',
 			'new': 'new',
+			'settings': 'settings',
 			'*notFound': 'notFound'
 		}
 	});
@@ -35,6 +36,10 @@
 	App.Router.on('route:me', function(actions){
 		App.events.trigger('route:me');
 		
+	});
+
+	App.Router.on('route:settings', function(actions){
+		App.events.trigger('route:settings');	
 	});
 
 }(window.App));

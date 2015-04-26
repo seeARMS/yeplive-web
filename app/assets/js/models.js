@@ -31,4 +31,23 @@
 			return data;
 		}
 	});
+
+	App.Models.Location = Backbone.Model.extend({
+		initialize: function(){
+			this.getNavigatorLocation();
+		},
+		getNavigatorLocation: function(){
+			var self = this;
+			window.navigator.geolocation.getCurrentPosition(function(position){
+				self.set('latitude', position.coords.latitude);
+				self.set('longitude', position.coords.longitude);
+			}, function(){
+				console.log('user didnt give nav brah');
+				self.getFallbackLocation();
+			});
+		},
+		getFallbackLocation: function(){
+			console.log('getting fallback position');
+		}	
+	});
 }(window.App));

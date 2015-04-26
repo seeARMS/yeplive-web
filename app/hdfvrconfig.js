@@ -5,7 +5,7 @@ module.exports = (function(){
 		//connectionstring:String
 		//desc: the rtmp connection string to the hdfvr application on your media server
 		//values: 'rtmp://localhost/hdfvr/_definst_', 'rtmp://myfmsserver.com/hdfvr/_definst_', etc...
-		configParams['connectionstring']='rtmp://54.149.106.109/hdfvr/_definst_';
+		configParams['connectionstring']='rtmp://54.149.134.14/hdfvr/_definst_';
 		
 		//This variable is sent to videorecorder.swf via flash vars and sent to this Php script via GET/query string. 
 		//To edit it's value look in the VideoRecorder.html file for "&recorderId=123", 123 is it's default value.
@@ -144,7 +144,7 @@ module.exports = (function(){
 		//desc: By default the application generates a random name ({prefix}_{timestamp_random}) for the video file. If you want to use a certain name set this variable and it will overwrite the pattern {prefix}_{timestamp_random}. The stream extension (.flv , .mp4 or .f4v) should NOT be used in the stream name.
 		//values: a string
 		//default: ""
-		configParams["streamName"] = "lol";
+		configParams["streamName"] = params.streamName;
 		
 		//disableAudio:String
 		//desc: By default the application records audio and video. If you want to disable audio recording set this var to 'true'.

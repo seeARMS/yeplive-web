@@ -53,34 +53,31 @@
 
 <script type="text/template" id="new-yep-tpl">
 	<div class="recording-container">
+		<div class="video-overlay-wrapper">
 		<div class="video-overlay">
+			<div class="video-overlay-bg">
+		</div>
+		</div>
 			<div class="row">
-			<form class="col s12">
-				<div class="row">
 					<div class="input-field col s12">
 						<input placeholder="Title" id="title" type="text"/>
 					</div>
-				</div>
-				<div class="row">
 					<div class="input-field col s12">
 						<input placeholder="Description" id="description" type="text"/>
 					</div>
-				</div>
-				<div class="row">
 					<div class="input-field col s12">
 						<input placeholder="Tags" id="tags" type="text"/>
 					</div>
-				</div>
-			</form>
 			</div>
 		</div>
 		<div class="video-recorder">
 			<div id="recorder">	
 			</div>
 		</div>
-	</div>
 	<div class="controls">
-		<a class="btn-floating btn-large waves-effect waves-light red js-record"><i class="mdi-image-lens"></i></a>
+		<button class="btn btn-default js-record">Record</button>
+		<button class="btn btn-default js-record">Stop</button>
+	</div>
 	</div>
 	<div class="chat">
 			
@@ -99,6 +96,20 @@
 		</div>
 </script>
 
+<script type="text/template" id="settings-tpl">
+	<div class="container">
+		<h1>Settings</h1>
+		<h3>Link Accounts</h3>
+		<div class="accounts">
+			<button class="btn btn-default">Facebook</button>
+			<button class="btn btn-default">Google</button>
+			<button class="btn btn-default">Twitter</button>
+		</div>
+		<h3>Display Name</h3>
+		<h3>Profile Picture</h3>
+	</div>
+</script>
+
 <script type="text/template" id="navbar-tpl">
 	<div class="navbar-background"></div>
 		<div class="navbar">
@@ -115,6 +126,10 @@
 					 <ul class="user-dropdown dropdown-menu" role="menu" aria-labelledby="dLabel">
 						<li role="presentation">
 							<a role="menuitem" tabindex="-1" href="#<%- User.get('display_name') %>">My Profile</a>	
+						</li>
+						<li role="presentation" class="divider"></li>
+						<li role="presentation">
+							<a role="menuitem" tabindex="-1" href="#settings" class="js-settings">Settings</a>	
 						</li>
 						<li role="presentation" class="divider"></li>
 						<li role="presentation">
@@ -184,7 +199,6 @@
 				<div class="col-md-6">
 			<div class="yep-container">
   <video  class="video-js vjs-default-skin yep-<%- id %>" controls preload="auto" width="400" height="600">
-	<source src="<%- source %>" type="rtmp/mp4">
 	<source
 				 src="<%- mobileSource %>"
 				 type="application/x-mpegURL">	

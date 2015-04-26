@@ -66,38 +66,24 @@ passport.use(new GoogleStrategy({
 		return done(null, data);
   }
 ));
-app.get('/auth/facebook', passport.authenticate('facebook'));
+app.get('/auth/facebook', passport.authenticate('facebook', {scope: [
+//		'publish_actions',
+		'user_friends'
+]}));
 app.get('/auth/facebook/callback', 
-  passport.authenticate('facebook', { successRedirect: '/',
+  passport.authenticate('facebook', { scope: [
+//		'publish_actions',
+		'user_friends'
+	],successRedirect: '/',
 }));
 app.get('/auth/twitter', passport.authenticate('twitter'));
 app.get('/auth/twitter/callback', 
   passport.authenticate('twitter', { successRedirect: '/',
                                      failureRedirect: '/' }));
 
-app.get('/auth/google', passport.authenticate('google', {scope:['profile']}));
+app.get('/auth/google', passport.authenticate('google', {scope:['profile'], accessType: 'offline', approvalPrompt: 'force'}));
 app.get('/auth/google/callback', 
   passport.authenticate('google', { successRedirect: '/',
                                     failureRedirect: '/' }));
 
-
-/*
-app.post('/auth', function(req, res){
-	if(req.body.facebook_access_token && req.body.facebook_user_id){
-		var data = {
-			'facebook_access_token': req.body.facebook_access_token,
-			'facebook_user_id': req.body.facebook_user_id
-		}
-		postAPI('/', data, function(err, response, body){
-			if(response.statusCode != 200){
-				return res.status(400).json({ error: 'auth unsuccessful' });	
-			}
-			var json = JSON.parse(body);
-			res.status(200).json(body);
-		})
-	} else {
-		return res.status(400).json({ error: 'auth unsuccessful' });	
-	}
-});
-*/
 };
