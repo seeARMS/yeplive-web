@@ -15,17 +15,20 @@ module.exports = (function(){
 	});
 
 	router.get('/auth', function(req, res){
+
 		if(req.session.passport && req.session.passport.user){
-		var user = req.session.passport.user;
-		helpers.postAPI('/auth/social', user, function(err, response, body){
-			if(err || response.statusCode !== 200){
-				if(response.statusCode === 500){ return res.json({error:'error'}); }
-				return res.status(response.statusCode).json({error: response.statusCode});
-			}
-			var json = JSON.parse(body);
-			res.status(200).json(json);
-		});
-		} else {
+			var user = req.session.passport.user;
+			helpers.postAPI('/auth/social', user, function(err, response, body){
+				console.log(body);
+				if(err || response.statusCode !== 200){
+					if(response.statusCode === 500){ return res.json({error:'error'}); }
+					return res.status(response.statusCode).json({error: response.statusCode});
+				}
+				var json = JSON.parse(body);
+				res.status(200).json(json);
+			});
+		} 
+		else {
 			res.status(200).json({error:'not logged in'});
 		}
 	});

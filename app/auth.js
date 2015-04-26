@@ -1,4 +1,5 @@
 module.exports = function(app){
+var colors = require('colors');
 var GOOGLE_CONSUMER_KEY="757029635679-3t8dr78cejogedbv3neac7gjckeb2ilb";
 var GOOGLE_CONSUMER_SECRET="i0HLYf0gzCmfztR1nOm9h-WP";
 var FACEBOOK_APP_ID = '1574335682844343';
@@ -33,6 +34,7 @@ passport.use(new FacebookStrategy({
 				facebook_access_token: accessToken,
 				facebook_user_id: profile.id
 			};
+      console.log(data.facebook_access_token.green);
       done(null, data);
   }
 ));
@@ -66,16 +68,21 @@ passport.use(new GoogleStrategy({
 		return done(null, data);
   }
 ));
+
 app.get('/auth/facebook', passport.authenticate('facebook', {scope: [
 //		'publish_actions',
 		'user_friends'
 ]}));
+
+
 app.get('/auth/facebook/callback', 
   passport.authenticate('facebook', { scope: [
 //		'publish_actions',
 		'user_friends'
 	],successRedirect: '/',
 }));
+
+
 app.get('/auth/twitter', passport.authenticate('twitter'));
 app.get('/auth/twitter/callback', 
   passport.authenticate('twitter', { successRedirect: '/',
