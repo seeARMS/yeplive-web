@@ -1,9 +1,10 @@
 (function(App){
 	App = App || {};
 	
-
 	App.location = new App.Models.Location();
+
 	App.yepsCollection = new App.Collections.YepsCollection();
+
 	App.events.on('route:root', function(){
 		App.mainView = new App.Views.LoadingView({ el: '#main' });	
 		App.mainView = new App.Views.MainView({ el: '#main' });
@@ -12,10 +13,12 @@
 			App.Map.populate(App.yepsCollection.getMapData());
 		});
 	});
+
 	App.events.on('route:me', function(){
 		console.log('user route');
 		App.mainView = new App.Views.UserView({ el:'#main', model: App.User });
 	});
+
 	App.events.on('route:new', function(){
 		console.log('new yep route');
 		if(! App.User ||  ! App.location || ! App.location.get('latitude')){
