@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(session({
 	secret:'yeplive-secret'
 }));
-app.use(morgan('combined'))
+//app.use(morgan('combined'))
 
 app.use(express.static(__dirname+'/assets'));
 

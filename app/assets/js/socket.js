@@ -1,10 +1,10 @@
 (function(App){
-	App = App || {};
-	//App.socket = io.connect('ebdev.elasticbeanstalk.com:3000/');
 	/*
+	App = App || {};
+	App.socket = io.connect('ebdev.elasticbeanstalk.com:3000/');
 	try{
-	App.socket = io.connect('http://localhost:3001');
-	} catch(e){
+		App.socket = io.connect('http://localhost:3001');
+		} catch(e){
 		console.log('socket error');
 	}
 
@@ -36,6 +36,5 @@
 	App.events.on('chat:leave', function(data){
 		App.socket.emit('client:leave');
 	});
-
-	*/
+*/
 }(window.App));
