@@ -1,5 +1,7 @@
 module.exports = (function(){
 	var generateConfig = function(params){
+		console.log(params);
+		console.log(params.streamName);
 		var configParams = {};
 
 		//connectionstring:String

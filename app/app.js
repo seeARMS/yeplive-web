@@ -27,10 +27,12 @@ app.get('/token', function(req, res){
 });
 
 app.get('/avc_settings.php', function(req, res){
+	console.log(req.query);
 	var streamName = req.query.recorderId;
 	var params = {
 		streamName: streamName
 	};
+	console.log(params);
 	res.send(hdfvrconfig.generateConfig(params));	
 });
 app.use(express.static(__dirname+'/assets/hdfvr'));

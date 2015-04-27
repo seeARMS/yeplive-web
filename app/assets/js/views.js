@@ -28,9 +28,9 @@
 		},
 		tpl: _.template($('#new-yep-tpl').html()),
 		initialize: function(options){
-			this.render();
 			this.yepId = options.yepId;
-			console.log(options);
+			this.streamName = options.yepName;
+			this.render();
 			$('.video-overlay-wrapper').hide();
 		},
 		render: function(){
@@ -47,6 +47,7 @@
 			});
 		},
 		setUpHDFVR: function(streamName){
+			console.log(streamName);
 			var flashvars = {
 				userId : "XXY",
 				qualityurl: "audio_video_quality_profiles/640x480x30x90.xml",
