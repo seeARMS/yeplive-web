@@ -18,7 +18,7 @@ html, body{
 	margin-top:100px;
 }
 
-/* NAVBAR */
+/* NAVBAR */ 
 .navbar{
 	height:75px;
 	width:100%;
@@ -29,15 +29,23 @@ html, body{
 }
 
 .navbar-center{
+	margin: 0 auto;
 	left:50%;
 	width:100px;
+	/*
 	position:absolute;
+	*/
 }
 
+
 .navbar .record-button{
+
+
+	/*
 	position:absolute;
 	left:-50%;
 	top:20px;
+	*/
 	background-color:white;
 	border-radius:50px;
 	-webkit-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.75);
@@ -62,10 +70,14 @@ html, body{
 	width:100px;
 }
 
+
 .yeplive-img{
+
+	/*
 	position:absolute;
 	left:10em;
 	top:0.5em;
+	*/
 	height:60px;
 }
 

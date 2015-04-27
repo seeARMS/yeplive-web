@@ -13,7 +13,7 @@
 		<div id="navbar-div"></div>
 		<div id="main"></div>
 
-		<div id="modal-div"></div>
+		<div id="modal-div"></div>f
 		<div class="modal fade" id="login-modal">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -48,7 +48,7 @@
 		<script src="/vendor/videojs/dist/video-js/video.js"></script>
 		<script src="/vendor/videojs-contrib-media-sources/src/videojs-media-sources.js"></script>
 		<script src="/vendor/videojs-contrib-hls/dist/videojs.hls.min.js"></script> 
-		
+
 		<script src="https://cdn.socket.io/socket.io-1.3.4.js"></script>
 		<script type="text/javascript" src="/vendor/swfobject/swfobject/swfobject.js"></script>
 
@@ -114,36 +114,48 @@
 
 		<script type="text/template" id="navbar-tpl">
 			<div class="navbar-background"></div>
-				<div class="navbar">
-					<a href="#"><img src="/img/yeplive-big-font.png" class="yeplive-img" /></a>
-					<div class="navbar-center">
-					<div class="record-button">
-						<a href="#new"><img src="/img/yeplive-big-button.png" height="100px"></a>
+			<div class="navbar">
+
+				<div class="row">
+
+					<div class="col-sm-4 pull-left">
+						<a href="#"><img src="/img/yeplive-big-font.png" class="yeplive-img" /></a>
 					</div>
-					</div>
-					<ul>
-						<% if (Auth.authed){ %>
-						<div class="dropdown">
-							 <img src="<%- User.get('picture_path') %>" class="img-user img-circle" data-toggle="dropdown" />
-							 <ul class="user-dropdown dropdown-menu" role="menu" aria-labelledby="dLabel">
-								<li role="presentation">
-									<a role="menuitem" tabindex="-1" href="#<%- User.get('display_name') %>">My Profile</a>	
-								</li>
-								<li role="presentation" class="divider"></li>
-								<li role="presentation">
-									<a role="menuitem" tabindex="-1" href="#settings" class="js-settings">Settings</a>	
-								</li>
-								<li role="presentation" class="divider"></li>
-								<li role="presentation">
-									<a role="menuitem" tabindex="-1" class="js-logout">Logout</a>	
-								</li>
-							 </ul>
+
+					<div class="col-sm-4" >
+						<div class="navbar-center">
+							<!--<div class="record-button">-->
+								<a href="#new"><img class="record-button" src="/img/yeplive-big-button.png" height="100px"></a>
+							<!--</div>-->
 						</div>
-						<% } else { %>
-						<li><button class="btn login-btn btn-danger js-login">Log In</button></li>
-						<% } %>
-					</ul>
+					</div>
+
+					<div class="col-sm-4 pull-right">
+						<ul>
+							<% if (Auth.authed){ %>
+							<div class="dropdown">
+								 <img src="<%- User.get('picture_path') %>" class="img-user img-circle" data-toggle="dropdown" />
+								 <ul class="user-dropdown dropdown-menu" role="menu" aria-labelledby="dLabel">
+									<li role="presentation">
+										<a role="menuitem" tabindex="-1" href="#<%- User.get('display_name') %>">My Profile</a>	
+									</li>
+									<li role="presentation" class="divider"></li>
+									<li role="presentation">
+										<a role="menuitem" tabindex="-1" href="#settings" class="js-settings">Settings</a>	
+									</li>
+									<li role="presentation" class="divider"></li>
+									<li role="presentation">
+										<a role="menuitem" tabindex="-1" class="js-logout">Logout</a>	
+									</li>
+								 </ul>
+							</div>
+							<% } else { %>
+							<li><button class="btn login-btn btn-danger js-login">Log In</button></li>
+							<% } %>
+						</ul>
+					</div>
 				</div>
+			</div>
 		</script>
 
 		<script type="text/template" id="footer-tpl">
