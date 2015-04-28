@@ -33,13 +33,31 @@
 			App.mainView = new App.Views.NewYepView({ el:'#main', yepName:yepName, yepId: data.id });	
 		})
 	});
+
+	App.events.on('route:watch', function(yepId){
+		App.getAPI('/api/yeps/' + yepId, function(yep){
+			console.log(yep)
+			var thumbnail_path = yep.image_path;
+			// If we get VOD, we directly stream from cloudfront
+			// If we get LIVE, we stream using HLS
+			var video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_mobile_url;
+			var playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
+			App.mainView = new App.Views.WatchView({ el : "#main", 
+													 video_path : video_path,
+													 thumbnail_path : thumbnail_path,
+													 playback_type : playback_type });
+		});
+	});
+
 	App.events.on('route:user', function(data){
 		var user = new App.Models.User(data);
 		App.mainView = new App.Views.UserView({ el:'#main', model: user});
 	});
+
 	App.events.on('route:404', function(){
 		console.log('404');
 	});
+
 	App.events.on('route:settings', function(){
 		if(! App.User){
 			window.location.href="";

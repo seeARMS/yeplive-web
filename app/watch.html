@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8 />
+		<!--
+		Created using JS Bin
+		http://jsbin.com
+		Copyright (c) 2015 by mmcc (http://jsbin.com/cayake/2/edit)
+		Released under the MIT license: http://jsbin.mit-license.org
+		-->
+		<meta name="robots" content="noindex">
+		<title>Video.js RTMP Example Embed</title>
+
+		<link href="/vendor/videojs/dist/video-js/video-js.css" rel="stylesheet">
+		<script src="/vendor/videojs/dist/video-js/video.js"></script>
+		<script src="/vendor/videojs-contrib-media-sources/src/videojs-media-sources.js"></script>
+		<script src="/vendor/videojs-contrib-hls/dist/videojs.hls.min.js"></script> 
+	</head>
+
+	<body>
+		<video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" width="640" height="268" data-setup='{}'>
+			<source src="http://54.149.134.14:1935/hdfvr/undefined/playlist.m3u8" type="video/mp4">  
+		</video>
+
+
+		<script type="text/template" id="watch-main">
+			<div>RENDERED</div>
+		</script>
+
+	</body>
+</html> 

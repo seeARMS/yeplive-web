@@ -275,4 +275,23 @@
 			this.$el.html(this.tpl(App));	
 		}
 	});
+
+	App.Views.WatchView = Backbone.View.extend({
+		tpl: _.template($('#watch-main').html()),
+		events:{},
+		initialize: function(options){
+			this.render(options);
+		},
+		setupVideo: function(){
+			var videoEl = document.getElementById('playVideo');
+			videojs(videoEl, {}, function(){
+				console.log('VideoJS successfully loaded')
+			});
+		},
+		render: function(options){
+			this.$el.html(this.tpl(options));
+			this.setupVideo();
+		}
+	});
+
 }(window.App));

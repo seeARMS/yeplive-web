@@ -22,6 +22,15 @@ app.get('/',function(req, res){
 	res.sendFile(__dirname+'/index.html');
 });
 
+app.get('/test', function(req, res){
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.sendFile(__dirname+'/test.html');
+});
+
+app.get('/watch', function(req, res){
+	res.sendFile(__dirname+'/watch.html');
+});
+
 app.get('/token', function(req, res){
 	res.json(req.session);
 });

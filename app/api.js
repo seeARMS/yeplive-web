@@ -9,11 +9,6 @@ module.exports = (function(){
 		res.status(200).json({success:1});
 	});
 
-	router.get('/test', function(req, res){
-		res.setHeader('Access-Control-Allow-Origin', '*');
-		res.sendFile(__dirname+'/test.html');
-	});
-
 	router.get('/auth', function(req, res){
 
 		if(req.session.passport && req.session.passport.user){
