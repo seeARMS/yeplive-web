@@ -16,7 +16,7 @@
 		<div id="navbar-div"></div>
 		<div id="main"></div>
 
-		<div id="modal-div"></div>f
+		<div id="modal-div"></div>
 		<div class="modal fade" id="login-modal">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -272,16 +272,24 @@
 
 		<script type="text/template" id="watch-main">
 
-			<div class="video-wrapper">
-	 			<div class="video-content">
-					<video id="playVideo" class="video-js vjs-default-skin" controls preload="auto" width="auto" height="auto" data-setup='{}'>
-						<source src="<%- video_path %>" type="<%- playback_type %>">  
-					</video>
+			<% if(!success) { %>
+
+				<div class="video-load-fail">
+					<h2 class='text-center'>Video Does Not Exist</h2>
 				</div>
-			</div>
 
+			<% } else { %>
 
-			<div><%- video_path %></div>
+				<div class="video-wrapper">
+		 			<div class="video-content">
+						<video id="playVideo" class="video-js vjs-default-skin" controls preload="auto" width="auto" height="auto" data-setup='{}'>
+							<source src="<%- video_path %>" type="<%- playback_type %>">  
+						</video>
+					</div>
+				</div>
+
+			<% } %>
+
 		</script>
 
 

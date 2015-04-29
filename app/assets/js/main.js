@@ -36,16 +36,22 @@
 
 	App.events.on('route:watch', function(yepId){
 		App.getAPI('/api/yeps/' + yepId, function(yep){
-			console.log(yep)
+
+			if(yep.status === 404 /*|| !yep.vod_enable*/){
+				App.mainView = new App.Views.WatchView({ el : '#main', success : 0 });
+				return;
+			}
+
 			var thumbnail_path = yep.image_path;
 			// If we get VOD, we directly stream from cloudfront
-			// If we get LIVE, we stream using HLS
-			var video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_mobile_url;
-			var playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
-			App.mainView = new App.Views.WatchView({ el : "#main", 
+			// If we get LIVE, we stream using rtmp
+			var video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
+			var playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
+			App.mainView = new App.Views.WatchView({ el : '#main', 
 													 video_path : video_path,
 													 thumbnail_path : thumbnail_path,
-													 playback_type : playback_type });
+													 playback_type : playback_type,
+													 success : 1 });
 		});
 	});
 

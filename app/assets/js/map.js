@@ -52,7 +52,8 @@
 				},
 				*/
 				options:{
-					icon: 'img/yeplive-marker.png',
+					draggable: true,
+					icon: 'img/yeplive-marker.png'
 				},
 				events:{
 					click: markerClicked,
