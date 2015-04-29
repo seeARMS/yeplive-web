@@ -1,4 +1,4 @@
-var config = require('./config');
+var config = require('../config');
 var morgan = require('morgan');
 var request = require('request');
 var express = require('express');
