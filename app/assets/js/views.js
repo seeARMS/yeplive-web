@@ -160,6 +160,7 @@
 				$('.chat-box').append(messageView);
 			});
 			this.setupVideo();
+			console.log("INIT");
 		},
 		setupVideo: function(){
 			var videoClass = 'yep-'+this.model.get('id');

@@ -11,37 +11,25 @@ Released under the MIT license: http://jsbin.mit-license.org
 <meta name="robots" content="noindex">
 <title>Video.js RTMP Example Embed</title>
   
-  <link href="/vendor/videojs/dist/video-js/video-js.css" rel="stylesheet">
-  <script src="/vendor/videojs/dist/video-js/video.js"></script>
-  <script src="/vendor/videojs-contrib-media-sources/src/videojs-media-sources.js"></script>
-  <script src="/vendor/videojs-contrib-hls/dist/videojs.hls.min.js"></script> 
+ 
 </head>
 <body>
 
-  <video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" width="640" height="268" 
+  <link href="/vendor/videojs/dist/video-js/video-js.css" rel="stylesheet">
+  <script src="/vendor/videojs/dist/video-js/video.js"></script>
+  <script src="/vendor/videojs-contrib-media-sources/src/videojs-media-sources.js"></script>
+  <script src="/vendor/videojs-contrib-hls/dist/videojs.hls.min.js"></script>
+
+  <video id="mplay" class="video-js vjs-default-skin" controls preload="auto" width="640" height="268" 
   data-setup='{}'>
 
 
   <source
-       src="http://52.10.133.244:1935/test/88-1430268591/playlist.m3u8"
-       type="application/x-mpegURL">  
-  </video>
-
-  <br>
-  <br>
-
-
-  <video id="my_video_2" class="video-js vjs-default-skin" controls preload="auto" width="640" height="268" 
-  data-setup='{}'>
-
-
-  <source
-       src="rtmp://52.10.133.244:1935/test/_definst_/mp4:88-1430268591"
+       src="rtmp://wowza-edge-prod-beta.elasticbeanstalk.com/liveedge/_definst_/mp4:terry"
        type="rtmp/mp4">  
   </video>
-<!--<source src="rtmp://54.149.134.14:1935/hdfvr/&mp4:undefined.mp4" type='rtmp/mp4'>-->
-http://54.149.106.109:1935/test/2-1429299430/playlist.m3u8
-       src="http:\/\/54.149.106.109:1935\/hdfvr\/1-1430006446\/playlist.m3u8"
-http://54.149.134.14:1935/hdfvr/myStream/playlist.m3u8
+
+
+    
 </body>
 </html>  

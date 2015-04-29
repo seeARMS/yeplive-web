@@ -2,14 +2,18 @@
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+
 		<link href="/vendor/videojs/dist/video-js/video-js.css" rel="stylesheet">
+		<script src="/vendor/videojs/dist/video-js/video.js"></script>
+		<script src="/vendor/videojs-contrib-media-sources/src/videojs-media-sources.js"></script>
+		<script src="/vendor/videojs-contrib-hls/dist/videojs.hls.min.js"></script>
+
+
 		<link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.min.css" />
 		<!--<link rel="stylesheet" href="/vendor/materialize/dist/css/materialize.css" />-->
 		<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="/css/main.css" />
-
-		<!--Video JS-->
-		<link href="/vendor/videojs/dist/video-js/video-js.css" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -49,9 +53,7 @@
 		<script type="text/javascript" src="/vendor/backbone/backbone.js"></script>
 		<script type="text/javascript" src="/vendor/backbone/backbone.wreqr.js"></script>
 
-		<script src="/vendor/videojs/dist/video-js/video.js"></script>
-		<script src="/vendor/videojs-contrib-media-sources/src/videojs-media-sources.js"></script>
-		<script src="/vendor/videojs-contrib-hls/dist/videojs.hls.min.js"></script> 
+		
 
 		<script src="https://cdn.socket.io/socket.io-1.3.4.js"></script>
 		<script type="text/javascript" src="/vendor/swfobject/swfobject/swfobject.js"></script>
@@ -222,7 +224,7 @@
 										<span class="glyphicon glyphicon-user"></span>
 										<span class="js-connections"><%- connect_count %></span>
 										<span class="glyphicon glyphicon-thumbs-up js-like"></span>
-										<span class="js-likes"><%- votes %></span>
+										
 									</h3>
 									<div id="yep-chat"></div>
 								</div>
@@ -277,7 +279,7 @@
 
 
 		<script type="text/template" id="watch-main">
-
+		
 			<% if(!success) { %>
 
 				<div class="video-load-fail">
@@ -288,13 +290,26 @@
 
 				<div class="video-wrapper">
 		 			<div class="video-content">
-						<video id="playVideo" class="video-js vjs-default-skin" controls preload="auto" width="auto" height="auto" data-setup='{}'>
-							<source src="<%- video_path %>" type="<%- playback_type %>">  
+
+
+						<video id="playVideo" class="video-js vjs-default-skin" controls preload="auto" width="584" height="268" data-setup='{}'>
+
+							<source
+								src="<%- video_path %>"
+								type="<%- playback_type %>">  
 						</video>
+
+						<!--
+						<%- video_path %>
+						<%- playback_type %>
+						-->
+
 					</div>
 				</div>
 
-			<% } %>
+				<!-- <div><img src='img/live.gif' /></div> -->
+				
+			<% } %> 
 
 		</script>
 
@@ -309,10 +324,5 @@
 		<script type="text/javascript" src="/js/socket.js"></script>
 		<script type="text/javascript" src="/js/router.js"></script>
 		<script type="text/javascript" src="/js/main.js"></script>
-
-		<!-- VIDEO JS -->
-		<script src="/vendor/videojs/dist/video-js/video.js"></script>
-		<script src="/vendor/videojs-contrib-media-sources/src/videojs-media-sources.js"></script>
-		<script src="/vendor/videojs-contrib-hls/dist/videojs.hls.min.js"></script>
 	</body>
 </html>

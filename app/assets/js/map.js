@@ -24,9 +24,32 @@
 	};
 	//PRIVATE METHODS
 	//MAP MARKERS
+	/*
 	var markerClicked = function(marker, event, context){
 		var yepID = context.data;
 		App.events.trigger('yep:clicked', yepID);
+	};
+	*/
+	var markerClicked = function(marker, event, context){
+		
+		var map = $(this).gmap3("get"),	
+			infowindow = $(this).gmap3({get:{name:"infowindow"}});
+
+		if (infowindow){
+			infowindow.open(map, marker);
+			infowindow.setContent(context.data);
+		} 
+		else {
+			$(this).gmap3({
+				infowindow:{
+					anchor:marker, 
+					options:{content: context.data}
+				}
+			});
+		}
+
+		//var yepID = context.data;
+		//App.events.trigger('yep:clicked', yepID);
 	};
 
 	var markerMousedOver = function(marker, event, context){

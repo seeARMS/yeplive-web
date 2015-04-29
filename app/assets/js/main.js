@@ -35,7 +35,9 @@
 	});
 
 	App.events.on('route:watch', function(yepId){
+		
 		App.getAPI('/api/yeps/' + yepId, function(yep){
+
 
 			if(yep.status === 404 /*|| !yep.vod_enable*/){
 				App.mainView = new App.Views.WatchView({ el : '#main', success : 0 });
@@ -45,6 +47,7 @@
 			var thumbnail_path = yep.image_path;
 			// If we get VOD, we directly stream from cloudfront
 			// If we get LIVE, we stream using rtmp
+			console.log(yep)
 			var video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
 			var playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
 			App.mainView = new App.Views.WatchView({ el : '#main', 
