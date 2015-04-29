@@ -421,10 +421,10 @@ body{
 }
 @media (max-width: 430px){
 	.video-js{
-		width:350px !important;
+		width:340px !important;
 	}
 	.video-wrapper{
-		width:365px !important;
+		width:355px !important;
 	}
 }
 @media (max-width: 330px){
