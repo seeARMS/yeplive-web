@@ -12,6 +12,7 @@
 				success: cb,
 				error: function(err){
 					console.log(err);
+					cb(err);
 				}
 			})
 	};

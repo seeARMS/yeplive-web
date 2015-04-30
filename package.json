@@ -22,6 +22,7 @@
     "passport-google": "^0.3.0",
     "passport-google-oauth": "^0.2.0",
     "passport-twitter": "^1.0.3",
-    "request": "^2.55.0"
+    "request": "^2.55.0",
+    "colors": "1.0.3" 
   }
 }

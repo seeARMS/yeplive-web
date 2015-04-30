@@ -7,7 +7,9 @@
 			'_=_': 'facebookRedirect',
 			'new': 'new',
 			'settings': 'settings',
+			'watch/:yepId' : 'watch',
 			'*notFound': 'notFound'
+			
 		}
 	});
 
@@ -40,6 +42,10 @@
 
 	App.Router.on('route:settings', function(actions){
 		App.events.trigger('route:settings');	
+	});
+
+	App.Router.on('route:watch', function(yepId){
+		App.events.trigger('route:watch', yepId);
 	});
 
 }(window.App));

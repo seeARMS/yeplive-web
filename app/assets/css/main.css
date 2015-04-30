@@ -32,6 +32,7 @@ html, body{
 	margin: 0 auto;
 	left:50%;
 	width:100px;
+	margin-top:10px;
 	/*
 	position:absolute;
 	*/
@@ -46,6 +47,8 @@ html, body{
 	left:-50%;
 	top:20px;
 	*/
+	width:100%;
+	height:100%;
 	background-color:white;
 	border-radius:50px;
 	-webkit-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.75);
@@ -62,13 +65,14 @@ html, body{
 	background: #AB252A;
 }
 
+/*
 .login-btn{
 	font-family: Lato, sans-serif;
 	font-size:20px;
 	margin-top:10px;
 	height:50px;
 	width:100px;
-}
+}*/
 
 
 .yeplive-img{
@@ -76,24 +80,33 @@ html, body{
 	left:10em;
 	top:0.5em;
 	height:60px;
+	width:200px;
+	margin-top:2%;
 }
 
 .img-user{
 	margin-top:0.5em;
+	margin-right:1em;
 	height:60px;
 	width:60px;
 	
 }
 
-.navbar ul{
-	position:absolute;
+.navbar /*ul*/{
+	/*position:absolute;*/
 	right:15em;
 	list-style:none;
 }
 
+ul.navbar-button{
+	list-style: none;
+	/*margin-right: 20px;
+	margin-top:10px;*/
+}
+
 .navbar-background{
 	background:white;
-	height:75px;
+	height:81px;
 	width:100%;
 	position:fixed;
 	top:0px;
@@ -217,9 +230,7 @@ html, body{
   }
 }
 
-.cluster{
-	background-color:black;
-}
+
 
 
 .recording-container{
@@ -287,4 +298,263 @@ html, body{
 h1, h2,h3,h4,h5,h6{
 	font-family:Roboto;
 	color:white;
+}
+
+
+.video-wrapper{
+	max-width: 600px;
+	max-height: 600px;
+	margin:0 auto;
+}
+
+.video-load-fail{
+	margin-top:140px;
+}
+
+.video-content{
+	border-color:rgb(188, 51, 51);
+	border-style:solid;
+	border-width:8px;
+	border-radius:9px;
+	-webkit-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.75);
+}
+
+
+
+/* ----- GOOGLE MAP ------ */
+
+.cluster-1, .cluster-2, .cluster-3{
+	line-height: 65px;
+	width: 67px;
+	height: 64px;
+}
+
+.cluster-1{
+	background-image: url(/img/map/c1.png);
+}
+
+.cluster-2{
+	background-image: url(/img/map/c2.png);
+}
+
+.cluster-3{
+	background-image: url(/img/map/c3.png);
+}
+
+.cluster{
+	color: white;
+	text-align: center;
+	font-family: 'Arial,Helvetica';
+	font-size: 11px;
+	font-weight: bold;
+}
+
+.infoWindow{
+	width:400px;
+	max-height:200px;
+}
+/*
+.cluster{
+	background-color:black;
+}*/
+
+
+/* ----- GOOGLE MAP ------ */
+
+
+
+
+
+/* Large devices (large desktops, 1200px - 993px) */
+@media (max-width: 1200px){
+
+	.img-user{
+		margin-top:0.5em;
+		margin-right:0.5em;
+		height:55px;
+		width:55px;
+	}
+
+	.navbar-background{
+		height:66px;
+	}
+
+	.navbar-center{
+		width:28%;
+		margin-top:10px;
+	}
+
+	.yeplive-img{
+		width:178px;
+		margin-top:1%;
+	}
+
+	.btn-navbar-button{
+		font-size:14px;
+	}
+	/*
+	.record-button{
+		margin-top:12px;
+		width:85%;
+		height:85%;
+	}
+	*/
+	
+}
+
+/* Medium devices (desktops, 992px - 769px) */
+@media (max-width: 992px){
+
+	.img-user{
+		margin-top:0.5em;
+		margin-right:0.5em;
+		height:50px;
+		width:50px;
+	}
+
+	.navbar-background{
+		height:61px;
+	}
+
+	.navbar-center{
+		width:28%;
+		margin-top:10px;
+	}
+
+	.yeplive-img{
+		width:160px;
+		margin-top:1%;
+	}
+	
+	.btn-navbar-button{
+		padding:7px 7px;
+		font-size:14px;
+	}
+	
+	/*
+	.record-button{
+		margin-top:12px;
+		width:70%;
+		height:70%;
+	}
+	*/
+	
+}
+
+/* Small devices (tablets, 768px - 431px) */
+@media (max-width: 768px){
+
+	.img-user{
+		margin-top:0.5em;
+		margin-right:0.5em;
+		height:45px;
+		width:45px;
+	}
+
+	.navbar-background{
+		height:56px;
+	}
+
+	.navbar-center{
+		width:80px;
+	}
+
+	.yeplive-img{
+		width:135px;
+		margin-top:1%;
+	}
+
+	.btn-navbar-button{
+		padding:7px 7px;
+		font-size:12px;
+	}
+	
+	/*
+	.record-button{
+		margin-top:12px;
+		width:60%;
+		height:60%;
+	}
+	*/	
+}
+
+/* For watching video only */
+@media (max-width: 628px){
+	.video-js{
+		width:500px !important;
+	}
+	.video-wrapper{
+		width:515px !important;
+	}
+}
+@media (max-width: 430px){
+	.video-js{
+		width:340px !important;
+	}
+	.video-wrapper{
+		width:355px !important;
+	}
+}
+@media (max-width: 330px){
+	.video-js{
+		width:300px !important;
+	}
+	.video-wrapper{
+		width:315px !important;
+	}
+}
+@media (max-width: 230px){
+	.video-js{
+		width:200px !important;
+	}
+	.video-wrapper{
+		width:215px !important;
+	}
+}
+@media (max-width: 130px){
+	.video-js{
+		width:100px !important;
+	}
+	.video-wrapper{
+		width:115px !important;
+	}
+}
+
+
+/* Mini devices (tablets, 430 and below) */
+@media (max-width: 430px){
+
+	.img-user{
+		margin-top:0.5em;
+		margin-right:0.5em;
+		height:40px;
+		width:40px;
+	}
+
+	.navbar-background{
+		height:51px;
+	}
+
+	.navbar-center{
+		width:65px;
+	}
+
+	.yeplive-img{
+		width:135px;
+		margin-top:1%;
+	}
+
+	.btn-navbar-button{
+		padding:7px 7px;
+		font-size:12px;
+	}
+	/*
+	.record-button{
+		margin-top:12px;
+		width:60%;
+		height:60%;
+	}
+	*/	
 }

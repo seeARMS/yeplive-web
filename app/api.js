@@ -11,11 +11,6 @@ module.exports = (function(){
 		res.status(200).json({success:1});
 	});
 
-	router.get('/test', function(req, res){
-		res.setHeader('Access-Control-Allow-Origin', '*');
-		res.sendFile(__dirname+'/test.html');
-	});
-
 	router.get('/auth', function(req, res){
 
 		if(req.session.passport && req.session.passport.user){
@@ -68,7 +63,7 @@ module.exports = (function(){
 	});
 
 	router.get('/yeps', function(req, res){
-		helpers.getAPI('/yeps', function(err, response, body){
+		helpers.getAPI('/yeps?quantity=99999999', function(err, response, body){
 			if(err || response.statusCode !== 200 ){
 				return res.status(500).json({error: 'could not fetch yeps'});
 			}
