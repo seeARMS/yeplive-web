@@ -24,6 +24,8 @@ app.get('/',function(req, res){
 
 app.get('/build', function(req, res){
 	res.sendFile(__dirname+'/build.html');
+});
+
 app.get('/test', function(req, res){
 	res.setHeader('Access-Control-Allow-Origin', '*');
 	res.sendFile(__dirname+'/test.html');

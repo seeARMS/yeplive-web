@@ -14,8 +14,8 @@ define(['jquery',
 				var self = this;
 				API.post('/yeps',{
 					description: 'nice',
-					latitude: 50,
-					longitude:50 
+					latitude: 45.5017,
+					longitude: -73.5673
 				}, window.localStorage.getItem('token'), function(err, res){
 					if(err){
 						console.log(err);
