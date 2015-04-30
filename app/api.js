@@ -5,7 +5,9 @@ module.exports = (function(){
 
 	router.post('/logout', function(req,res){
 		req.logout();
-		req.session.passport.user = null;
+		if(req.session.passport){
+			req.session.passport.user = null;
+		}
 		res.status(200).json({success:1});
 	});
 
@@ -21,6 +23,8 @@ module.exports = (function(){
 			helpers.postAPI('/auth/social', user, function(err, response, body){
 				console.log(body);
 				if(err || response.statusCode !== 200){
+					console.log(err);
+					if(err) return res.json({erro:'error'});
 					if(response.statusCode === 500){ return res.json({error:'error'}); }
 					return res.status(response.statusCode).json({error: response.statusCode});
 				}
@@ -35,7 +39,9 @@ module.exports = (function(){
 
 
 	router.get('/me', function(req, res){
+		console.log('request to me');
 		var token = req.headers["authorization"];
+		console.log(token);
 		helpers.getAPI('/me', token, function(err, response, body){
 			if(response.statusCode !== 200){
 				if(response.statusCode === 500){ return res.send(body); }
@@ -75,8 +81,8 @@ module.exports = (function(){
 		var token = req.headers["authorization"];
 		var latitude = req.body.latitude;
 		var longitude = req.body.longitude;
+		console.log(token);
 		helpers.postAPI('/yeps',{
-			staging: true,
 			latitude: latitude,
 			longitude: longitude
 		}, token , function(err, response, body){

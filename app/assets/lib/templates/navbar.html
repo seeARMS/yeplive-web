@@ -1,0 +1,39 @@
+<div class="navbar-background"></div>
+<div class="navbar">
+
+	<div class="row">
+
+		<div class="col-sm-4 pull-left">
+			<a href="#"><img src="/img/yeplive-big-font.png" class="yeplive-img" /></a>
+		</div>
+
+		<div class="col-sm-4" >
+			<div class="navbar-center">
+				<!--<div class="record-button">-->
+					<a href="#new"><img class="record-button" src="/img/yeplive-big-button.png" height="100px"></a>
+				<!--</div>-->
+			</div>
+		</div>
+
+		<div class="col-sm-4 pull-right">
+			<ul>
+				<div class="dropdown">
+					 <img src="<%- User.get('picture_path') %>" class="img-user img-circle" data-toggle="dropdown" />
+					 <ul class="user-dropdown dropdown-menu" role="menu" aria-labelledby="dLabel">
+						<li role="presentation">
+							<a role="menuitem" tabindex="-1" href="#<%- User.get('display_name') %>">My Profile</a>	
+						</li>
+						<li role="presentation" class="divider"></li>
+						<li role="presentation">
+							<a role="menuitem" tabindex="-1" href="#settings" class="js-settings">Settings</a>	
+						</li>
+						<li role="presentation" class="divider"></li>
+						<li role="presentation">
+							<a href="#logout" role="menuitem" tabindex="-1" class="js-logout">Logout</a>	
+						</li>
+					 </ul>
+				</div>
+			</ul>
+		</div>
+	</div>
+</div>

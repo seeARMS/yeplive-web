@@ -7,7 +7,7 @@ module.exports = (function(){
 		//connectionstring:String
 		//desc: the rtmp connection string to the hdfvr application on your media server
 		//values: 'rtmp://localhost/hdfvr/_definst_', 'rtmp://myfmsserver.com/hdfvr/_definst_', etc...
-		configParams['connectionstring']='rtmp://54.149.134.14/hdfvr/_definst_';
+		configParams['connectionstring']='rtmp://54.149.243.236:1935/hdfvr/_definst_';
 		
 		//This variable is sent to videorecorder.swf via flash vars and sent to this Php script via GET/query string. 
 		//To edit it's value look in the VideoRecorder.html file for "&recorderId=123", 123 is it's default value.
@@ -46,7 +46,7 @@ module.exports = (function(){
 		//desc: Specifies how long the buffer for the outgoing audio/video data can grow before Flash Player starts dropping frames. On a high-speed connection, buffer time will not affect anything because data is sent almost as quickly as it is captured and there is no need to buffer it. On a slow connection, however, there might be a significant difference between how fast Flash Player can capture audio and video data data and how fast it can be sent to the client, thus the surplus needs to be buffered. HDFVR will increase the value specified here as much as possible (if the buffer fills more than 90% of the available buffer, we double the available buffer) to prevent Flash Player from dumping the data in the buffer when it's full.
 		//values: 30,60,etc...
 		//default:60
-		configParams['outgoingBuffer']=60;
+		configParams['outgoingBuffer']=0;
 		
 		//playbackBuffer: Number
 		//desc: Specifies how much video time to buffer when (after recording a movie) you play it back
@@ -194,7 +194,7 @@ module.exports = (function(){
 		//desc: weather or not the bottom menu in the HDFVR shoud show, some people choose to control the HDFVR via JS and they do ot need the menu, when not using the menu you can decrease the height of HDFVR by 32 (3o is the height of the button 2 is the default padding value in this config file)
 		//values: "true" to show, "false" to hide
 		//default: "true"
-		configParams["showMenu"]="true";
+		configParams["showMenu"]="false";
 		
 		//showTimer:String
 		//desc: Show or hides the timer
@@ -206,7 +206,7 @@ module.exports = (function(){
 		//desc: Shows or hides the sound bar
 		//values: 'false' to hide it 'true' to show it
 		//default: 'true'
-		configParams["showSoundBar"] = 'true';
+		configParams["showSoundBar"] = 'false';
 		
 		//flipImageHorizontally: String
 		//desc: Shows the webcam feed flipped horizontally. The actual video file (.flv, .f4v or .mp4) will not contain a flipped image.

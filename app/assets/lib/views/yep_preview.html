@@ -1,0 +1,21 @@
+define(['jquery',
+				'underscore',
+				'backbone',
+				'text!lib/templates/yep_preview.html',
+				'text!lib/templates/yep_recording.html'
+				],
+	function($, _, Backbone, yepPreview, createYepTpl){
+
+	var CreateYepView = Backbone.View.extend({
+		tpl: _.template(createYepTpl),
+		initialize: function(){
+			this.render();
+		},
+		render: function(){
+			this.$el.html(this.tpl());
+		}
+	});
+
+	return CreateYepView;
+
+});

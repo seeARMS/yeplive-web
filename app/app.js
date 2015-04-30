@@ -22,6 +22,10 @@ app.get('/',function(req, res){
 	res.sendFile(__dirname+'/index.html');
 });
 
+app.get('/build', function(req, res){
+	res.sendFile(__dirname+'/build.html');
+});
+
 app.get('/token', function(req, res){
 	res.json(req.session);
 });
