@@ -57,7 +57,7 @@ module.exports = (function(){
 	});
 
 	router.get('/yeps', function(req, res){
-		helpers.getAPI('/yeps', function(err, response, body){
+		helpers.getAPI('/yeps?quantity=99999999', function(err, response, body){
 			if(err || response.statusCode !== 200 ){
 				return res.status(500).json({error: 'could not fetch yeps'});
 			}

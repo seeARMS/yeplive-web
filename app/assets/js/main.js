@@ -35,7 +35,7 @@
 	});
 
 	App.events.on('route:watch', function(yepId){
-		
+
 		App.getAPI('/api/yeps/' + yepId, function(yep){
 
 
@@ -108,11 +108,15 @@
 
 		App.events.trigger('chat:join',chatData);
 		
+
 		var yep = App.yepsCollection.find(function(currentYep){
 			return currentYep.get('id') === data;
 		});
+
+
 		App.currentModal= new App.Views.YepModalView({ model: yep, el: '#modal-div' });
 	});
+
 	
 	App.events.on('loaded', function(){
 		App.navbarView = new App.Views.NavbarView({ el: '#navbar-div' });

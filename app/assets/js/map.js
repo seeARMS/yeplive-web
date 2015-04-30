@@ -24,39 +24,84 @@
 	};
 	//PRIVATE METHODS
 	//MAP MARKERS
-	/*
+	
 	var markerClicked = function(marker, event, context){
 		var yepID = context.data;
 		App.events.trigger('yep:clicked', yepID);
 	};
-	*/
-	var markerClicked = function(marker, event, context){
-		
-		var map = $(this).gmap3("get"),	
-			infowindow = $(this).gmap3({get:{name:"infowindow"}});
+	
 
-		if (infowindow){
-			infowindow.open(map, marker);
-			infowindow.setContent(context.data);
-		} 
-		else {
-			$(this).gmap3({
-				infowindow:{
-					anchor:marker, 
-					options:{content: context.data}
-				}
-			});
+	var clusterContent = function(context){
+
+		var yepMarks = context.data.markers;
+
+		var cluster = [];
+
+		for(var i = 0; i < yepMarks.length; i++){
+			var yep = App.yepsCollection.findWhere({ id : yepMarks[i].data });
+			cluster.push(yep);
 		}
 
-		//var yepID = context.data;
-		//App.events.trigger('yep:clicked', yepID);
-	};
+		var content = '<div class="infoWindow">'
+
+		for(var i = 0; i < cluster.length; i++){
+
+			var yep = cluster[i].attributes;
+
+			var yepTitle = yep.title;
+			var imagePath = yep.image_path;
+			var user = yep.user.display_name;
+			var views = yep.views;
+			var vodEnable = yep.vod_enable;
+			var createdAt = yep.created_at;
+
+			content += '<ul>';
+			content += '<li>Title: ' + yepTitle + '</li>';
+			content += '<li>Image: ' + imagePath + '</li>';
+			content += '<li>Views: ' + views + '</li>';
+			content += '<li>Users: ' + user + '</li>';
+			content += '<li>Vod: ' + vodEnable + '</li>';
+			content += '<li>Time: ' + createdAt + '</li>';
+			content += '</ul><hr />'
+
+		}
+
+		content += '</div>'
+		return content;
+	}
+
+	var infoWindowOpen = function($this, marker, data){
+		console.log(marker)
+	}
 
 	var markerMousedOver = function(marker, event, context){
 	};
 
 	var markerMousedOut = function(marker, event, context){
 	};
+
+	var clusterClick = function(cluster, event, context){
+
+		var infowindow = $(this).gmap3({get:{name:"infowindow"}});
+
+		if(infowindow){
+			infowindow.close();
+		}
+
+		$(this).gmap3({
+			infowindow:{
+				latLng: context.data.latLng,
+				options:{
+					content: clusterContent(context)
+				},
+				events:{
+					closeclick: function(infowindow){
+						//
+					}
+				}
+			}
+		});
+	}
 
 	//PUBLIC METHODS
 	Map.populate = function(data){
@@ -75,13 +120,41 @@
 				},
 				*/
 				options:{
-					draggable: true,
+					draggable: false,
 					icon: 'img/yeplive-marker.png'
 				},
 				events:{
 					click: markerClicked,
 					mouseover: markerMousedOver,
 					mouseout: markerMousedOut
+				},
+				cluster:{
+					radius: 100,
+					events:{ // events trigged by clusters 
+						mouseover: function(overlay, event, context){
+							//console.log(context);
+							//$(cluster.main.getDOMElement()).css("border", "1px solid red");
+						},
+						mouseout: function(overlay, event, context){
+							//$(cluster.main.getDOMElement()).css("border", "0px");
+						},
+						click: clusterClick
+					},
+					0: {
+						content: "<div class='cluster cluster-3'>CLUSTER_COUNT</div>",
+						width: 53,
+						height: 52
+					},
+					20: {
+						content: "<div class='cluster cluster-3'>CLUSTER_COUNT</div>",
+						width: 56,
+						height: 55
+					},
+					50: {
+						content: "<div class='cluster cluster-3'>CLUSTER_COUNT</div>",
+						width: 66,
+						height: 65
+					}
 				}
 			}
 		});
