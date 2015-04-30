@@ -29,6 +29,53 @@
 		var yepID = context.data;
 		App.events.trigger('yep:clicked', yepID);
 	};
+
+	var timeElapsedCalculator = function(diff){
+
+		if (diff < 60){
+			return 'Just Now';
+		}
+		else if (diff < 3600){
+			var min = Math.floor(diff/60);
+			if (min === 1){
+				return '1 minute ago';
+			}
+			else{
+				return min.toString() + ' minutes ago';
+			}
+		}
+		else if (diff < 86400){
+			var hr = Math.floor(diff/60/60);
+			if (hr === 1){
+				return '1 hour ago'
+			}
+			else{
+				return hr.toString() + ' hours ago';
+			}
+			
+		}
+		else if (diff < 2592000){
+			var day = Math.floor(diff/60/60/24);
+			if (day === 1){
+				return '1 day ago'
+			}
+			else{
+				return day.toString() + ' days ago';
+			}
+		}
+		else if (diff < 31536000){
+			var month = Math.floor(diff/2592000);
+			if (month === 1){
+				return '1 month ago'
+			}
+			else{
+				return month.toString() + ' months ago';
+			}
+		}
+		else{
+			return 'more than a year ago';
+		}
+	}
 	
 
 	var clusterContent = function(context){
@@ -48,21 +95,37 @@
 
 			var yep = cluster[i].attributes;
 
+			var yepId = yep.id;
 			var yepTitle = yep.title;
 			var imagePath = yep.image_path;
-			var user = yep.user.display_name;
+			var displayName = yep.user.display_name;
 			var views = yep.views;
 			var vodEnable = yep.vod_enable;
-			var createdAt = yep.created_at;
+			var startTime = yep.start_time;
+			var currentTime = (new Date).getTime();
+			var timeDiff = (currentTime / 1000) - startTime;
 
-			content += '<ul>';
-			content += '<li>Title: ' + yepTitle + '</li>';
-			content += '<li>Image: ' + imagePath + '</li>';
-			content += '<li>Views: ' + views + '</li>';
-			content += '<li>Users: ' + user + '</li>';
-			content += '<li>Vod: ' + vodEnable + '</li>';
-			content += '<li>Time: ' + createdAt + '</li>';
-			content += '</ul><hr />'
+			if (imagePath === ''){
+				imagePath = '/img/video-thumbnail.png'
+			}
+
+			if (yepTitle === ''){
+				yepTitle = 'Title'
+			}
+
+			if (displayName === ''){
+				displayName = 'Andrew'
+			}
+
+			content += '<div class="cluster-wrapper"><a href="#watch/' + yepId + '">';
+			content += '<img src="' + imagePath + '" class="cluster-Image">';
+			content += '<div class="cluster-body">';
+			content += '<div class="cluster-title"><strong>' + yepTitle + '</strong></div>';
+			content += '<div class="cluster-display-name">' + displayName + '</div>';
+			content += '<div class="cluster-views">Views: ' + views + '</div>';
+			content += '</div>';
+			content += '<div class="cluster-created-time">' + timeElapsedCalculator(timeDiff) + '</div>';
+			content += '</div></a><hr />'
 
 		}
 

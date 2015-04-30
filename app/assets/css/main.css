@@ -322,6 +322,16 @@ h1, h2,h3,h4,h5,h6{
 }
 
 
+.user-picture{
+	border-radius: 100px;
+	width: 100px;
+	height: 100px;
+}
+
+.watch-user-info{
+	margin-top: 30px;
+}
+
 
 /* ----- GOOGLE MAP ------ */
 
@@ -352,8 +362,30 @@ h1, h2,h3,h4,h5,h6{
 }
 
 .infoWindow{
-	width:400px;
+	width:300px;
 	max-height:200px;
+}
+
+.cluster-wrapper{
+	overflow: hidden;
+}
+
+img.cluster-Image{
+	width:25%;
+	height:25%;
+	float:left;
+}
+
+.cluster-body{
+	margin-left: 10px;
+	margin-right: 5px;
+	float:left;
+	width: 100px;
+}
+
+
+.cluster-created-time{
+	float:left;
 }
 /*
 .cluster{

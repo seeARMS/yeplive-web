@@ -50,10 +50,12 @@
 			console.log(yep)
 			var video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
 			var playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
+
 			App.mainView = new App.Views.WatchView({ el : '#main', 
 													 video_path : video_path,
 													 thumbnail_path : thumbnail_path,
 													 playback_type : playback_type,
+													 yep : yep,
 													 success : 1 });
 		});
 	});
