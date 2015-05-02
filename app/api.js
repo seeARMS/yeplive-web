@@ -68,6 +68,17 @@ module.exports = (function(){
 		});
 	});
 
+	router.get('/comments/:id', function(req, res){
+		helpers.getAPI('/comments/' + req.params.id , function(err, response, body){
+			if(err || response.statusCode !== 200 ){
+				return res.status(500).json({error: 'could not fetch comments'});
+			}
+			var json = JSON.parse(body);
+			console.log(json);
+			res.status(200).json(json.comments);
+		});
+	});
+
 	router.post('/yeps', function(req, res){
 		var token = req.headers["authorization"];
 		var latitude = req.body.latitude;

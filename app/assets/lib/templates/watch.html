@@ -1,0 +1,74 @@
+<% if(!success) { %>
+
+	<div class="video-load-fail">
+		<h2 class='text-center'>Video Does Not Exist</h2>
+	</div>
+
+<% } else { %>
+
+	<div class="video-wrapper">
+		<div class="video-content">
+			<video id="playVideo" class="video-js vjs-default-skin" controls preload="auto" width="584" height="268" data-setup='{}'>
+
+			<source
+				src="<%- video.video_path %>"
+				type="<%- video.playback_type %>">  
+			</video>
+
+		</div>
+	</div>
+
+	<!-- <div><img src="img/live.gif" /></div> -->
+	<div class="container">
+
+		<div class="row watch-user-info">
+			<div class="col-xs-3"></div>
+			<div class="col-xs-6">
+				<img class="user-picture" src="<%- video.yep.user.picture_path %>" />
+				<h1><%- video.yep.user.display_name %></h4>
+			</div>
+			<div class="col-xs-3"></div>
+		</div>
+
+	</div>
+
+	<div class="row">
+		<div class="col-xs-4"></div>
+		<div class="col-xs-4">
+			
+			<h2>Title: <%- video.yep.title %></h2>
+			<h4>Description: <%- video.yep.description %></h4>
+			Views: <%- video.yep.views %>
+			<br>
+			Voted: <%- video.yep.voted %>
+			<br>
+			Tags: 
+			<% video.yep.tags.forEach(function(val, index, array){ %>
+			
+				#<%- val %>
+
+			<% }) %>
+
+		</div>
+		<div class="col-xs-4"></div>
+	</div>
+	<hr />
+
+	<div class="container">
+
+		<% comments.forEach(function(val, index, array){ %>
+			<div class="row comments">
+				<div class="col-xs-4"></div>
+				<div class="col-xs-4">
+					<img class="commenter-picture" src="<%- val.picture_path %>" />
+					<div><%- val.display_name %> <i><%- val.created_at %></i></div>
+					<div><%- val.comment %></div>
+				</div>
+				<div class="col-xs-4"></div>
+			</div>
+			<hr />
+		<% }) %>
+	</div>
+	
+<% } %>
+

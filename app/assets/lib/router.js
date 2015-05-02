@@ -1,10 +1,11 @@
 define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/navbar_view',
 				'lib/views/login_view',
+				'lib/views/watch_view',
 				'lib/user',
 				'lib/api',
 				'lib/views/create_yep_view'
 ],
-	function($, _, Backbone, MapView, NavbarView, LoginView, User, API, CreateYepView){
+	function($, _, Backbone, MapView, NavbarView, LoginView, WatchView, User, API, CreateYepView){
 
 	var AppRouter = Backbone.Router.extend({
 		routes:{
@@ -13,12 +14,12 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 			'_=_': 'facebookRedirect',
 			'new': 'new',
 			'settings': 'settings',
+			'watch/:yepId' : 'watch',
 			'logout': 'logout',
 			'login': 'login',
 			'*notFound': 'notFound'
 		}
 	});
-
 
 	var currentView;
 	var navbarView;
@@ -80,7 +81,10 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 		appRouter.on('route:settings', function(actions){
 		});
 
-
+		appRouter.on('route:watch', function(yepId){
+			currentView = new WatchView({ el: '#main', yepId: yepId});
+			//navbarVIew = new NavbarView({el: '#navbar'});
+		});
 	};
 
 	return {

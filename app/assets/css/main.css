@@ -295,9 +295,9 @@ ul.navbar-button{
   border-radius: 2px;
 }
 
-h1, h2,h3,h4,h5,h6{
+h1,h2,h3,h4,h5,h6{
 	font-family:Roboto;
-	color:white;
+	font-weight:200;
 }
 
 
@@ -322,10 +322,12 @@ h1, h2,h3,h4,h5,h6{
 }
 
 
-.user-picture{
+img.user-picture{
 	border-radius: 100px;
 	width: 100px;
 	height: 100px;
+	margin-right: 45px;
+	float:left;
 }
 
 .watch-user-info{
@@ -393,10 +395,20 @@ img.cluster-Image{
 }*/
 
 
-/* ----- GOOGLE MAP ------ */
+/* ----- End of GOOGLE MAP ------ */
 
 
+/* ----- WATCH VIEW ------ */
 
+
+img.commenter-picture{
+	border-radius: 100px;
+	float:left;
+	margin-right: 20px
+}
+
+
+/* ----- End of WATCH VIEW ------ */
 
 
 /* Large devices (large desktops, 1200px - 993px) */

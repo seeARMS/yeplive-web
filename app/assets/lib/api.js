@@ -3,7 +3,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/user'],
 
 	var API = {};
 
-	API.get = function(route,token, cb){
+	API.get = function(route, token, cb){
 		var callback = typeof token === "function" ? 
 			token : cb;	
 
