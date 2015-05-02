@@ -100,9 +100,12 @@ define(['jquery',
 				$('button.user-comment-button').on('click', function(){
 
 					var comment = $('textarea.user-comment-area').val();
+					var user = User.user.attributes;
+					var created_time = Math.ceil((new Date).getTime()/1000)
+
 					Api.post('/comments/' + options.yepId, 
 								{
-									created_time: (new Date).getTime(),
+									created_time: created_time,
 									comment: comment
 								},
 								window.localStorage.getItem('token'),
@@ -111,7 +114,14 @@ define(['jquery',
 										console.log(err);
 										return;
 									}
-									console.log(res);
+									var newComment = '<div class="row comments">';
+									newComment += '<div class="col-xs-4"></div><div class="col-xs-4">';
+									newComment += '<img class="commenter-picture" src="' + user.picture_path + '" />';
+									newComment += '<div>' + user.display_name + '<i> Just Now</i></div>';
+									newComment += '<div>' + comment + '</div>';
+									newComment += '</div><div class="col-xs-4"></div></div><hr />';
+
+									$('div.comment-container').prepend(newComment);
 								}
 					);
 

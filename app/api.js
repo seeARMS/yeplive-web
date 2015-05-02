@@ -83,14 +83,15 @@ module.exports = (function(){
 	router.post('/comments/:id', function(req, res){
 		var token = req.headers["authorization"];
 		var comment = req.body.comment;
-		var created_at = req.body.created_at;
+		var created_time = req.body.created_time;
 		helpers.postAPI('/comments/' + req.params.id,
 						{
 							comment: comment,
-							created_at: created_at
+							created_time: created_time
 						},
 						token,
 						function(err,response, body){
+							console.log(response);
 							if(err || response.statusCode !== 200 ){
 								return res.status(500).json({error: 'could post comment'});
 							}

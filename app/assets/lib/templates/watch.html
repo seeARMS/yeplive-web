@@ -62,7 +62,7 @@
 					<img src="<%- user.picture_path %>" />
 				</div>
 				<div class="col-xs-10">
-					<textarea class="form-control user-comment-area" rows="3"></textarea>
+					<textarea class="form-control user-comment-area" rows="3" placeholder="say something about this video"></textarea>
 				</div>
 			</div>
 			<br>
@@ -73,8 +73,7 @@
 
 	<hr />
 
-	<div class="container">
-
+	<div class="comment-container container">
 		<% comments.forEach(function(val, index, array){ %>
 			<div class="row comments">
 				<div class="col-xs-4"></div>
