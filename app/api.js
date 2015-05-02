@@ -79,6 +79,27 @@ module.exports = (function(){
 		});
 	});
 
+
+	router.post('/comments/:id', function(req, res){
+		var token = req.headers["authorization"];
+		var comment = req.body.comment;
+		var created_at = req.body.created_at;
+		helpers.postAPI('/comments/' + req.params.id,
+						{
+							comment: comment,
+							created_at: created_at
+						},
+						token,
+						function(err,response, body){
+							if(err || response.statusCode !== 200 ){
+								return res.status(500).json({error: 'could post comment'});
+							}
+							var json = JSON.parse(body);
+							return res.status(200).json(json.comment);
+						}
+		);
+	});
+
 	router.post('/yeps', function(req, res){
 		var token = req.headers["authorization"];
 		var latitude = req.body.latitude;

@@ -1,11 +1,12 @@
 define(['jquery',
-				'underscore',
-				'backbone',
-				'bootstrap',
-				'text!lib/templates/navbar.html',
-				'lib/auth',
-				'lib/user'
-				],
+		'underscore',
+		'backbone',
+		'bootstrap',
+		'text!lib/templates/navbar.html',
+		'lib/auth',
+		'lib/user'
+		],
+		
 	function($, _, Backbone, Bootstrap, navbarTpl, Auth, User){
 
 		var NavbarView = Backbone.View.extend({

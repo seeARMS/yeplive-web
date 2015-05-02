@@ -55,6 +55,25 @@
 	<hr />
 
 	<div class="container">
+		<div class="col-xs-3"></div>
+		<div class="col-xs-6">
+			<div class="row">
+				<div class="col-xs-2">
+					<img src="<%- user.picture_path %>" />
+				</div>
+				<div class="col-xs-10">
+					<textarea class="form-control user-comment-area" rows="3"></textarea>
+				</div>
+			</div>
+			<br>
+			<button class="btn btn-primary user-comment-button">Send</button>
+		</div>
+		<div class="col-xs-3"></div>
+	</div>
+
+	<hr />
+
+	<div class="container">
 
 		<% comments.forEach(function(val, index, array){ %>
 			<div class="row comments">

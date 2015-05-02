@@ -1,5 +1,6 @@
 define(['jquery',
 		'helper',
+		'lib/user',
 		'asyncJS',
 		'underscore',
 		'backbone',
@@ -9,7 +10,7 @@ define(['jquery',
 		'videojsMedia',
 		'videojsHLS' ],
 
-	function($, helper, async, _, Backbone, watchTpl, Api, vj, vjm, vjh){
+	function($, helper, User, async, _, Backbone, watchTpl, Api, vj, vjm, vjh){
 
 		var WatchView = Backbone.View.extend({
 
@@ -53,7 +54,10 @@ define(['jquery',
 					}
 
 					results.forEach(function(val, index, array){
-						array[index].created_at = helper.timeElapsedCalculator((new Date).getTime()/1000 - val.created_at);
+						if(val.picture_path === ''){
+							array[index].picture_path = '/img/user.png';
+						}
+						array[index].created_at = helper.timeElapsedCalculator((new Date).getTime()/1000 - val.created_time);
 					});
 
 					var data = results;
@@ -77,9 +81,10 @@ define(['jquery',
 					var data = {
 						video : results['one'],
 						comments : results['two'],
+						user : User.user.attributes,
 						success : 1
 					}
-					self.render(data);
+					self.render(data, options);
 				});
 
 			},
@@ -91,9 +96,32 @@ define(['jquery',
 				});
 			},
 
-			render: function(data){
+			addCommentListener: function(options){
+				$('button.user-comment-button').on('click', function(){
+
+					var comment = $('textarea.user-comment-area').val();
+					Api.post('/comments/' + options.yepId, 
+								{
+									created_time: (new Date).getTime(),
+									comment: comment
+								},
+								window.localStorage.getItem('token'),
+								function(err, res){
+									if(err){
+										console.log(err);
+										return;
+									}
+									console.log(res);
+								}
+					);
+
+				});
+			},
+
+			render: function(data, options){
 				this.$el.html(this.tpl(data));
 				this.setupVideo();
+				this.addCommentListener(options);
 			}
 		});
 
