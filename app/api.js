@@ -16,9 +16,7 @@ module.exports = (function(){
 		if(req.session.passport && req.session.passport.user){
 			var user = req.session.passport.user;
 			helpers.postAPI('/auth/social', user, function(err, response, body){
-				console.log(body);
 				if(err || response.statusCode !== 200){
-					console.log(err);
 					if(err) return res.json({erro:'error'});
 					if(response.statusCode === 500){ return res.json({error:'error'}); }
 					return res.status(response.statusCode).json({error: response.statusCode});
@@ -34,9 +32,7 @@ module.exports = (function(){
 
 
 	router.get('/me', function(req, res){
-		console.log('request to me');
 		var token = req.headers["authorization"];
-		console.log(token);
 		helpers.getAPI('/me', token, function(err, response, body){
 			if(response.statusCode !== 200){
 				if(response.statusCode === 500){ return res.send(body); }
@@ -76,12 +72,10 @@ module.exports = (function(){
 		var token = req.headers["authorization"];
 		var latitude = req.body.latitude;
 		var longitude = req.body.longitude;
-		console.log(token);
 		helpers.postAPI('/yeps',{
 			latitude: latitude,
 			longitude: longitude
 		}, token , function(err, response, body){
-			console.log(body);
 			if(err || response.statusCode !== 200 ){
 				return res.status(500).json({error: 'could not fetch yeps'});
 			}
@@ -134,7 +128,6 @@ module.exports = (function(){
 		var id = req.params.id;
 		
 		helpers.postAPI('/users/'+id+'/followers',{},token,function(err, response, body){
-			console.log(body);
 			if(response.statusCode !== 200){
 				if(response.statusCode === 500){ return res.send(body); }
 				return res.status(response.statusCode).json({error: response.statusCode});

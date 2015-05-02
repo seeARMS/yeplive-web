@@ -6,22 +6,60 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var hdfvrconfig = require('./hdfvrconfig');
 
-//757029635679-3t8dr78cejogedbv3neac7gjckeb2ilb
-
 var app = express();
 
 app.use(bodyParser.urlencoded({extended:true}));
+
 app.use(session({
 	secret:'yeplive-secret'
 }));
-//app.use(morgan('combined'))
+
+app.use(express.static(__dirname+'/assets/hdfvr'));
 
 app.use(express.static(__dirname+'/assets'));
 
+app.use(morgan('dev'));
+
+app.set('view engine', 'ejs');
+
 app.get('/',function(req, res){
+	res.render('index', {});
+});
+
+app.get('/avc_settings.php', function(req, res){
+	var streamName = req.query.recorderId;
+	var params = {
+		streamName: streamName
+	};
+	res.send(hdfvrconfig.generateConfig(params));	
+});
+
+app.use('/api', require('./api'));
+require('./auth')(app);
+
+//Match all strings
+app.get(/^[^.]*$/, function(req, res){
+	var name = req.url.replace('/','');
+	if(name){
+		request.get(config.yeplive_api+'api/v1/yeps/by-hash/'+name, function(err, response, body){
+			if(err || response.statusCode !== 200){
+				return res.render('index', {});
+			}
+			var yep = JSON.parse(body);
+			res.render('index', yep);
+		});
+	} else {
+		res.render('index', {});
+	}
+});
+
+/*
+app.get('*', function(req, res){
 	res.sendFile(__dirname+'/index.html');
 });
 
+
+/*
 app.get('/build', function(req, res){
 	res.sendFile(__dirname+'/build.html');
 });
@@ -37,27 +75,6 @@ app.get('/watch', function(req, res){
 
 app.get('/token', function(req, res){
 	res.json(req.session);
-});
-
-app.get('/avc_settings.php', function(req, res){
-	console.log(req.query);
-	var streamName = req.query.recorderId;
-	var params = {
-		streamName: streamName
-	};
-	console.log(params);
-	res.send(hdfvrconfig.generateConfig(params));	
-});
-app.use(express.static(__dirname+'/assets/hdfvr'));
-app.get('/new', function(req, res){
-	res.sendFile(__dirname+'/index.html');
-});
-
-app.use('/api', require('./api'));
-require('./auth')(app);
-/*
-app.get('*', function(req, res){
-	res.sendFile(__dirname+'/index.html');
 });
 */
 
