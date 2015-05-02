@@ -83,7 +83,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 
 		appRouter.on('route:watch', function(yepId){
 			currentView = new WatchView({ el: '#main', yepId: yepId});
-			//navbarVIew = new NavbarView({el: '#navbar'});
+			navbarVIew = new NavbarView({el: '#navbar'});
 		});
 	};
 

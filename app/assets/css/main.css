@@ -76,10 +76,12 @@ html, body{
 
 
 .yeplive-img{
+
+	/*
 	position:absolute;
 	left:10em;
 	top:0.5em;
-	height:60px;
+	*/
 	width:200px;
 	margin-top:2%;
 }
@@ -99,6 +101,7 @@ html, body{
 }
 
 ul.navbar-button{
+	margin-right: 90px;
 	list-style: none;
 	/*margin-right: 20px;
 	margin-top:10px;*/
@@ -481,6 +484,10 @@ button.user-comment-button{
 		padding:7px 7px;
 		font-size:14px;
 	}
+
+	.dropdown-menu{
+		min-width:130px;
+	}
 	
 	/*
 	.record-button{
@@ -520,6 +527,9 @@ button.user-comment-button{
 		font-size:12px;
 	}
 	
+	.dropdown-menu{
+		min-width:130px;
+	}
 	/*
 	.record-button{
 		margin-top:12px;
@@ -528,6 +538,51 @@ button.user-comment-button{
 	}
 	*/	
 }
+
+
+
+
+/* Mini devices (tablets, 430 and below) */
+@media (max-width: 430px){
+
+	.img-user{
+		margin-top:0.5em;
+		margin-right:0.5em;
+		height:40px;
+		width:40px;
+	}
+
+	.navbar-background{
+		height:51px;
+	}
+
+	.navbar-center{
+		width:65px;
+	}
+
+	.yeplive-img{
+		width:135px;
+		margin-top:1%;
+	}
+
+	.btn-navbar-button{
+		padding:7px 7px;
+		font-size:12px;
+	}
+
+	.dropdown-menu{
+		min-width:130px;
+	}
+	/*
+	.record-button{
+		margin-top:12px;
+		width:60%;
+		height:60%;
+	}
+	*/	
+}
+
+
 
 /* For watching video only */
 @media (max-width: 628px){
@@ -569,41 +624,4 @@ button.user-comment-button{
 	.video-wrapper{
 		width:115px !important;
 	}
-}
-
-
-/* Mini devices (tablets, 430 and below) */
-@media (max-width: 430px){
-
-	.img-user{
-		margin-top:0.5em;
-		margin-right:0.5em;
-		height:40px;
-		width:40px;
-	}
-
-	.navbar-background{
-		height:51px;
-	}
-
-	.navbar-center{
-		width:65px;
-	}
-
-	.yeplive-img{
-		width:135px;
-		margin-top:1%;
-	}
-
-	.btn-navbar-button{
-		padding:7px 7px;
-		font-size:12px;
-	}
-	/*
-	.record-button{
-		margin-top:12px;
-		width:60%;
-		height:60%;
-	}
-	*/	
 }
