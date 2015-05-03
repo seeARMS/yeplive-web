@@ -135,10 +135,25 @@ define(['jquery',
 				});
 			},
 
+			addViewCount: function(options){
+				Api.post('/yeps/' + options.yepId + '/views', {},
+							window.localStorage.getItem('token'),
+							function(err, res){
+								if(err){
+									console.log(err);
+									return;
+								}
+								$('div.watch-view-count').html('Views: ' + res.views);
+								return;
+							}
+				);
+			},
+
 			render: function(data, options){
 				this.$el.html(this.tpl(data));
 				this.setupVideo();
 				this.addCommentListener(options);
+				this.addViewCount(options);
 			}
 		});
 

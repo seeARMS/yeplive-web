@@ -91,12 +91,26 @@ module.exports = (function(){
 						},
 						token,
 						function(err,response, body){
-							console.log(response);
 							if(err || response.statusCode !== 200 ){
 								return res.status(500).json({error: 'could post comment'});
 							}
 							var json = JSON.parse(body);
 							return res.status(200).json(json.comment);
+						}
+		);
+	});
+
+	router.post('/yeps/:id/views', function(req, res){
+		var token = req.headers["authorization"];
+		var id = req.params.id;
+		helpers.postAPI('/yeps/' + id + '/views', {},
+						token,
+						function(err,response, body){
+							if(err || response.statusCode !== 200 ){
+								return res.status(500).json({error: 'could post comment'});
+							}
+							var json = JSON.parse(body);
+							return res.status(200).json(json);
 						}
 		);
 	});
