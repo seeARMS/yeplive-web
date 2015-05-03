@@ -81,7 +81,7 @@ define(['jquery',
 					var data = {
 						video : results['one'],
 						comments : results['two'],
-						user : User.user.attributes,
+						user : User.authed ? User.user.attributes : "",
 						success : 1
 					}
 					self.render(data, options);
@@ -99,31 +99,38 @@ define(['jquery',
 			addCommentListener: function(options){
 				$('button.user-comment-button').on('click', function(){
 
-					var comment = $('textarea.user-comment-area').val();
-					var user = User.user.attributes;
-					var created_time = Math.ceil((new Date).getTime()/1000)
+					if (User.authed){
 
-					Api.post('/comments/' + options.yepId, 
-								{
-									created_time: created_time,
-									comment: comment
-								},
-								window.localStorage.getItem('token'),
-								function(err, res){
-									if(err){
-										console.log(err);
-										return;
+						var comment = $('textarea.user-comment-area').val();
+						var user = User.user.attributes;
+						var created_time = Math.ceil((new Date).getTime()/1000)
+
+						Api.post('/comments/' + options.yepId, 
+									{
+										created_time: created_time,
+										comment: comment
+									},
+									window.localStorage.getItem('token'),
+									function(err, res){
+										if(err){
+											console.log(err);
+											return;
+										}
+										var newComment = '<div class="row comments">';
+										newComment += '<div class="col-xs-4"></div><div class="col-xs-4">';
+										newComment += '<img class="commenter-picture" src="' + user.picture_path + '" />';
+										newComment += '<div>' + user.display_name + '<i> Just Now</i></div>';
+										newComment += '<div>' + comment + '</div>';
+										newComment += '</div><div class="col-xs-4"></div></div><hr />';
+
+										$('div.comment-container').prepend(newComment);
 									}
-									var newComment = '<div class="row comments">';
-									newComment += '<div class="col-xs-4"></div><div class="col-xs-4">';
-									newComment += '<img class="commenter-picture" src="' + user.picture_path + '" />';
-									newComment += '<div>' + user.display_name + '<i> Just Now</i></div>';
-									newComment += '<div>' + comment + '</div>';
-									newComment += '</div><div class="col-xs-4"></div></div><hr />';
+						);
 
-									$('div.comment-container').prepend(newComment);
-								}
-					);
+					}
+					else{
+						$('#login-modal').modal('show');
+					}
 
 				});
 			},

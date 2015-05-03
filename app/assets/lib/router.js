@@ -9,12 +9,12 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 
 	var AppRouter = Backbone.Router.extend({
 		routes:{
+			'watch/:yepId' : 'watch',
 			'': 'root',
 			'me': 'me',
 			'_=_': 'facebookRedirect',
 			'new': 'new',
 			'settings': 'settings',
-			'watch/:yepId' : 'watch',
 			'logout': 'logout',
 			'login': 'login',
 			'*notFound': 'notFound'

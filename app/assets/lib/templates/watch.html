@@ -90,3 +90,22 @@
 	
 <% } %>
 
+	<div id="modal-div"></div>
+	<div class="modal fade" id="login-modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Login/Signup to Yeplive</h4>
+				</div>
+				<div class="modal-body">
+					<a href="/auth/facebook"><button class="btn btn-primary">Facebook</button></a>
+					<a href="/auth/google"><button class="btn btn-primary js-google-login">Google</button></a>
+					<a href="/auth/twitter"><button class="btn btn-primary js-twitter-login">Twitter</button></a>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+

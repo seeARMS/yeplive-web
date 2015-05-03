@@ -14,8 +14,13 @@ define(['jquery', 'underscore', 'backbone', 'lib/router', 'lib/auth',
 				return alert('error');
 			}
 			if(! user){
-				window.location.href = '#login';
-				User.authed = false;
+				if( (window.location.href).search(/#watch\/\d/i) ){
+					User.authed = false;
+				}
+				else{
+					window.location.href = '#login';
+					User.authed = false;
+				}
 			} else {
 				User.user = new UserModel(user);;
 				User.authed = true;

@@ -17,7 +17,7 @@ define(['jquery',
 			},
 			render: function(){
 				var data = {
-					User: User.user
+					User: User.authed ? User.user : ""
 				};
 				this.$el.html(this.tpl(data));
 			}

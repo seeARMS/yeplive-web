@@ -17,22 +17,26 @@
 
 		<div class="col-xs-4 pull-right">
 			<ul class="pull-right navbar-button">
-				<div class="dropdown">
-					 <img src="<%- User.get('picture_path') %>" class="img-user img-circle" data-toggle="dropdown" />
-					 <ul class="user-dropdown dropdown-menu" role="menu" aria-labelledby="dLabel">
-						<li role="presentation">
-							<a role="menuitem" tabindex="-1" href="#<%- User.get('display_name') %>">My Profile</a>	
-						</li>
-						<li role="presentation" class="divider"></li>
-						<li role="presentation">
-							<a role="menuitem" tabindex="-1" href="#settings" class="js-settings">Settings</a>	
-						</li>
-						<li role="presentation" class="divider"></li>
-						<li role="presentation">
-							<a href="#logout" role="menuitem" tabindex="-1" class="js-logout">Logout</a>	
-						</li>
-					 </ul>
-				</div>
+				<% if(User) { %>
+					<div class="dropdown">
+						 <img src="<%- User.get('picture_path') %>" class="img-user img-circle" data-toggle="dropdown" />
+						 <ul class="user-dropdown dropdown-menu" role="menu" aria-labelledby="dLabel">
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" href="#<%- User.get('display_name') %>">My Profile</a>	
+							</li>
+							<li role="presentation" class="divider"></li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" href="#settings" class="js-settings">Settings</a>	
+							</li>
+							<li role="presentation" class="divider"></li>
+							<li role="presentation">
+								<a href="#logout" role="menuitem" tabindex="-1" class="js-logout">Logout</a>	
+							</li>
+						 </ul>
+					</div>
+				<% } else { %>
+					<li><button class="btn btn-lg btn-danger btn-navbar-button" data-toggle="modal" data-target="#login-modal">Log In</button></li>
+				<% } %>
 			</ul>
 		</div>
 	</div>
