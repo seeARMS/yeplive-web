@@ -39,8 +39,12 @@
 			<h2>Title: <%- video.yep.title %></h2>
 			<h4>Description: <%- video.yep.description %></h4>
 			<div class='watch-view-count' >Views: <%- video.yep.views %></div>
-			<br>
-			<i class="fa fa-thumbs-up"></i> <%- video.yep.voted %>
+			<p></p>
+			<% if(video.yep.voted) { %>
+				<i class="fa fa-thumbs-up watch-vote"> <%- video.yep.vote_count %></i>
+			<% } else { %>
+				<i class="fa fa-thumbs-o-up watch-vote"> <%- video.yep.vote_count %></i>
+			<% } %>
 			<br>
 			Tags: 
 			<% video.yep.tags.forEach(function(val, index, array){ %>

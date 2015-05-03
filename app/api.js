@@ -92,7 +92,7 @@ module.exports = (function(){
 						token,
 						function(err,response, body){
 							if(err || response.statusCode !== 200 ){
-								return res.status(500).json({error: 'could post comment'});
+								return res.status(500).json({error: 'could not post comment'});
 							}
 							var json = JSON.parse(body);
 							return res.status(200).json(json.comment);
@@ -107,7 +107,22 @@ module.exports = (function(){
 						token,
 						function(err,response, body){
 							if(err || response.statusCode !== 200 ){
-								return res.status(500).json({error: 'could post comment'});
+								return res.status(500).json({error: 'could not add view'});
+							}
+							var json = JSON.parse(body);
+							return res.status(200).json(json);
+						}
+		);
+	});
+
+	router.post('/yeps/:id/votes', function(req, res){
+		var token = req.headers["authorization"];
+		var id = req.params.id;
+		helpers.postAPI('/yeps/' + id + '/votes', {},
+						token,
+						function(err,response, body){
+							if(err || response.statusCode !== 200 ){
+								return res.status(500).json({error: 'could toggle vote'});
 							}
 							var json = JSON.parse(body);
 							return res.status(200).json(json);

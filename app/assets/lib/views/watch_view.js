@@ -30,6 +30,7 @@ define(['jquery',
 					// If we get LIVE, we stream using rtmp
 					var video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
 					var playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
+					console.log('')
 
 					var data = {
 						el : '#main',
@@ -135,6 +136,34 @@ define(['jquery',
 				});
 			},
 
+			addVoteListener: function(options, yep){
+				console.log(yep);
+				if(User.authed){
+					var currentVotes = yep.vote_count;
+					$('i.watch-vote').on('click', function(){
+						Api.post('/yeps/' + options.yepId + '/votes', {},
+								window.localStorage.getItem('token'),
+								function(err, res){
+									if(err){
+										console.log(err);
+										return;
+									}
+									if(res.vote){
+										$('i.watch-vote').attr('class', 'fa fa-thumbs-up watch-vote');
+										$('i.watch-vote').html(' ' + (res.vote + currentVotes).toString());
+										currentVotes++;
+									}
+									else{
+										$('i.watch-vote').attr('class', 'fa fa-thumbs-o-up watch-vote');
+										$('i.watch-vote').html(' ' + (currentVotes - 1).toString());
+										currentVotes--;
+									}
+								}
+						);
+					});
+				}
+			},
+
 			addViewCount: function(options){
 				Api.post('/yeps/' + options.yepId + '/views', {},
 							window.localStorage.getItem('token'),
@@ -153,6 +182,7 @@ define(['jquery',
 				this.$el.html(this.tpl(data));
 				this.setupVideo();
 				this.addCommentListener(options);
+				this.addVoteListener(options, data.video.yep);
 				this.addViewCount(options);
 			}
 		});
