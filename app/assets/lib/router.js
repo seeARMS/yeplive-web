@@ -4,14 +4,16 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 				'lib/user',
 				'lib/api',
 				'lib/views/create_yep_view',
-				'lib/views/not_found_view'
+				'lib/views/not_found_view',
+				'lib/views/user_view'
 ],
 	function($, _, Backbone, MapView, NavbarView, LoginView, WatchView, User, API, CreateYepView,
-		NotFoundView){
+		NotFoundView, UserView){
 
 	var AppRouter = Backbone.Router.extend({
 		routes:{
 			'watch/:yepId' : 'watch',
+			'user/:userId': 'user',
 			'': 'root',
 			'me': 'me',
 			'_=_': 'facebookRedirect',
@@ -75,8 +77,19 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 			currentView = new LoginView({el: '#main'});
 		});
 
+		appRouter.on('route:user', function(id){
+			cleanView();
+			if(! User.authed){
+				return appRouter.navigate("/login", {trigger:true})
+			}
+			currentView = new UserView({el: '#main', user_id:id});
+		});
+
 		appRouter.on('route:logout', function(actions){
 			cleanView();
+			if(navbarView){
+				navbarView.remove();
+			}
 			$.post('/api/logout').then(function(){
 				window.localStorage.setItem('token','');
 				appRouter.navigate("/login", true);
@@ -85,9 +98,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 
 		appRouter.on('route:root', function(actions){
 			cleanView();
-			console.log('root');
 			if(! User.authed){
-				console.log('test');
 				return appRouter.navigate("/login", {trigger:true})
 			}
 			currentView = new MapView({el:'#main'});

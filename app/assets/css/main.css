@@ -3,6 +3,24 @@ html, body{
 	height:100%;
 }
 
+.btn-facebook{
+margin-top:25px;
+font-size:25px;	
+background-color:#3b5998;
+color:white;
+}
+
+.btn-twitter{
+margin-top:25px;
+font-size:25px;
+background-color:#3df;
+color:white;
+}
+
+#playVideo{
+	margin:0 auto;
+}
+
 body{
 	overflow-y:hidden;
 }

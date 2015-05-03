@@ -1,0 +1,93 @@
+	<div class="video-wrapper">
+		<div class="video-content">
+			<video id="playVideo" class="video-js vjs-default-skin" controls preload="auto" width="584" height="268" data-setup='{}'>
+
+			<source
+				src="<%- video.video_path %>"
+				type="<%- video.playback_type %>">  
+
+<% if(video.yep.vod_enable) { %>
+			<source
+				src="<%- video.yep.vod_fallback %>"
+				type="<%- video.playback_type %>">  
+<% } %>
+			</video>
+
+
+		</div>
+	</div>
+
+	<div class="container">
+
+		<div class="row watch-user-info">
+			<div class="col-xs-3"></div>
+			<div class="col-xs-6">
+				<img class="user-picture" src="<%- video.yep.user.picture_path %>" />
+				<h1><%- video.yep.user.display_name %></h4>
+			</div>
+			<div class="col-xs-3"></div>
+		</div>
+
+	</div>
+
+	<div class="row">
+		<div class="col-xs-4"></div>
+		<div class="col-xs-4">
+			
+			<h2>Title: <%- video.yep.title %></h2>
+			<h4>Description: <%- video.yep.description %></h4>
+			<div class='watch-view-count' >Views: <%- video.yep.views %></div>
+			<p></p>
+			<% if(video.yep.voted) { %>
+				<i class="fa fa-thumbs-up watch-vote"> <%- video.yep.vote_count %></i>
+			<% } else { %>
+				<i class="fa fa-thumbs-o-up watch-vote"> <%- video.yep.vote_count %></i>
+			<% } %>
+			<br>
+			Tags: 
+			<% video.yep.tags.forEach(function(val, index, array){ %>
+			
+				#<%- val %>
+
+			<% }) %>
+
+		</div>
+		<div class="col-xs-4"></div>
+	</div>
+	<hr />
+
+	<div class="container">
+		<div class="col-xs-3"></div>
+		<div class="col-xs-6">
+			<div class="row">
+				<div class="col-xs-2">
+					<img src="<%- user.picture_path %>" />
+				</div>
+				<div class="col-xs-10">
+					<textarea class="form-control user-comment-area" rows="3" placeholder="say something about this video"></textarea>
+				</div>
+			</div>
+			<br>
+			<button class="btn btn-primary user-comment-button">Send</button>
+		</div>
+		<div class="col-xs-3"></div>
+	</div>
+
+	<hr />
+
+	<div class="comment-container container">
+		<% comments.forEach(function(val, index, array){ %>
+			<div class="row comments">
+				<div class="col-xs-4"></div>
+				<div class="col-xs-4">
+					<img class="commenter-picture" src="<%- val.picture_path %>" />
+					<div><%- val.display_name %> <i><%- val.created_at %></i></div>
+					<div><%- val.comment %></div>
+				</div>
+				<div class="col-xs-4"></div>
+			</div>
+			<hr />
+		<% }) %>
+	</div>
+	
+

@@ -115,6 +115,24 @@ module.exports = (function(){
 		);
 	});
 
+	router.post('/thumbnail/:id', function(req, res){
+		var token = req.headers["authorization"];
+		console.log(token);
+		var id = req.params.id;
+		helpers.postAPI('/thumbnail/' + id, {},
+						token,
+						function(err,response, body){
+							console.log(err);
+							console.log(body);
+							if(err || response.statusCode !== 200 ){
+								return res.status(500).json({error: 'could toggle vote'});
+							}
+							var json = JSON.parse(body);
+							return res.status(200).json(json);
+						}
+		);
+	});
+
 	router.post('/yeps/:id/votes', function(req, res){
 		var token = req.headers["authorization"];
 		var id = req.params.id;

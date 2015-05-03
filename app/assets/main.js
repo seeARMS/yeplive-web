@@ -23,6 +23,12 @@ requirejs.config({
 		},
 		bootstrap:{
 			deps: ['jquery']
+		},
+		videojsMedia:{
+			deps:['videojs']
+		},
+		videojsHLS:{
+			deps: ['videojs','videojsMedia']
 		}
 	}
 });

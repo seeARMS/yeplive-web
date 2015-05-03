@@ -22,11 +22,11 @@
 						 <img src="<%- User.get('picture_path') %>" class="img-user img-circle" data-toggle="dropdown" />
 						 <ul class="user-dropdown dropdown-menu" role="menu" aria-labelledby="dLabel">
 							<li role="presentation">
-								<a role="menuitem" tabindex="-1" href="#<%- User.get('display_name') %>">My Profile</a>	
+								<a role="menuitem" tabindex="-1" href="/users/<%- User.get('user_id') %>">My Profile</a>	
 							</li>
 							<li role="presentation" class="divider"></li>
 							<li role="presentation">
-								<a role="menuitem" tabindex="-1" href="#settings" class="js-settings">Settings</a>	
+								<a role="menuitem" tabindex="-1" href="/settings" class="js-settings">Settings</a>	
 							</li>
 							<li role="presentation" class="divider"></li>
 							<li role="presentation">

@@ -56,7 +56,7 @@ define(['jquery',
 					displayName = 'Andrew'
 				}
 
-				content += '<div class="cluster-wrapper"><a href="#watch/' + yepId + '">';
+				content += '<div class="cluster-wrapper"><a href="/watch/' + yepId + '">';
 				content += '<img src="' + imagePath + '" class="cluster-Image">';
 				content += '<div class="cluster-body">';
 				content += '<div class="cluster-title"><strong>' + yepTitle + '</strong></div>';

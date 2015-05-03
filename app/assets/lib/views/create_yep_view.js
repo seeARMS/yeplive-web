@@ -32,6 +32,11 @@ define(['jquery',
 						return alert('error starting recording');	
 					} 
 					self.renderRecorder(res);	
+					setTimeout(function(){
+						API.post('/thumbnail/'+res.id,{},window.localStorage.getItem('token'), function(err, tres){
+							console.log(tres);	
+						});
+					},5000);
 				});
 			}
 		},
@@ -156,9 +161,9 @@ var setupSocket = function(data){
 			message = true;
 		}
 		var $el = $(chatMessage(data));
-		$el.addClass('animated fadeInLeft');	
+		$el.addClass('animated fadeIn');	
 		setTimeout(function(){
-			$el.removeClass('fadeInLeft');
+			$el.removeClass('fadeIn');
 			$el.addClass('fadeOut');
 		}, 5000);
 		$chat.append($el);

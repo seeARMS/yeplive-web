@@ -1,6 +1,5 @@
 define(['jquery',
 		'helper',
-		'lib/user',
 		'asyncJS',
 		'underscore',
 		'backbone',
@@ -9,9 +8,10 @@ define(['jquery',
 		'videojs',
 		'videojsMedia',
 		'videojsHLS',
-		'lib/socket'
+		'lib/socket',
+		'lib/user'
 	],
-	function($, helper, async, _, Backbone, watchTpl, Api, vj, vjm, vjh, socket){
+	function($, helper, async, _, Backbone, watchTpl, Api, vj, vjm, vjh, socket, User){
 
 		var WatchView = Backbone.View.extend({
 
@@ -32,16 +32,22 @@ define(['jquery',
 					if(yep.is_web){
 						video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_hls;
 						playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
+						if(yep.vod_enable){
+							var video_path_arr = video_path.split('.');
+							video_path_arr[2] +='_0';
+							video_path = video_path_arr.join('.');
+						}
 					} else {
 						video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
 						playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
 					}
 
+
 					// If we get VOD, we directly stream from cloudfront
 					// If we get LIVE, we stream using rtmp
 					var thumbnail_path = yep.image_path;
-					var video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
-					var playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
+//					var video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
+//					var playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
 
 					var data = {
 						el : '#main',
@@ -101,7 +107,8 @@ define(['jquery',
 			
 			setupVideo: function(){
 				var videoEl = document.getElementById('playVideo');
-				vj(videoEl, {}, function(){
+				vj(videoEl, {}, function(player){
+					this.play();
 					console.log('VideoJS successfully loaded')
 				});
 			},
@@ -112,7 +119,6 @@ define(['jquery',
 				this.setupVideo();
 			},
 
-			listen: function(){
 			addCommentListener: function(options){
 				$('button.user-comment-button').on('click', function(){
 
@@ -178,7 +184,6 @@ define(['jquery',
 						);
 					});
 				}
-			}
 			},
 
 			addViewCount: function(options){
