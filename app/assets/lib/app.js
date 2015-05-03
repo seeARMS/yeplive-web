@@ -14,14 +14,13 @@ define(['jquery', 'underscore', 'backbone', 'lib/router', 'lib/auth',
 				return alert('error');
 			}
 			if(! user){
-				window.location.href = '#login';
 				User.authed = false;
 			} else {
 				User.user = new UserModel(user);;
 				User.authed = true;
 			}
 			Router.initialize();
-			Backbone.history.start();
+			Backbone.history.start({pushState: true});
 		})
 	};
 
@@ -29,6 +28,8 @@ define(['jquery', 'underscore', 'backbone', 'lib/router', 'lib/auth',
 		initialize: function(){
 		}
 	});
+
+
 
 
 	return Application;

@@ -85,8 +85,28 @@ module.exports = (function(){
 		var longitude = req.body.longitude;
 		helpers.postAPI('/yeps',{
 			latitude: latitude,
-			longitude: longitude
+			longitude: longitude,
+			is_web: 1
 		}, token , function(err, response, body){
+			console.log(err);
+			console.log(response.statusCode);
+			console.log(body);
+			if(err || response.statusCode !== 200 ){
+				return res.status(500).json({error: 'could not fetch yeps'});
+			}
+			var json = JSON.parse(body);
+			return res.status(200).json(json);
+		});
+	});
+
+	router.post('/yeps/:id/complete', function(req, res){
+		var token = req.headers["authorization"];
+		var id = req.params.id;
+		helpers.postAPI('/yeps/'+id+'/complete',{
+		}, token , function(err, response, body){
+			console.log(err);
+			console.log(response.statusCode);
+			console.log(body);
 			if(err || response.statusCode !== 200 ){
 				return res.status(500).json({error: 'could not fetch yeps'});
 			}

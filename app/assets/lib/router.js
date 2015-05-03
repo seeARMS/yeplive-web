@@ -3,9 +3,11 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 				'lib/views/watch_view',
 				'lib/user',
 				'lib/api',
-				'lib/views/create_yep_view'
+				'lib/views/create_yep_view',
+				'lib/views/not_found_view'
 ],
-	function($, _, Backbone, MapView, NavbarView, LoginView, WatchView, User, API, CreateYepView){
+	function($, _, Backbone, MapView, NavbarView, LoginView, WatchView, User, API, CreateYepView,
+		NotFoundView){
 
 	var AppRouter = Backbone.Router.extend({
 		routes:{
@@ -17,6 +19,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 			'watch/:yepId' : 'watch',
 			'logout': 'logout',
 			'login': 'login',
+			'404': '404',
 			'*notFound': 'notFound'
 		}
 	});
@@ -24,10 +27,48 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 	var currentView;
 	var navbarView;
 
+	function cleanView(){
+		if(currentView && currentView.close){
+			currentView.close();
+		}
+	}
+
+
 	var initialize = function(){
 		var appRouter = new AppRouter;
 
+		$(document).click("a[href^='/']", function(event){
+
+			var href = $(event.target).attr('href');	
+			if(! href){
+				var href = $(event.target).parent().attr('href');
+			}
+			if(!href) return;
+
+			console.log(href);
+
+			var passThrough = [
+				'/auth/facebook',
+				'/auth/google',
+				'/auth/twitter'
+			];
+
+			if(passThrough.indexOf(href) === -1){
+				event.preventDefault();
+
+				var url = href.replace(/^\//,'').replace('\#\!\/','')
+
+				appRouter.navigate(url, { trigger: true })
+
+				return false
+			} else {
+		
+			}
+		});
+
+
 		appRouter.on('route:login', function(actions){
+			cleanView();
 			if(navbarView){
 				navbarView.remove();
 			}
@@ -35,21 +76,33 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 		});
 
 		appRouter.on('route:logout', function(actions){
+			cleanView();
 			$.post('/api/logout').then(function(){
 				window.localStorage.setItem('token','');
-				appRouter.navigate("login", true);
+				appRouter.navigate("/login", true);
 			});
 		});
 
 		appRouter.on('route:root', function(actions){
+			cleanView();
+			console.log('root');
 			if(! User.authed){
-				return appRouter.navigate("#login", true)
+				console.log('test');
+				return appRouter.navigate("/login", {trigger:true})
 			}
 			currentView = new MapView({el:'#main'});
 			navbarView = new NavbarView({el:'#navbar'});
 		});
 
+		appRouter.on('route:404', function(){
+			cleanView();
+			currentView = new NotFoundView({el:'#main'});
+			navbarView = new NavbarView({el:'#navbar'});
+		});
+
 		appRouter.on('route:notFound', function(actions){
+			cleanView();
+			return appRouter.navigate('404');
 			appRouter.navigate("#login", true)
 			return console.log('not found');
 			$.get('/api/users?name='+actions).then(function(res){
@@ -59,6 +112,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 		});	
 
 		appRouter.on('route:new', function(){
+			cleanView();
 			if(! User.authed){
 				return appRouter.navigate("#login", true)
 			}
@@ -74,14 +128,17 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 		});
 
 		appRouter.on('route:me', function(actions){
+			cleanView();
 			appRouter.navigate("#login", true)
 			
 		});
 
 		appRouter.on('route:settings', function(actions){
+			cleanView();
 		});
 
 		appRouter.on('route:watch', function(yepId){
+			cleanView();
 			currentView = new WatchView({ el: '#main', yepId: yepId});
 			//navbarVIew = new NavbarView({el: '#navbar'});
 		});

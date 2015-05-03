@@ -15,6 +15,12 @@
 				type="<%- video.playback_type %>">  
 			</video>
 
+<% if(video.yep.vod_enable) { %>
+			<source
+				type="<%- video.playback_type %>">  
+			</video>
+<% } %>
+
 		</div>
 	</div>
 

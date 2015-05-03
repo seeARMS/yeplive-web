@@ -14,7 +14,6 @@ app.use(session({
 	secret:'yeplive-secret'
 }));
 
-app.use(express.static(__dirname+'/assets/hdfvr'));
 
 app.use(express.static(__dirname+'/assets'));
 
@@ -22,9 +21,11 @@ app.use(morgan('dev'));
 
 app.set('view engine', 'ejs');
 
-app.get('/',function(req, res){
-	res.render('index', {});
+app.get('/test', function(req, res){
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.sendFile(__dirname+'/test.html');
 });
+
 
 app.get('/avc_settings.php', function(req, res){
 	var streamName = req.query.recorderId;
@@ -34,22 +35,37 @@ app.get('/avc_settings.php', function(req, res){
 	res.send(hdfvrconfig.generateConfig(params));	
 });
 
+app.use(express.static(__dirname+'/assets/hdfvr'));
+
 app.use('/api', require('./api'));
+
 require('./auth')(app);
 
 //Match all strings
 app.get(/^[^.]*$/, function(req, res){
-	var name = req.url.replace('/','');
-	if(name){
-		request.get(config.yeplive_api+'api/v1/yeps/by-hash/'+name, function(err, response, body){
+	var url = req.url.split('/');
+	var id;
+	if(url[1] === 'watch'){
+		id = url[2];
+	}	
+
+	if(id){
+		console.log(id);
+		request.get(config.yeplive_api.host+'api/v1/yeps/'+id, function(err, response, body){
 			if(err || response.statusCode !== 200){
-				return res.render('index', {});
+				console.log(err);
+				console.log(response.statusCode);
+				return res.render('index', {yep:''});
 			}
 			var yep = JSON.parse(body);
-			res.render('index', yep);
+			console.log(yep);
+			var data = {
+				yep: yep
+			};
+			res.render('index', data);
 		});
 	} else {
-		res.render('index', {});
+		res.render('index', {yep:''});
 	}
 });
 
@@ -64,10 +80,6 @@ app.get('/build', function(req, res){
 	res.sendFile(__dirname+'/build.html');
 });
 
-app.get('/test', function(req, res){
-	res.setHeader('Access-Control-Allow-Origin', '*');
-	res.sendFile(__dirname+'/test.html');
-});
 
 app.get('/watch', function(req, res){
 	res.sendFile(__dirname+'/watch.html');

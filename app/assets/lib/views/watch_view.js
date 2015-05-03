@@ -7,9 +7,10 @@ define(['jquery',
 		'lib/api',
 		'videojs',
 		'videojsMedia',
-		'videojsHLS' ],
-
-	function($, helper, async, _, Backbone, watchTpl, Api, vj, vjm, vjh){
+		'videojsHLS',
+		'lib/socket'
+	],
+	function($, helper, async, _, Backbone, watchTpl, Api, vj, vjm, vjh, socket){
 
 		var WatchView = Backbone.View.extend({
 
@@ -23,12 +24,21 @@ define(['jquery',
 						var data = { success : 0 };
 						cb(404, data)
 					}
+					
+					var video_path;
+					var playback_type;
+				
+					if(yep.is_web){
+						video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_hls;
+						playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
+					} else {
+						video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
+						playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
+					}
 
-					var thumbnail_path = yep.image_path;
 					// If we get VOD, we directly stream from cloudfront
 					// If we get LIVE, we stream using rtmp
-					var video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
-					var playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
+					var thumbnail_path = yep.image_path;
 
 					var data = {
 						el : '#main',
@@ -64,9 +74,7 @@ define(['jquery',
 			},
 
 			initialize: function(options){
-
 				var self = this;
-
 				async.parallel({
 					one: self.getYepInfo.bind(null, options),
 					two: self.getCommentInfo.bind(null, options) 
@@ -92,8 +100,12 @@ define(['jquery',
 			},
 
 			render: function(data){
+				console.log(data);
 				this.$el.html(this.tpl(data));
 				this.setupVideo();
+			},
+
+			listen: function(){
 			}
 		});
 

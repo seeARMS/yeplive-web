@@ -7,7 +7,7 @@ module.exports = (function(){
 		//connectionstring:String
 		//desc: the rtmp connection string to the hdfvr application on your media server
 		//values: 'rtmp://localhost/hdfvr/_definst_', 'rtmp://myfmsserver.com/hdfvr/_definst_', etc...
-		configParams['connectionstring']='rtmp://54.149.243.236:1935/liveorigin/_definst_';
+		configParams['connectionstring']='rtmp://52.24.42.180:1935/hdfvr/_definst_';
 		
 		//This variable is sent to videorecorder.swf via flash vars and sent to this Php script via GET/query string. 
 		//To edit it's value look in the VideoRecorder.html file for "&recorderId=123", 123 is it's default value.

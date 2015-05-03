@@ -3,6 +3,21 @@ html, body{
 	height:100%;
 }
 
+body{
+	overflow-y:hidden;
+}
+
+.js-share{
+	color:white;
+}
+
+.stop-button{
+	margin-top:25px;
+	width:150;
+	height:50px;
+	font-size:20px;
+}
+
 .liked{
 	color: #2ecc71;
 }
@@ -13,6 +28,21 @@ html, body{
 	width:100%;
 	height:100%;
 }
+
+.record-start{
+	width:150px;
+	height:50px;
+	font-size:25px;
+	margin-top:200px;
+	
+}
+
+.chat-message p{
+	width:90%;
+	padding-left:5%;
+	word-wrap:break-word;
+}
+
 
 #main{
 	margin-top:100px;
@@ -247,6 +277,94 @@ ul.navbar-button{
 	display:block;
 }
 
+.video-recorder{
+	margin-top:25px;
+}
+
+.view-box{
+	position:absolute;
+	right:15px;
+	top:15px;
+	color:white;
+	opacity:0.5;
+	font-size:20px;
+	font-weight:300;
+}
+
+.like-box{
+	position:absolute;
+	right:15px;
+	top:75px;
+	color:white;
+	opacity:0.5;
+	font-size:20px;
+	font-weight:300;
+}
+
+.connection-box{
+	position:absolute;
+	right:15px;
+	top:45px;
+	color:white;
+	opacity:0.5;
+	font-size:20px;
+	font-weight:300;
+}
+
+.chat-message{
+	color:white;
+	background-color: rgba(0,0,0,0.5);
+	border-radius:35px;
+	padding-left:30px;
+}
+
+.yep-chat-box{
+	position:absolute;
+	bottom:75px;
+	height:80px;
+	width:70%;
+	left:10px;
+	
+}
+
+.yep-chat-input-box{
+	position:absolute;
+	bottom:10px;
+	left:10%;
+	width:80%;
+	color:white;
+}
+
+#chat-input{
+	height:50px;
+	border-radius:25px;
+	background-color:rgba(0,0,0,0.5);
+	font-size:20px;
+	border:none;
+	padding-left:20px;
+	width:100%;
+	outline: none;
+}
+
+#description{
+	height:50px;
+	border-radius:25px;
+	background-color:rgba(0,0,0,0.5);
+	font-size:30px;
+	border:none;
+	padding-left:20px;
+	width:100%;
+	outline: none;
+	color:white;
+	margin-top:75px;
+	text-align:center;
+}
+
+.record-button{
+	width:
+}
+	
+
 .video-overlay{
 	width:640px;
 	height:480px;
@@ -254,7 +372,22 @@ ul.navbar-button{
 	margin-right:auto;
 	position:relative;
 	left:-50%;
+	margin-top:25px;
 	background-color:rgba(0,0,0,0.5);
+}
+
+.video-overlay-2{
+	width:640px;
+	height:480px;
+	margin-left:auto;
+	margin-right:auto;
+	position:relative;
+	left:-50%;
+	margin-top:25px;
+}
+
+.video-overlay-2 .glyphicon{
+	top:3px;
 }
 
 .video-overlay-wrapper{
