@@ -11,12 +11,12 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 
 	var AppRouter = Backbone.Router.extend({
 		routes:{
+			'watch/:yepId' : 'watch',
 			'': 'root',
 			'me': 'me',
 			'_=_': 'facebookRedirect',
 			'new': 'new',
 			'settings': 'settings',
-			'watch/:yepId' : 'watch',
 			'logout': 'logout',
 			'login': 'login',
 			'404': '404',
@@ -140,7 +140,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 		appRouter.on('route:watch', function(yepId){
 			cleanView();
 			currentView = new WatchView({ el: '#main', yepId: yepId});
-			//navbarVIew = new NavbarView({el: '#navbar'});
+			navbarVIew = new NavbarView({el: '#navbar'});
 		});
 	};
 

@@ -44,9 +44,13 @@
 			
 			<h2>Title: <%- video.yep.title %></h2>
 			<h4>Description: <%- video.yep.description %></h4>
-			Views: <%- video.yep.views %>
-			<br>
-			Voted: <%- video.yep.voted %>
+			<div class='watch-view-count' >Views: <%- video.yep.views %></div>
+			<p></p>
+			<% if(video.yep.voted) { %>
+				<i class="fa fa-thumbs-up watch-vote"> <%- video.yep.vote_count %></i>
+			<% } else { %>
+				<i class="fa fa-thumbs-o-up watch-vote"> <%- video.yep.vote_count %></i>
+			<% } %>
 			<br>
 			Tags: 
 			<% video.yep.tags.forEach(function(val, index, array){ %>
@@ -61,7 +65,25 @@
 	<hr />
 
 	<div class="container">
+		<div class="col-xs-3"></div>
+		<div class="col-xs-6">
+			<div class="row">
+				<div class="col-xs-2">
+					<img src="<%- user.picture_path %>" />
+				</div>
+				<div class="col-xs-10">
+					<textarea class="form-control user-comment-area" rows="3" placeholder="say something about this video"></textarea>
+				</div>
+			</div>
+			<br>
+			<button class="btn btn-primary user-comment-button">Send</button>
+		</div>
+		<div class="col-xs-3"></div>
+	</div>
 
+	<hr />
+
+	<div class="comment-container container">
 		<% comments.forEach(function(val, index, array){ %>
 			<div class="row comments">
 				<div class="col-xs-4"></div>
@@ -77,4 +99,23 @@
 	</div>
 	
 <% } %>
+
+	<div id="modal-div"></div>
+	<div class="modal fade" id="login-modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Login/Signup to Yeplive</h4>
+				</div>
+				<div class="modal-body">
+					<a href="/auth/facebook"><button class="btn btn-primary">Facebook</button></a>
+					<a href="/auth/google"><button class="btn btn-primary js-google-login">Google</button></a>
+					<a href="/auth/twitter"><button class="btn btn-primary js-twitter-login">Twitter</button></a>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
 

@@ -79,6 +79,57 @@ module.exports = (function(){
 		});
 	});
 
+
+	router.post('/comments/:id', function(req, res){
+		var token = req.headers["authorization"];
+		var comment = req.body.comment;
+		var created_time = req.body.created_time;
+		helpers.postAPI('/comments/' + req.params.id,
+						{
+							comment: comment,
+							created_time: created_time
+						},
+						token,
+						function(err,response, body){
+							if(err || response.statusCode !== 200 ){
+								return res.status(500).json({error: 'could not post comment'});
+							}
+							var json = JSON.parse(body);
+							return res.status(200).json(json.comment);
+						}
+		);
+	});
+
+	router.post('/yeps/:id/views', function(req, res){
+		var token = req.headers["authorization"];
+		var id = req.params.id;
+		helpers.postAPI('/yeps/' + id + '/views', {},
+						token,
+						function(err,response, body){
+							if(err || response.statusCode !== 200 ){
+								return res.status(500).json({error: 'could not add view'});
+							}
+							var json = JSON.parse(body);
+							return res.status(200).json(json);
+						}
+		);
+	});
+
+	router.post('/yeps/:id/votes', function(req, res){
+		var token = req.headers["authorization"];
+		var id = req.params.id;
+		helpers.postAPI('/yeps/' + id + '/votes', {},
+						token,
+						function(err,response, body){
+							if(err || response.statusCode !== 200 ){
+								return res.status(500).json({error: 'could toggle vote'});
+							}
+							var json = JSON.parse(body);
+							return res.status(200).json(json);
+						}
+		);
+	});
+
 	router.post('/yeps', function(req, res){
 		var token = req.headers["authorization"];
 		var latitude = req.body.latitude;
