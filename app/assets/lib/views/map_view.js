@@ -247,7 +247,7 @@ define(['jquery',
 				values: data,
 				options:{
 					draggable: false,
-					icon: 'img/yeplive-marker.png'
+					icon: 'img/map/yeplive-marker.png'
 				},
 				events:{
 					click: markerClicked,

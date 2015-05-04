@@ -500,28 +500,28 @@ img.loading{
 /* ----- GOOGLE MAP ------ */
 
 .cluster-1, .cluster-2, .cluster-3{
-	line-height: 65px;
-	width: 61px;
-	height: 76px;
+	line-height: 115px;
+	width: 56px;
+	height: 81px;
 }
 
 .cluster-1{
-	background-image: url(/img/yeplive-marker.png);
+	background-image: url(/img/map/cluster-marker.png);
 }
 
 .cluster-2{
-	background-image: url(/img/yeplive-marker.png);
+	background-image: url(/img/map/cluster-marker.png);
 }
 
 .cluster-3{
-	background-image: url(/img/yeplive-marker.png);
+	background-image: url(/img/map/cluster-marker.png);
 }
 
 .cluster{
-	color: white;
+	color: red;
 	text-align: center;
-	font-family: 'Arial,Helvetica';
-	font-size: 11px;
+	font-family: Roboto;
+	font-size: 17px;
 	font-weight: bold;
 }
 
