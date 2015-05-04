@@ -115,7 +115,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 
 		appRouter.on('route:notFound', function(actions){
 			cleanView();
-			return appRouter.navigate('404');
+			return appRouter.navigate('404', true);
 			appRouter.navigate("#login", true)
 			return console.log('not found');
 			$.get('/api/users?name='+actions).then(function(res){
@@ -153,7 +153,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 		appRouter.on('route:watch', function(yepId){
 			cleanView();
 			currentView = new WatchView({ el: '#main', yepId: yepId});
-			navbarVIew = new NavbarView({el: '#navbar'});
+			navbarView = new NavbarView({el: '#navbar'});
 		});
 	};
 

@@ -90,4 +90,40 @@
 		<% }) %>
 	</div>
 	
+<!--
+	<div class="comment-container container">
+		<% if (comments) { %>
+		<% comments.forEach(function(val, index, array){ %>
+			<div class="row comments">
+				<div class="col-xs-4"></div>
+				<div class="col-xs-4">
+					<img class="commenter-picture" src="<%- val.picture_path %>" />
+					<div><%- val.display_name %> <i><%- val.created_at %></i></div>
+					<div><%- val.comment %></div>
+				</div>
+				<div class="col-xs-4"></div>
+			</div>
+			<hr />
+		<% }) %>
+		<% } %>
+	</div>
+</div>
+-->
+	<div class="container comment-area">
+		<div class="col-xs-3"></div>
+		<div class="col-xs-6">
+			<div class="row">
+				<div class="col-xs-2">
+					<img src="<%- user.picture_path %>" />
+				</div>
+				<div class="col-xs-10">
+					<textarea class="form-control user-comment-area" rows="3" placeholder="say something about this video"></textarea>
+				</div>
+			</div>
+			<br>
+			<button class="btn btn-primary user-comment-button">Send</button>
+		</div>
+		<div class="col-xs-3"></div>
+	</div>
+	<hr />
 
