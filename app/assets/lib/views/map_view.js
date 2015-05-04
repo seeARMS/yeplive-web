@@ -10,9 +10,11 @@ define(['jquery',
 		'lib/map',
 		'lib/collections/yeps',
 		'videojs',
+		'videojsMedia',
+		'videojsHLS',
 		],
 
-	function($, helper, async, User, _, Backbone, Api, gmap3, mapTpl, googleMaps, yepsCollection, vj){
+	function($, helper, async, User, _, Backbone, Api, gmap3, mapTpl, googleMaps, yepsCollection, vj, vjm, vjh){
 
 		var yepsCollection = new yepsCollection();
 
@@ -223,7 +225,16 @@ define(['jquery',
 					// If we get VOD, we directly stream from cloudfront
 					// If we get LIVE, we stream using rtmp
 					var thumbnail_path = yep.image_path;
-					var video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
+					var video_path = '';
+
+					if(yep.vod_enable){
+						video_path = yep.vod_path;
+					}
+					else{
+						// Temp solution
+						video_path = (yep.stream_url).replace('rtsp', 'rtmp');
+					}
+
 					var playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
 
 					var data = {
@@ -264,7 +275,8 @@ define(['jquery',
 			},
 
 			setupVideo: function(){
-				var videoEl = $('video#playVideo');
+				var videoEl = document.getElementById('playVideo');
+				console.log(videoEl);
 				vj(videoEl, {}, function(){
 					console.log('VideoJS successfully loaded')
 				});
@@ -366,7 +378,7 @@ define(['jquery',
 				var userPicture = data.user.picture_path;
 				var commentArray = data.comments;
 				
-				var videoWrapper = '<div class="video-wrapper"><i id="discover-close" class="fa fa-times-circle fa-3x"></i><div class="video-content"><video id="playVideo" class="video-js vjs-default-skin" controls preload="auto" width="584" height="268" data-setup="{}"">';
+				var videoWrapper = '<div class="video-wrapper"><i id="discover-close" class="fa fa-times-circle fa-3x"></i><div class="video-content"><video id="playVideo" class="video-js vjs-default-skin" controls preload="auto" width="584" height="268" data-setup="{}">';
 					videoWrapper += '<source src="' + videoPath + '" type="' + playbackType + '"></video></div></div>';
 				
 				var videoAuthorDisplay = '<div class="container"><div class="row watch-user-info"><div class="col-xs-3"></div><div class="col-xs-6">';
@@ -376,7 +388,7 @@ define(['jquery',
 				var videoInfo = '<div class="row"><div class="col-xs-4"></div><div class="col-xs-4">';
 					videoInfo += '<h2>'+ videoTitle + '</h2>';
 					videoInfo += '<h4>Description: ' + videoDescription + '</h4>';
-					videoInfo += '<div class="watch-view-count" ><i class="fa fa-eye fa-2x" >' + videoViews + '</i></div><p></p>'
+					videoInfo += '<div class="watch-view-count" ><i class="fa fa-eye fa-2x" > ' + videoViews + '</i></div><p></p>'
 				
 				if(voted){
 					videoInfo += '<i class="fa fa-thumbs-up fa-2x watch-vote"> ' + votedCount + '</i>';
@@ -400,9 +412,6 @@ define(['jquery',
 
 				// Deactivate Loading
 				$('img.loading').remove();
-
-				// Setting up VideoJS
-				//this.setupVideo();
 
 				// Render Comments
 				var commentUI = '<div class="container"><div class="col-xs-3"></div><div class="col-xs-6"><div class="row"><div class="col-xs-2">';
@@ -428,6 +437,9 @@ define(['jquery',
 				this.addCommentListener(data);
 				this.addVoteListener(data);
 				this.addViewCount(data);
+
+				// Setting up VideoJS
+				this.setupVideo();
 			},
 
 			discover: function(){
