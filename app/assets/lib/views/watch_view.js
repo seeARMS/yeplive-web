@@ -63,6 +63,7 @@ define(['jquery',
 			},
 
 			getCommentInfo: function(options, cb){
+				return cb(null, true);
 
 				Api.get('/comments/' + options.yepId, function(err, results){
 
