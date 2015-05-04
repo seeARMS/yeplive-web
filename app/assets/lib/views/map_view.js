@@ -12,16 +12,125 @@ define(['jquery',
 		'videojs',
 		'videojsMedia',
 		'videojsHLS',
+		'lib/socket',
 		],
 
-	function($, helper, async, User, _, Backbone, Api, gmap3, mapTpl, googleMaps, yepsCollection, vj, vjm, vjh){
+	function($, helper, async, User, _, Backbone, Api, gmap3, mapTpl, googleMaps, yepsCollection, vj, vjm, vjh, socket){
 
 		var yepsCollection = new yepsCollection();
 
+		var mapView;
+
+		/*
+		var markerContent = function(context){
+
+			var yep = yepsCollection.find(function(currentYep){
+				return currentYep.get('id') === context.data;
+			});
+			
+			yep = yep.attributes;
+
+			var yepId = yep.id;
+			var yepTitle = yep.title;
+			var imagePath = yep.image_path;
+			var displayName = yep.user.display_name;
+			var views = yep.views;
+			var vodEnable = yep.vod_enable;
+			var startTime = yep.start_time;
+			var currentTime = (new Date).getTime();
+			var timeDiff = (currentTime / 1000) - startTime;
+
+			if (imagePath === ''){
+				imagePath = '/img/video-thumbnail.png'
+			}
+
+			if (yepTitle === ''){
+				yepTitle = 'Title'
+			}
+
+			if (displayName === ''){
+				displayName = 'Andrew'
+			}
+
+			var content = '<div class="infoWindow">';
+				content += '<div class="cluster-wrapper"><a class="discover" href="#" id="' + yepId + '">';
+				content += '<img src="' + imagePath + '" class="cluster-Image">';
+				content += '<div class="cluster-body">';
+				content += '<div class="cluster-title"><strong>' + yepTitle + '</strong></div>';
+				content += '<div class="cluster-display-name">' + displayName + '</div>';
+				content += '<div class="cluster-views">Views: ' + views + '</div>';
+				content += '</div>';
+				content += '<div class="cluster-created-time">' + helper.timeElapsedCalculator(timeDiff) + '</div>';
+				content += '</div></a><div>';
+
+			return content;
+
+		};*/		
+
+
 		var markerClicked = function(marker, event, context){
-			var yepID = context.data;
-			App.events.trigger('yep:clicked', yepID);
-		};			
+
+			/*
+			var infowindow = $(this).gmap3({get:{name:"infowindow"}});
+
+			if(infowindow){
+				infowindow.close();
+			}
+
+			$(this).gmap3({
+				infowindow:{
+					latLng: context.data.latLng,
+					options:{
+						content: markerContent(context)
+					},
+					events:{
+						closeclick: function(infowindow){
+							//
+						}
+					}
+				}
+			});*/
+			
+			console.log(MapView);
+
+			var self = this;
+
+
+			// Lock the view
+			$('div#map-canvas').css('opacity', '0.2');
+			$('div#main').append('<div class="discover-body"><img class="loading" src="/img/loading.gif" /></div>')
+
+			var yepId = context.data;
+			
+			async.parallel({
+				one: mapView.getYepInfo.bind(null, yepId),
+				two: mapView.getCommentInfo.bind(null, yepId) 
+			}, function(err, results){
+				/*if(err){
+					console.log('error');
+					return;
+				}*/
+				var data = {
+					video : results['one'],
+					comments : results['two'],
+					user : User.user.attributes,
+					success : 1
+				}
+				mapView.renderDiscover(data);
+			});
+
+
+			// Close Button is clicked
+			$('#main').on('click', 'i#discover-close', function(){
+
+				$('div.discover-body').remove();
+
+				$('div#map-canvas').css('opacity', '1');
+
+			});
+
+
+		};
 
 		var clusterContent = function(context){
 
@@ -34,7 +143,7 @@ define(['jquery',
 				cluster.push(yep);
 			}
 
-			var content = '<div class="infoWindow">'
+			var content = '<div class="infoWindow">';
 
 			for(var i = 0; i < cluster.length; i++){
 
@@ -71,7 +180,7 @@ define(['jquery',
 				content += '<div class="cluster-views">Views: ' + views + '</div>';
 				content += '</div>';
 				content += '<div class="cluster-created-time">' + helper.timeElapsedCalculator(timeDiff) + '</div>';
-				content += '</div></a><hr />'
+				content += '</div></a><hr />';
 
 			}
 
@@ -181,6 +290,8 @@ define(['jquery',
 			tpl: _.template(mapTpl),
 
 			initialize: function(){
+
+				mapView = this;
 
 				this.render();
 

@@ -285,9 +285,9 @@ ul.navbar-button{
 
 
 .recording-container{
-	background-color:#18191a;
+	/*background-color:#18191a;*/
 	height:1000px;
-	overflow:hidden;
+	/*overflow:hidden;*/
 	margin-top:-25px;
 	padding-top:25px;
 }

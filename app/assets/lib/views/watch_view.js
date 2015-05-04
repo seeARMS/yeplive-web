@@ -145,7 +145,8 @@ define(['jquery',
 											console.log(err);
 											return;
 										}
-										var newComment = '<div class="row comments">';
+
+										var newComment = '<div class="row comments new-comment">';
 										newComment += '<div class="col-xs-4"></div><div class="col-xs-4">';
 										newComment += '<img class="commenter-picture" src="' + user.picture_path + '" />';
 										newComment += '<div>' + user.display_name + '<i> Just Now</i></div>';
@@ -153,6 +154,8 @@ define(['jquery',
 										newComment += '</div><div class="col-xs-4"></div></div><hr />';
 
 										$('div.comment-container').prepend(newComment);
+
+										$('html,body').animate({scrollTop: $('div.new-comment').offset().top},'slow');
 									}
 						);
 
@@ -200,7 +203,7 @@ define(['jquery',
 									console.log(err);
 									return;
 								}
-								$('div.watch-view-count').html('Views: ' + res.views);
+								$('div.watch-view-count').html('<i class="fa fa-eye fa-2x" > ' + res.views + '</i>');
 								return;
 							}
 				);
