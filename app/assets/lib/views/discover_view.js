@@ -1,22 +1,19 @@
 define(['jquery',
 		'helper',
+		'lib/user',
 		'asyncJS',
 		'underscore',
 		'backbone',
-		'text!lib/templates/watch.html',
+		'text!lib/templates/discover.html',
 		'lib/api',
 		'videojs',
-		'videojsMedia',
-		'videojsHLS',
-		'lib/socket',
-		'lib/user'
+		'lib/socket'
 	],
-
-	function($, helper, async, _, Backbone, watchTpl, Api, vj, vjm, vjh, socket, User){
+	function($, helper, User, async, _, Backbone, discoverTpl, Api, vj, socket){
 
 		var WatchView = Backbone.View.extend({
 
-			tpl: _.template(watchTpl),
+			tpl: _.template(discoverTpl),
 
 			getYepInfo: function(options, cb){
 
@@ -29,26 +26,20 @@ define(['jquery',
 					
 					var video_path;
 					var playback_type;
-					
+				
 					if(yep.is_web){
 						video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_hls;
 						playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
-						if(yep.vod_enable){
-							var video_path_arr = video_path.split('.');
-							video_path_arr[2] +='_0';
-							video_path = video_path_arr.join('.');
-						}
 					} else {
 						video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
 						playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
 					}
 
-
 					// If we get VOD, we directly stream from cloudfront
 					// If we get LIVE, we stream using rtmp
 					var thumbnail_path = yep.image_path;
-//					var video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
-//					var playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
+					var video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
+					var playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
 
 					var data = {
 						el : '#main',
@@ -93,7 +84,8 @@ define(['jquery',
 					two: self.getCommentInfo.bind(null, options) 
 				}, function(err, results){
 					if(err){
-						self.render({success : 0});
+						//self.render({success : 0});
+						self.$el.html(self.tpl());
 					}
 					var data = {
 						video : results['one'],
@@ -101,15 +93,14 @@ define(['jquery',
 						user : User.authed ? User.user.attributes : "",
 						success : 1
 					}
-					self.render(data, options);
+					//self.render(data, options);
 				});
 
 			},
 			
 			setupVideo: function(){
 				var videoEl = document.getElementById('playVideo');
-				vj(videoEl, {}, function(player){
-					this.play();
+				vj(videoEl, {}, function(){
 					console.log('VideoJS successfully loaded')
 				});
 			},
@@ -120,11 +111,9 @@ define(['jquery',
 				this.setupVideo();
 			},
 
-
 			listen: function(){
 
 			},
-
 			addCommentListener: function(options){
 				$('button.user-comment-button').on('click', function(){
 
@@ -177,12 +166,12 @@ define(['jquery',
 										return;
 									}
 									if(res.vote){
-										$('i.watch-vote').attr('class', 'fa fa-thumbs-up fa-large watch-vote');
+										$('i.watch-vote').attr('class', 'fa fa-thumbs-up watch-vote');
 										$('i.watch-vote').html(' ' + (res.vote + currentVotes).toString());
 										currentVotes++;
 									}
 									else{
-										$('i.watch-vote').attr('class', 'fa fa-thumbs-o-up fa-large watch-vote');
+										$('i.watch-vote').attr('class', 'fa fa-thumbs-o-up watch-vote');
 										$('i.watch-vote').html(' ' + (currentVotes - 1).toString());
 										currentVotes--;
 									}
@@ -207,7 +196,6 @@ define(['jquery',
 			},
 
 			render: function(data, options){
-				console.log(data);
 				this.$el.html(this.tpl(data));
 				this.setupVideo();
 				this.addCommentListener(options);
