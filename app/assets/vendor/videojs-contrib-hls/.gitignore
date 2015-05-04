@@ -1,9 +1,4 @@
 .DS_Store
-<<<<<<< HEAD
-dist/*
-=======
-/node_modules/
->>>>>>> cc33613684b88333dfce597f0af5e389650f6cc4
 *~
 *.iml
 *.swp
