@@ -64,6 +64,7 @@ define(['jquery',
 			},
 
 			getCommentInfo: function(options, cb){
+				
 				return cb(null, true);
 
 				Api.get('/comments/' + options.yepId, function(err, results){
@@ -81,6 +82,7 @@ define(['jquery',
 					});
 
 					var data = results;
+
 
 					cb(null, data);
 
@@ -123,7 +125,39 @@ define(['jquery',
 
 
 			listen: function(){
-				socket
+					
+				socket.emit('join_room', {
+					user_id: 123,
+					display_name: 'mock',
+					yep_id: '7',
+					picture_path: 'something'
+				});
+
+				socket.on('server:error', function(data){
+					console.log('Error');
+					console.log(data);
+				});
+
+				socket.on('yep:connection', function(data){
+					console.log('Connection');
+					console.log(data);
+				});
+
+				socket.on('chat:history', function(data){
+					console.log('History:');
+					console.log(data);
+				});
+
+				socket.emit('message', {
+					message: 'Test',
+					user_id: 123
+				});
+
+				socket.on('chat:message', function(data){
+					console.log('incoming message:');
+					console.log(data);
+				});
+
 			},
 
 			addCommentListener: function(options){
@@ -170,7 +204,6 @@ define(['jquery',
 			},
 
 			addVoteListener: function(options, yep){
-				console.log(yep);
 				if(User.authed){
 					var currentVotes = yep.vote_count;
 					$('i.watch-vote').on('click', function(){
@@ -212,12 +245,13 @@ define(['jquery',
 			},
 
 			render: function(data, options){
-				console.log(data);
+				this.listen();
 				this.$el.html(this.tpl(data));
 				this.setupVideo();
 				this.addCommentListener(options);
 				this.addVoteListener(options, data.video.yep);
 				this.addViewCount(options);
+				
 			}
 		});
 

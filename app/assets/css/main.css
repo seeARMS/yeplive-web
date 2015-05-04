@@ -632,6 +632,36 @@ i.watch-vote{
 	cursor: pointer;
 }
 
+div.message-box{
+	border: dashed;
+	border-color: lightgrey;
+	width: 585px;
+    height: 300px;
+    overflow: auto;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+img.message-box-user-picture{
+	width:30px;
+	height:30px;
+	border-radius:30px;
+}
+
+div.new-message{
+	padding-left: 12px;
+}
+
+
+div.message-box-messsage{
+	padding-left: 50px
+}
+
+span.message-box-message-owner{
+	padding-left:8px;
+	font-family:Roboto;
+	font-weight:200;
+}
 /* ----- End of DISCOVER VIEW ------ */
 
 

@@ -387,9 +387,8 @@ define(['jquery',
 
 			setupVideo: function(){
 				var videoEl = document.getElementById('playVideo');
-				console.log(videoEl);
 				vj(videoEl, {}, function(){
-					console.log('VideoJS successfully loaded')
+					//console.log('VideoJS successfully loaded')
 				});
 			},
 
@@ -529,6 +528,9 @@ define(['jquery',
 				$('img.loading').remove();
 
 				// Render Comments
+
+				// Temp disable Comments at the moment
+				/*
 				var commentUI = '<div class="container comment-area"><div class="col-xs-3"></div><div class="col-xs-6"><div class="row"><div class="col-xs-2">';
 					commentUI += '<img src="' + userPicture + '" /></div><div class="col-xs-10">';
 					commentUI += '<textarea class="form-control user-comment-area" rows="3" placeholder="say something about this video"></textarea>';
@@ -550,11 +552,113 @@ define(['jquery',
 				$('div.discover-body').append(comments);
 
 				this.addCommentListener(data);
+				*/
+
+				// Render Socket IO Messaging UI
+				var messageBox = '<div class="container"><div class="row"><div class="col-xs-3" ></div><div class="col-xs-6" ><div class="message-box"></div></div><div class="col-xs-3" ></div></div></div><br>'
+
+				$('div.discover-body').append(messageBox);
+
+				var messagingUI = '<div class="container comment-area"><div class="col-xs-3"></div><div class="col-xs-6"><div class="row"><div class="col-xs-2">';
+					messagingUI += '<img src="' + userPicture + '" /></div><div class="col-xs-10">';
+					messagingUI += '<textarea class="form-control user-comment-area" rows="1" placeholder="say something about this video"></textarea>';
+					messagingUI += '</div></div><br><button class="btn btn-primary user-comment-button">Send</button></div><div class="col-xs-3"></div></div><hr />';
+
+				$('div.discover-body').append(messagingUI);
+				this.messagingListener(data);
+
+
 				this.addVoteListener(data);
 				this.addViewCount(data);
 
 				// Setting up VideoJS
 				this.setupVideo();
+				
+			},
+
+			messagingListener: function(data){
+
+				var user = data.user;
+				var yep = data.video.yep;
+
+				$('button.user-comment-button').on('click', function(){
+
+					var message = $('textarea.user-comment-area').val();
+
+					socket.emit('message', {
+						message: message,
+						user_id: user.user_id
+					});
+
+				});
+
+			},
+
+			decorateMessaging: function(messages){
+
+				console.log(messages);
+
+				var newMessage = '';
+
+				// If loading history
+				if(messages.messages){
+					messages.messages.forEach(function(val, index){
+						newMessage += '<div class="new-message" >'
+						newMessage += '<img class="message-box-user-picture" src="' + val.picture_path + '" /> ';
+						newMessage += '<span class="message-box-message-owner"> ' + val.display_name + ': </span>';
+						newMessage += '<div class="message-box-messsage">' + val.message + '</div>';
+						newMessage += '</div><br>'
+					});
+				}
+				else if(messages.message){
+					var displayName = messages.display_name;
+					var message = messages.message;
+					var picturePath = messages.picture_path;
+
+					newMessage += '<div class="new-message" >';
+					newMessage += '<img class="message-box-user-picture" src="' + picturePath + '" /> ';
+					newMessage += '<span class="message-box-message-owner"> ' + displayName + ': </span>';
+					newMessage += '<div class="message-box-messsage">' + message + '</div>';
+					newMessage += '</div><br>'
+				}
+
+				$('div.message-box').append(newMessage);
+				$('textarea.user-comment-area').val('');
+				$('div.message-box').animate({scrollTop: $('div.message-box')[0].scrollHeight },'slow');
+			},
+
+			socketIO: function(data){
+
+				var self = this;
+				var user = data.user;
+				var yep = data.video.yep;
+
+				socket.emit('join_room', {
+					user_id: user.user_id,
+					display_name: user.display_name,
+					yep_id: yep.id,
+					picture_path: user.picture_path
+				});
+
+				socket.on('server:error', function(data){
+					console.log('Error');
+					console.log(data);
+				});
+
+				socket.on('yep:connection', function(data){
+					console.log('Connection');
+					console.log(data);
+				});
+
+				socket.on('chat:history', function(data){
+					console.log('history');
+					self.decorateMessaging(data);
+				});
+
+				socket.on('chat:message', function(data){
+					console.log('New message');
+					self.decorateMessaging(data);
+				});
 			},
 
 			discover: function(){
@@ -584,7 +688,11 @@ define(['jquery',
 							user : User.user.attributes,
 							success : 1
 						}
+
 						self.renderDiscover(data);
+
+						// Set up SocketIO
+						self.socketIO(data);
 					});
 
 				});
@@ -596,6 +704,9 @@ define(['jquery',
 
 					$('div#map-canvas').css('opacity', '1');
 
+					socket.emit('leave_room', {});
+
+					socket.emit('disconnection', socket);
 				});
 			},
 
