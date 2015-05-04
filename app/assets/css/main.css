@@ -501,20 +501,20 @@ img.loading{
 
 .cluster-1, .cluster-2, .cluster-3{
 	line-height: 65px;
-	width: 67px;
-	height: 64px;
+	width: 61px;
+	height: 76px;
 }
 
 .cluster-1{
-	background-image: url(/img/map/c1.png);
+	background-image: url(/img/yeplive-marker.png);
 }
 
 .cluster-2{
-	background-image: url(/img/map/c2.png);
+	background-image: url(/img/yeplive-marker.png);
 }
 
 .cluster-3{
-	background-image: url(/img/map/c3.png);
+	background-image: url(/img/yeplive-marker.png);
 }
 
 .cluster{
@@ -579,6 +579,16 @@ button.user-comment-button{
 	float:right;
 }
 
+.comment-timeelapsed{
+	color: rgb(157, 157, 157);
+	font-size: 12px;
+}
+
+.comment-body{
+	margin-left: 70px;
+	width:300px;
+	word-wrap: break-word;
+}
 
 /* ----- End of WATCH VIEW ------ */
 

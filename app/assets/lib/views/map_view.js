@@ -413,6 +413,9 @@ define(['jquery',
 											console.log(err);
 											return;
 										}
+										// Old comments to assigned old comments class
+										//$('div.new-comment').find('*').attr('class', 'row comments old-comment');
+
 										var newComment = '<div class="row comments new-comment">';
 										newComment += '<div class="col-xs-4"></div><div class="col-xs-4">';
 										newComment += '<img class="commenter-picture" src="' + user.picture_path + '" />';
@@ -423,7 +426,7 @@ define(['jquery',
 										$('div.comment-container').prepend(newComment);
 										
 										// Scroll to that new comment
-										$('html,body').animate({scrollTop: $('div.new-comment').offset().top},'slow');
+										$('html,body').animate({scrollTop: $('div.new-comment').offset().bottom},'slow');
 										$('div.comment-area').html('<h3 class="text-center">Thank you!</h3>');
 									}
 						);
