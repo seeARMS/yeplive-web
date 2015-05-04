@@ -1,4 +1,5 @@
 module.exports = function(app){
+var config = require('../config');
 var colors = require('colors');
 var GOOGLE_CONSUMER_KEY="757029635679-3t8dr78cejogedbv3neac7gjckeb2ilb";
 var GOOGLE_CONSUMER_SECRET="i0HLYf0gzCmfztR1nOm9h-WP";
@@ -27,7 +28,7 @@ passport.deserializeUser(function(data, done) {
 passport.use(new FacebookStrategy({
     clientID: FACEBOOK_APP_ID,
     clientSecret: FACEBOOK_APP_SECRET,
-    callbackURL: "http://localhost:3000/auth/facebook/callback"
+    callbackURL: config.host+"/auth/facebook/callback"
   },
   function(accessToken, refreshToken, profile, done) {
 			var data = {
@@ -42,7 +43,7 @@ passport.use(new FacebookStrategy({
 passport.use(new TwitterStrategy({
     consumerKey: TWITTER_CONSUMER_KEY,
     consumerSecret: TWITTER_CONSUMER_SECRET,
-    callbackURL: "http://localhost:3000/auth/twitter/callback"
+    callbackURL: config.host+"auth/twitter/callback"
   },
   function(token, tokenSecret, profile, done) {
 			var data = {
@@ -57,7 +58,7 @@ passport.use(new TwitterStrategy({
 passport.use(new GoogleStrategy({
     clientID: GOOGLE_CONSUMER_KEY,
     clientSecret: GOOGLE_CONSUMER_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/callback"
+    callbackURL: config.host+"auth/google/callback"
   },
   function(token, tokenSecret, profile, done) {
 		var data = {
