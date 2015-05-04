@@ -1,5 +1,5 @@
 define(['jquery',
-		'helper',
+		'lib/helper',
 		'asyncJS',
 		'underscore',
 		'backbone',
