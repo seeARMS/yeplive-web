@@ -122,7 +122,7 @@ define(['jquery',
 
 
 			listen: function(){
-
+				socket
 			},
 
 			addCommentListener: function(options){
@@ -156,6 +156,7 @@ define(['jquery',
 										$('div.comment-container').prepend(newComment);
 
 										$('html,body').animate({scrollTop: $('div.new-comment').offset().top},'slow');
+										$('div.comment-area').html('<h3 class="text-center">Thank you!</h3>');
 									}
 						);
 

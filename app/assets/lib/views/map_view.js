@@ -424,6 +424,7 @@ define(['jquery',
 										
 										// Scroll to that new comment
 										$('html,body').animate({scrollTop: $('div.new-comment').offset().top},'slow');
+										$('div.comment-area').html('<h3 class="text-center">Thank you!</h3>');
 									}
 						);
 				});
@@ -525,7 +526,7 @@ define(['jquery',
 				$('img.loading').remove();
 
 				// Render Comments
-				var commentUI = '<div class="container"><div class="col-xs-3"></div><div class="col-xs-6"><div class="row"><div class="col-xs-2">';
+				var commentUI = '<div class="container comment-area"><div class="col-xs-3"></div><div class="col-xs-6"><div class="row"><div class="col-xs-2">';
 					commentUI += '<img src="' + userPicture + '" /></div><div class="col-xs-10">';
 					commentUI += '<textarea class="form-control user-comment-area" rows="3" placeholder="say something about this video"></textarea>';
 					commentUI += '</div></div><br><button class="btn btn-primary user-comment-button">Send</button></div><div class="col-xs-3"></div></div><hr />';
