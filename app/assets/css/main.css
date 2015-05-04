@@ -22,7 +22,7 @@ color:white;
 }
 
 body{
-	overflow-y:hidden;
+	/*overflow-y:hidden;*/
 }
 
 .js-share{
@@ -285,9 +285,9 @@ ul.navbar-button{
 
 
 .recording-container{
-	background-color:#18191a;
+	/*background-color:#18191a;*/
 	height:1000px;
-	overflow:hidden;
+	/*overflow:hidden;*/
 	margin-top:-25px;
 	padding-top:25px;
 }
@@ -428,8 +428,8 @@ ul.navbar-button{
 .overlay{
   display: block;
   width: 100%;
-  background-color: black;
-  background-image: url('http://themes.startbootstrap.com/spectrum-v1.2.0/assets/img/diagonal-noise.png');
+  background-color: white;
+  /*background-image: url('http://themes.startbootstrap.com/spectrum-v1.2.0/assets/img/diagonal-noise.png');*/
   opacity: 0.3;
   position: fixed;
   top: 0;
@@ -478,14 +478,22 @@ h1,h2,h3,h4,h5,h6{
 
 img.user-picture{
 	border-radius: 100px;
-	width: 100px;
-	height: 100px;
+	width: 70px;
+	height: 70px;
 	margin-right: 45px;
 	float:left;
 }
 
 .watch-user-info{
 	margin-top: 30px;
+}
+
+img.loading{
+	width: 50px;
+	height: 50px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
 }
 
 
@@ -573,6 +581,52 @@ button.user-comment-button{
 
 
 /* ----- End of WATCH VIEW ------ */
+
+
+
+/* ----- DISCOVER VIEW ------ */
+
+
+.discover-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    filter:alpha(opacity=50);
+    -moz-opacity:0.65;
+    -khtml-opacity: 0.65;
+    opacity: 0.65;
+    z-index: 9;
+}
+
+
+.discover-body{
+	z-index: 5;
+	opacity: 1;
+	margin-top: 120px;
+	position:relative;
+}
+
+
+i#discover-close{
+	margin-left: 588px;
+	margin-top: -30px;
+	position: absolute;
+	z-index: 10px;
+	cursor: pointer;
+}
+
+i.watch-vote{
+	cursor: pointer;
+}
+
+/* ----- End of DISCOVER VIEW ------ */
+
+
+
+
 
 
 /* Large devices (large desktops, 1200px - 993px) */

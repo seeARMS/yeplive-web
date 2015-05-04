@@ -7,8 +7,7 @@
 <% } else { %>
 
 <div class="recording-container">
-	<div class="video-overlay-wrapper">
-	</div>
+
 	<div class="video-recorder">
 		<div id="recorder">
 			<video id="playVideo" class="video-js vjs-default-skin" controls preload="auto" width="640" height="480" data-setup='{}'>
@@ -17,17 +16,57 @@
 				src="<%- video.video_path %>"
 				type="<%- video.playback_type %>">  
 
-<% if(video.yep.vod_enable) { %>
+	<% if(video.yep.vod_enable) { %>
 			<source
 				type="<%- video.playback_type %>">  
-<% } %>
+
 			</video>
-</div>
+	<% } %>
+
+		</div>
 	</div>
-	<div>
-		<h1 class="js-share text-center"></h1>
+
+	<!-- <div><img src="img/live.gif" /></div> -->
+	<div class="container">
+
+		<div class="row watch-user-info">
+			<div class="col-xs-3"></div>
+			<div class="col-xs-6">
+				<img class="user-picture" src="<%- video.yep.user.picture_path %>" />
+				<h1><%- video.yep.user.display_name %></h4>
+			</div>
+			<div class="col-xs-3"></div>
+		</div>
+
 	</div>
-</div>
+
+	<div class="row">
+		<div class="col-xs-4"></div>
+		<div class="col-xs-4">
+			
+			<h2><%- video.yep.title %></h2>
+			<div class="watch-view-count" ><i class="fa fa-eye fa-2x" > <%- video.yep.views %></i></div>
+			<p></p>
+			<% if(video.yep.voted) { %>
+				<i class="fa fa-thumbs-up fa-2x watch-vote"> <%- video.yep.vote_count %></i>
+			<% } else { %>
+				<i class="fa fa-thumbs-o-up fa-2x watch-vote"> <%- video.yep.vote_count %></i>
+			<% } %>
+			<p></p>
+			<i class="fa fa-tags fa-2x" > 
+				<% video.yep.tags.forEach(function(val, index, array){ %>
+				
+					#<%- val %>
+
+				<% }) %>
+			</i> 
+		</div>
+		<div class="col-xs-4"></div>
+	</div>
+	<hr />
+
+
+
 <% } %>
 
 	<div id="modal-div"></div>
@@ -42,7 +81,6 @@
 				</div>
 				<div class="modal-body">
 					<a href="/auth/facebook"><button class="btn btn-primary">Facebook</button></a>
-					<a href="/auth/google"><button class="btn btn-primary js-google-login">Google</button></a>
 					<a href="/auth/twitter"><button class="btn btn-primary js-twitter-login">Twitter</button></a>
 				</div>
 			</div><!-- /.modal-content -->

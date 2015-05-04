@@ -1,19 +1,20 @@
 define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/navbar_view',
 				'lib/views/login_view',
 				'lib/views/watch_view',
+				'lib/views/discover_view',
 				'lib/user',
 				'lib/api',
 				'lib/views/create_yep_view',
-				'lib/views/not_found_view',
-				'lib/views/user_view'
+				'lib/views/not_found_view'
 ],
-	function($, _, Backbone, MapView, NavbarView, LoginView, WatchView, User, API, CreateYepView,
-		NotFoundView, UserView){
+
+	function($, _, Backbone, MapView, NavbarView, LoginView, WatchView, DiscoverView, User, API, CreateYepView,
+		NotFoundView){
 
 	var AppRouter = Backbone.Router.extend({
 		routes:{
 			'watch/:yepId' : 'watch',
-			'user/:userId': 'user',
+			'discover/:yepId' : 'discover',
 			'': 'root',
 			'me': 'me',
 			'_=_': 'facebookRedirect',
@@ -28,6 +29,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 
 	var currentView;
 	var navbarView;
+	var discoverView;
 
 	function cleanView(){
 		if(currentView && currentView.close){
@@ -113,7 +115,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 
 		appRouter.on('route:notFound', function(actions){
 			cleanView();
-			return appRouter.navigate('404');
+			return appRouter.navigate('404', true);
 			appRouter.navigate("#login", true)
 			return console.log('not found');
 			$.get('/api/users?name='+actions).then(function(res){
@@ -151,7 +153,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 		appRouter.on('route:watch', function(yepId){
 			cleanView();
 			currentView = new WatchView({ el: '#main', yepId: yepId});
-			navbarVIew = new NavbarView({el: '#navbar'});
+			navbarView = new NavbarView({el: '#navbar'});
 		});
 	};
 
