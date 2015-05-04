@@ -43,7 +43,7 @@ passport.use(new FacebookStrategy({
 passport.use(new TwitterStrategy({
     consumerKey: TWITTER_CONSUMER_KEY,
     consumerSecret: TWITTER_CONSUMER_SECRET,
-    callbackURL: config.host+"auth/twitter/callback"
+    callbackURL: config.host+"/auth/twitter/callback"
   },
   function(token, tokenSecret, profile, done) {
 			var data = {
