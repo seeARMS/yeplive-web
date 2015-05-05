@@ -627,7 +627,7 @@ define(['jquery',
 				$('div.message-box').animate({scrollTop: $('div.message-box')[0].scrollHeight },'slow');
 			},
 
-			socketIO: function(data){
+			socketJoinRoom: function(data){
 
 				var self = this;
 				var user = data.user;
@@ -639,6 +639,11 @@ define(['jquery',
 					yep_id: yep.id,
 					picture_path: user.picture_path
 				});
+			},
+
+			registerSocketEvents: function(){
+
+				var self = this;
 
 				socket.on('server:error', function(data){
 					console.log('Error');
@@ -659,6 +664,7 @@ define(['jquery',
 					console.log('New message');
 					self.decorateMessaging(data);
 				});
+
 			},
 
 			discover: function(){
@@ -688,11 +694,12 @@ define(['jquery',
 							user : User.user.attributes,
 							success : 1
 						}
+						//console.log(data);
 
 						self.renderDiscover(data);
 
-						// Set up SocketIO
-						self.socketIO(data);
+						// Join a socket room
+						self.socketJoinRoom(data);
 					});
 
 				});
@@ -704,9 +711,9 @@ define(['jquery',
 
 					$('div#map-canvas').css('opacity', '1');
 
-					socket.emit('leave_room', {});
+					socket.emit('client:leave', {});
+					socket.emit('disconnect', socket);
 
-					socket.emit('disconnection', socket);
 				});
 			},
 
@@ -719,8 +726,13 @@ define(['jquery',
 					self.populate(yepsCollection.getMapData());
 				});
 
+				// Register Socket Events
+				self.registerSocketEvents();
+
+				// Launch Discovery
 				self.discover();
 			},
+
 			populate: function(data){
 				$('#map-canvas').gmap3('clear', 'markers');
 				$('#map-canvas').gmap3({
