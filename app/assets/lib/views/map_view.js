@@ -219,6 +219,8 @@ define(['jquery',
 					}
 				}
 			});
+
+			$(this).gmap3({action: 'setCenter', args:[ context.data.latLng ]});
 		};
 
 		var options = {
@@ -676,7 +678,7 @@ define(['jquery',
 
 					// Lock the view
 					$('div#map-canvas').css('opacity', '0.2');
-					$('div#main').append('<div class="discover-body"><img class="loading" src="/img/loading.gif" /></div>')
+					$('div#main').append('<div class="discover-body"><img class="loading" src="/img/loading.gif" /></div>');
 
 					var yepId = $(this).attr('id');
 					
@@ -738,6 +740,10 @@ define(['jquery',
 				$('#map-canvas').gmap3({
 					marker: marker(data)
 				});
+
+				// Done loading, kill load boy
+				$('div#load-boy').empty();
+				$('div#main').css('opacity', '1');
 			}
 		});
 

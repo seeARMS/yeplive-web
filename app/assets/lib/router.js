@@ -39,6 +39,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 
 
 	var initialize = function(){
+
 		var appRouter = new AppRouter;
 
 		$(document).click("a[href^='/']", function(event){
@@ -70,6 +71,12 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 			}
 		});
 
+		var loaderInit = function(){
+			$('div#main').css('opacity', '0.3');
+			$('div#load-boy').append('<img class="loading" src="/img/loading.gif" />');
+
+		};
+
 
 		appRouter.on('route:login', function(actions){
 			cleanView();
@@ -99,6 +106,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 		});
 
 		appRouter.on('route:root', function(actions){
+			loaderInit();
 			cleanView();
 			if(! User.authed){
 				return appRouter.navigate("/login", {trigger:true})
