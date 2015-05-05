@@ -570,7 +570,7 @@ img.explorer-image{
 	width: 650px;
 	height: 86%;
 	background: #373a47;
-	padding: 0.8em 1.5em 0;
+	padding: 2em 1.5em 0;
 	padding-left: 330px;
 	font-size: 1.15em;
 	-webkit-transform: translate3d(-320px,0,0);
@@ -612,6 +612,26 @@ img.explorer-image{
 	font-style:italic;
 	font-size: 0.8em;
 	margin-top: 18px
+}
+
+.explorer-close{
+	position: absolute;
+	overflow: hidden;
+	top: 0.5em;
+	right: 0.9em;
+	font-family: 'Roboto';
+	font-weight: 200;
+	font-size: 1.5em;
+	color: #b8b7ad;
+	width: 40px;
+	height: 40px;
+	text-align: center;
+}
+
+.explorer-close:hover{
+	border: dashed 2px;
+	border-radius: 50px;
+	cursor: pointer;
 }
 
 .cluster-created-time, .explorer-created-time{

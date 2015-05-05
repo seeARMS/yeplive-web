@@ -198,6 +198,12 @@ define(['jquery',
 		var markerMousedOut = function(marker, event, context){
 		};
 
+		var clearExplorer = function(){
+			if ( $('div.explore-container').length ){
+				$('div.explore-container').remove();
+			};
+		};
+
 		var clusterClick = function(cluster, event, context){
 
 			/*
@@ -225,9 +231,7 @@ define(['jquery',
 			$(this).gmap3({action: 'setCenter', args:[ context.data.latLng ]});
 			*/
 
-			if ( $('div.explore-container').length ){
-				$('div.explore-container').remove();
-			}
+			clearExplorer();
 
 
 			$('div#main').append('<div class="explore-container"></div>');
@@ -276,14 +280,16 @@ define(['jquery',
 				content += '<div class="explorer-title">' + yepTitle + '</div>';
 				content += '<div class="explorer-display-name"><i class="fa fa-user"> </i> ' + displayName + '</div>';
 				content += '</div>';
-				content += '<div class="row"><div class="explorer-created-time col-xs-6">' + helper.timeElapsedCalculator(timeDiff);
+				content += '<div class="row"><div class="explorer-created-time col-xs-12">' + helper.timeElapsedCalculator(timeDiff) ;
 				content += '<i class="fa fa-eye explorer-views" > ' + views + '</i></div>'
 				content += '</div></a><hr /></div>';
-
 			}
-
+			var closeButton = '<div class="explorer-close">x</div>';
+			$('div.explore-container').append(closeButton);
 			$('div.explore-container').append(content);
-
+			$('div.explorer-close').on('click', function(){
+				clearExplorer();
+			});
 		};
 
 		var options = {
