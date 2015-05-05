@@ -121,7 +121,7 @@ define(['jquery',
 						self.rotateVideo();
 					}
 					console.log(overlayTpl);
-					$('#recorder').append(overlayTpl);
+//					$('#recorder').append(overlayTpl);
 					console.log('VideoJS successfully loaded')
 				});
 			},
