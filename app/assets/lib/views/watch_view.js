@@ -9,10 +9,13 @@ define(['jquery',
 		'videojsMedia',
 		'videojsHLS',
 		'lib/socket',
-		'lib/user'
+		'lib/user',
+		'text!lib/templates/chat_message.html',
+		'text!lib/templates/video_overlay.html',
 	],
 
-	function($, helper, async, _, Backbone, watchTpl, Api, vj, vjm, vjh, socket, User){
+	function($, helper, async, _, Backbone, watchTpl, Api, vj, vjm, vjh, socket, User, messageTpl,
+		overlayTpl){
 
 		var WatchView = Backbone.View.extend({
 
@@ -29,17 +32,15 @@ define(['jquery',
 					
 					var video_path;
 					var playback_type;
+
+					console.log("YEP:");
+					console.log(yep);
 					
 					if(yep.is_web){
 						video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_hls;
 						playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
-						if(yep.vod_enable){
-							var video_path_arr = video_path.split('.');
-							video_path_arr[2] +='_0';
-							video_path = video_path_arr.join('.');
-						}
 					} else {
-						video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
+						video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_hls;
 						playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
 					}
 
@@ -90,6 +91,7 @@ define(['jquery',
 			},
 
 			initialize: function(options){
+				console.log('test');
 				var self = this;
 				async.parallel({
 					one: self.getYepInfo.bind(null, options),
@@ -109,10 +111,17 @@ define(['jquery',
 
 			},
 			
-			setupVideo: function(){
+			setupVideo: function(data){
 				var videoEl = document.getElementById('playVideo');
+				var self = this;
 				vj(videoEl, {}, function(player){
 					this.play();
+					console.log(data.video);
+					if(data.video.yep.portrait){
+						self.rotateVideo();
+					}
+					console.log(overlayTpl);
+					$('#recorder').append(overlayTpl);
 					console.log('VideoJS successfully loaded')
 				});
 			},
@@ -120,7 +129,7 @@ define(['jquery',
 			render: function(data){
 				console.log(data);
 				this.$el.html(this.tpl(data));
-				this.setupVideo();
+				this.setupVideo(data);
 			},
 
 
@@ -134,18 +143,18 @@ define(['jquery',
 				});
 
 				socket.on('server:error', function(data){
-					console.log('Error');
 					console.log(data);
+
 				});
 
 				socket.on('yep:connection', function(data){
-					console.log('Connection');
 					console.log(data);
-				});
 
+				});
+				$chat = $('#chat');
+				message = _.template(messageTpl);
 				socket.on('chat:history', function(data){
-					console.log('History:');
-					console.log(data);
+					$chat.append(message(data));
 				});
 
 				socket.emit('message', {
@@ -154,8 +163,8 @@ define(['jquery',
 				});
 
 				socket.on('chat:message', function(data){
-					console.log('incoming message:');
 					console.log(data);
+
 				});
 
 			},
@@ -247,11 +256,28 @@ define(['jquery',
 			render: function(data, options){
 				this.listen();
 				this.$el.html(this.tpl(data));
-				this.setupVideo();
+				this.setupVideo(data);
 				this.addCommentListener(options);
 				this.addVoteListener(options, data.video.yep);
 				this.addViewCount(options);
 				
+			},
+
+			rotateVideo: function(){
+				console.log('rotating');	
+				$('#playVideo').css({  
+					'-webkit-transform': 'rotate(90deg)',  //Safari 3.1+, Chrome  
+					'-moz-transform': 'rotate(90deg)',     //Firefox 3.5-15  
+					'-ms-transform': 'rotate(90deg)',      //IE9+  
+					'-o-transform': 'rotate(90deg)',       //Opera 10.5-12.00  
+					'transform': 'rotate(90deg)'
+				})
+				$('#main').css({
+					'margin-top': '125px'
+				});
+				$('.vjs-control-bar').css({
+					'display':'none'
+				});
 			}
 		});
 
