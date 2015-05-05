@@ -63,7 +63,7 @@ body{
 
 
 #main{
-	margin-top:100px;
+	margin-top:82px;
 }
 
 /* NAVBAR */ 
@@ -535,10 +535,55 @@ img.loading{
 	overflow: hidden;
 }
 
+.explorer-wrapper {
+	overflow: hidden;
+}
+
+.explorer-wrapper a{
+	color: #b8b7ad;
+}
+
+
 img.cluster-Image{
 	width:25%;
 	height:25%;
 	float:left;
+}
+
+img.explorer-image{
+	width:35%;
+	height:35%;
+	float:left;
+	border-radius:8px;
+}
+
+
+.explorer-views{
+	margin-left:10px;
+}
+
+.explore-container{
+	opacity: 1;
+	position: absolute;
+	overflow: scroll;
+	z-index: 5;
+	width: 650px;
+	height: 86%;
+	background: #373a47;
+	padding: 0.8em 1.5em 0;
+	padding-left: 330px;
+	font-size: 1.15em;
+	-webkit-transform: translate3d(-320px,0,0);
+	transform: translate3d(-320px,0,0);
+	-webkit-transition: -webkit-transform 0.4s;
+	transition: transform 0.4s;
+	-webkit-transition-timing-function: cubic-bezier(0.7,0,0.3,1);
+	transition-timing-function: cubic-bezier(0.7,0,0.3,1);
+}
+
+.explorer-title{
+	font-family: 'Roboto';
+	font-weight: 400;
 }
 
 .cluster-body{
@@ -548,8 +593,28 @@ img.cluster-Image{
 	width: 100px;
 }
 
+.explorer-display-name{
+	font-family: 'Roboto';
+	font-weight: 200;
+	margin-top: 10px;
+}
 
-.cluster-created-time{
+.explorer-body{
+	margin-left: 10px;
+	margin-right: 5px;
+	float:left;
+	width: 165px;
+	height:55px;
+}
+
+.explorer-created-time{
+	float:left;
+	font-style:italic;
+	font-size: 0.8em;
+	margin-top: 18px
+}
+
+.cluster-created-time, .explorer-created-time{
 	float:left;
 }
 
@@ -591,6 +656,8 @@ button.user-comment-button{
 	word-wrap: break-word;
 }
 
+
+
 /* ----- End of WATCH VIEW ------ */
 
 
@@ -616,7 +683,7 @@ button.user-comment-button{
 .discover-body{
 	z-index: 5;
 	opacity: 1;
-	margin-top: 120px;
+	padding-top: 33px;
 	position:relative;
 }
 
@@ -663,6 +730,9 @@ span.message-box-message-owner{
 	font-family:Roboto;
 	font-weight:200;
 }
+
+
+
 /* ----- End of DISCOVER VIEW ------ */
 
 

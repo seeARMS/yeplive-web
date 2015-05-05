@@ -200,6 +200,8 @@ define(['jquery',
 
 		var clusterClick = function(cluster, event, context){
 
+			/*
+
 			var infowindow = $(this).gmap3({get:{name:"infowindow"}});
 
 			if(infowindow){
@@ -221,6 +223,67 @@ define(['jquery',
 			});
 
 			$(this).gmap3({action: 'setCenter', args:[ context.data.latLng ]});
+			*/
+
+			if ( $('div.explore-container').length ){
+				$('div.explore-container').remove();
+			}
+
+
+			$('div#main').append('<div class="explore-container"></div>');
+
+			var yepMarks = context.data.markers;
+
+			var cluster = [];
+
+			for(var i = 0; i < yepMarks.length; i++){
+				var yep = yepsCollection.findWhere({ id : yepMarks[i].data });
+				cluster.push(yep);
+			}
+
+			var content = '';
+
+			for(var i = 0; i < cluster.length; i++){
+
+				var yep = cluster[i].attributes;
+
+				var yepId = yep.id;
+				var yepTitle = yep.title;
+				var imagePath = yep.image_path;
+				var displayName = yep.user.display_name;
+				var views = yep.views;
+				var vodEnable = yep.vod_enable;
+				var startTime = yep.start_time;
+				var currentTime = (new Date).getTime();
+				var timeDiff = (currentTime / 1000) - startTime;
+
+				if (imagePath === ''){
+					imagePath = '/img/video-thumbnail.png'
+				}
+
+				if (yepTitle === ''){
+					yepTitle = 'Title'
+				}
+
+				if (displayName === ''){
+					displayName = 'Andrew'
+				}
+
+
+				content += '<div class="explorer-wrapper"><a class="discover" href="#" id="' + yepId + '">';
+				content += '<img src="' + imagePath + '" class="explorer-image">';
+				content += '<div class="explorer-body">';
+				content += '<div class="explorer-title">' + yepTitle + '</div>';
+				content += '<div class="explorer-display-name"><i class="fa fa-user"> </i> ' + displayName + '</div>';
+				content += '</div>';
+				content += '<div class="row"><div class="explorer-created-time col-xs-6">' + helper.timeElapsedCalculator(timeDiff);
+				content += '<i class="fa fa-eye explorer-views" > ' + views + '</i></div>'
+				content += '</div></a><hr /></div>';
+
+			}
+
+			$('div.explore-container').append(content);
+
 		};
 
 		var options = {
@@ -678,6 +741,10 @@ define(['jquery',
 
 					// Lock the view
 					$('div#map-canvas').css('opacity', '0.2');
+					//$(this).parent().css('opacity', '1');
+					$('div.explore-container').css('opacity', '0.2');
+
+					
 					$('div#main').append('<div class="discover-body"><img class="loading" src="/img/loading.gif" /></div>');
 
 					var yepId = $(this).attr('id');
@@ -712,6 +779,7 @@ define(['jquery',
 					$('div.discover-body').remove();
 
 					$('div#map-canvas').css('opacity', '1');
+					$('div.explore-container').css('opacity', '1');
 
 					socket.emit('client:leave', {});
 					socket.emit('disconnect', socket);
