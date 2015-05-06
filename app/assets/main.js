@@ -29,6 +29,9 @@ requirejs.config({
 		},
 		videojsHLS:{
 			deps: ['videojs','videojsMedia']
+		},
+		gmap3:{
+			deps: ['jquery']
 		}
 	}
 });
