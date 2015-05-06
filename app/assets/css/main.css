@@ -617,8 +617,8 @@ img.explorer-image{
 .explorer-close{
 	position: absolute;
 	overflow: hidden;
-	top: 0.5em;
-	right: 0.9em;
+	top:0em;
+	right: 0.5em;
 	font-family: 'Roboto';
 	font-weight: 200;
 	font-size: 1.5em;
@@ -763,6 +763,21 @@ span.message-box-message-owner{
 /* Large devices (large desktops, 1200px - 993px) */
 @media (max-width: 1200px){
 
+	div#main{
+		margin-top:68px;
+	}
+
+	div.explore-container{
+		width:630px;
+	}
+
+	div.explorer-body{
+		margin-left: 4px;
+		margin-right: 0px;
+		float: left;
+		width: 160px;
+	}
+
 	.img-user{
 		margin-top:0.5em;
 		margin-right:0.5em;
@@ -800,6 +815,10 @@ span.message-box-message-owner{
 
 /* Medium devices (desktops, 992px - 769px) */
 @media (max-width: 992px){
+
+	div#main{
+		margin-top:64px;
+	}
 
 	.img-user{
 		margin-top:0.5em;
@@ -845,6 +864,23 @@ span.message-box-message-owner{
 /* Small devices (tablets, 768px - 431px) */
 @media (max-width: 768px){
 
+	div#main{
+		margin-top:58px;
+	}
+
+	div.explore-container{
+		width:580px;
+	}
+
+	img.explorer-image{
+		width:60%;
+		height:60%;
+	}
+
+	div.explorer-body{
+		margin-top:13px;
+	}
+
 	.img-user{
 		margin-top:0.5em;
 		margin-right:0.5em;
@@ -888,6 +924,29 @@ span.message-box-message-owner{
 
 /* Mini devices (tablets, 430 and below) */
 @media (max-width: 430px){
+
+	div#main{
+		margin-top:52px;
+	}
+
+	ul.navbar-button{
+		margin-right:20px;
+		margin-top:-10px;
+	}
+
+	div.explore-container{
+		width:492px;
+	}
+
+	div.explorer-body{
+		width:141px;
+		font-size:0.8em;
+	}
+
+	div.explorer-created-time{
+		margin-top: -7px;
+		font-size:0.8em;
+	}
 
 	.img-user{
 		margin-top:0.5em;
