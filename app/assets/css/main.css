@@ -723,7 +723,7 @@ i.watch-vote{
 div.message-box{
 	border: dashed;
 	border-color: lightgrey;
-	width: 585px;
+	width: 100%;
     height: 300px;
     overflow: auto;
     padding-top: 15px;
@@ -816,6 +816,10 @@ span.message-box-message-owner{
 /* Medium devices (desktops, 992px - 769px) */
 @media (max-width: 992px){
 
+	div.message-box{
+		height: 280px;
+	}
+
 	div#main{
 		margin-top:64px;
 	}
@@ -863,6 +867,10 @@ span.message-box-message-owner{
 
 /* Small devices (tablets, 768px - 431px) */
 @media (max-width: 768px){
+
+	div.message-box{
+		height: 230px;
+	}
 
 	div#main{
 		margin-top:58px;
@@ -924,6 +932,10 @@ span.message-box-message-owner{
 
 /* Mini devices (tablets, 430 and below) */
 @media (max-width: 430px){
+
+	div.message-box{
+		height: 200px;
+	}
 
 	div#main{
 		margin-top:52px;
