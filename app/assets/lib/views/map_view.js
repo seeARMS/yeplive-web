@@ -567,10 +567,10 @@ define(['jquery',
 					videoWrapper += '<source src="' + videoPath + '" type="' + playbackType + '"></video></div></div>';
 				
 				var videoAuthorDisplay = '<div class="container"><div class="row watch-user-info"><div class="col-xs-3"></div><div class="col-xs-6">';
-					videoAuthorDisplay += '<img class="user-picture" src="' + authorPicture + '" />';
-					videoAuthorDisplay += '<h1>' + authorDisplayName + '</h4></div><div class="col-xs-3"></div></div></div>';
+					videoAuthorDisplay += '<img class="discover-user-picture" src="' + authorPicture + '" />';
+					videoAuthorDisplay += '<h1 class="text-center">' + authorDisplayName + '</h4></div><div class="col-xs-3"></div></div></div>';
 
-				var videoInfo = '<div class="row"><div class="col-xs-4"></div><div class="col-xs-4">';
+				var videoInfo = '<div class="row discover-video-body"><div class="col-xs-4"></div><div class="col-xs-4">';
 					videoInfo += '<h2>'+ videoTitle + '</h2>';
 					videoInfo += '<h4>Description: ' + videoDescription + '</h4>';
 					videoInfo += '<div class="watch-view-count" ><i class="fa fa-eye fa-2x" > ' + videoViews + '</i></div><p></p>'
@@ -626,14 +626,14 @@ define(['jquery',
 				*/
 
 				// Render Socket IO Messaging UI
-				var messageBox = '<div class="container"><div class="row"><div class="col-xs-3" ></div><div class="col-xs-6" ><div class="message-box"></div></div><div class="col-xs-3" ></div></div></div><br>'
+				var messageBox = '<div class="container"><div class="row"><div class="col-xs-3" ></div><div class="col-xs-6" ><div class="discover-message-box"></div></div><div class="col-xs-3" ></div></div></div><br>'
 
 				$('div.discover-body').append(messageBox);
 
-				var messagingUI = '<div class="container comment-area"><div class="col-xs-3"></div><div class="col-xs-6"><div class="row"><div class="col-xs-2">';
-					messagingUI += '<img src="' + userPicture + '" /></div><div class="col-xs-10">';
-					messagingUI += '<textarea class="form-control user-comment-area" rows="1" placeholder="say something about this video"></textarea>';
-					messagingUI += '</div></div><br><button class="btn btn-primary user-comment-button">Send</button></div><div class="col-xs-3"></div></div><hr />';
+				var messagingUI = '<div class="discover-container comment-area"><div class="col-xs-4"></div><div class="col-xs-4"><div class="row"><div class="col-xs-2 discover-comment-user-img-col">';
+					messagingUI += '<img class="discover-comment-user-img" src="' + userPicture + '" /></div><div class="col-xs-10">';
+					messagingUI += '<textarea class="form-control discover-user-comment-area" rows="1" placeholder="say something about this video"></textarea>';
+					messagingUI += '</div></div><br><button class="btn btn-primary discover-user-comment-button">Send</button></div><div class="col-xs-3"></div></div><hr />';
 
 				$('div.discover-body').append(messagingUI);
 				this.messagingListener(data);
@@ -652,9 +652,9 @@ define(['jquery',
 				var user = data.user;
 				var yep = data.video.yep;
 
-				$('button.user-comment-button').on('click', function(){
+				$('button.discover-user-comment-button').on('click', function(){
 
-					var message = $('textarea.user-comment-area').val();
+					var message = $('textarea.discover-user-comment-area').val();
 
 					socket.emit('message', {
 						message: message,
@@ -693,9 +693,9 @@ define(['jquery',
 					newMessage += '</div><br>'
 				}
 
-				$('div.message-box').append(newMessage);
-				$('textarea.user-comment-area').val('');
-				$('div.message-box').animate({scrollTop: $('div.message-box')[0].scrollHeight },'slow');
+				$('div.discover-message-box').append(newMessage);
+				$('textarea.discover-user-comment-area').val('');
+				$('div.discover-message-box').animate({scrollTop: $('div.discover-message-box')[0].scrollHeight },'slow');
 			},
 
 			socketJoinRoom: function(data){

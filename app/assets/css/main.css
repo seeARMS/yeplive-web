@@ -476,7 +476,7 @@ h1,h2,h3,h4,h5,h6{
 }
 
 
-img.user-picture{
+img.discover-user-picture{
 	border-radius: 100px;
 	width: 70px;
 	height: 70px;
@@ -499,6 +499,10 @@ img.loading{
 
 
 /* ----- GOOGLE MAP ------ */
+
+img.discover-comment-user-img{
+	border-radius: 30px;
+}
 
 .cluster-1, .cluster-2, .cluster-3{
 	line-height: 115px;
@@ -661,7 +665,7 @@ img.commenter-picture{
 	width:50px;
 }
 
-button.user-comment-button{
+button.discover-user-comment-button{
 	float:right;
 }
 
@@ -720,7 +724,7 @@ i.watch-vote{
 	cursor: pointer;
 }
 
-div.message-box{
+div.discover-message-box{
 	border: dashed;
 	border-color: lightgrey;
 	width: 100%;
@@ -933,7 +937,29 @@ span.message-box-message-owner{
 /* Mini devices (tablets, 430 and below) */
 @media (max-width: 430px){
 
-	div.message-box{
+	img.discover-user-picture{
+		margin-right:0px;
+	}
+
+	div.discover-video-body{
+		font-size: 0.5em;
+	}
+
+	img.discover-comment-user-img{
+		border-radius:30px;
+		margin-bottom: 14px;
+	}
+
+	div.discover-comment-user-img-col{
+		width:40%;
+	}
+
+	textarea.discover-user-comment-area{
+		width: 167px;
+		height: 53px;
+	}
+
+	div.discover-message-box{
 		height: 200px;
 	}
 
