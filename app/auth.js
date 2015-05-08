@@ -1,5 +1,6 @@
 module.exports = function(app){
 var config = require('../config');
+console.log(config.host+"/auth/twitter/callback");
 var colors = require('colors');
 var GOOGLE_CONSUMER_KEY="757029635679-3t8dr78cejogedbv3neac7gjckeb2ilb";
 var GOOGLE_CONSUMER_SECRET="i0HLYf0gzCmfztR1nOm9h-WP";
@@ -28,7 +29,7 @@ passport.deserializeUser(function(data, done) {
 passport.use(new FacebookStrategy({
     clientID: FACEBOOK_APP_ID,
     clientSecret: FACEBOOK_APP_SECRET,
-    callbackURL: config.host+"/auth/facebook/callback"
+    callbackURL: "/auth/facebook/callback"
   },
   function(accessToken, refreshToken, profile, done) {
 			var data = {
@@ -43,7 +44,7 @@ passport.use(new FacebookStrategy({
 passport.use(new TwitterStrategy({
     consumerKey: TWITTER_CONSUMER_KEY,
     consumerSecret: TWITTER_CONSUMER_SECRET,
-    callbackURL: config.host+"/auth/twitter/callback"
+    callbackURL: "/auth/twitter/callback"
   },
   function(token, tokenSecret, profile, done) {
 			var data = {
@@ -58,7 +59,7 @@ passport.use(new TwitterStrategy({
 passport.use(new GoogleStrategy({
     clientID: GOOGLE_CONSUMER_KEY,
     clientSecret: GOOGLE_CONSUMER_SECRET,
-    callbackURL: config.host+"auth/google/callback"
+    callbackURL: "/auth/google/callback"
   },
   function(token, tokenSecret, profile, done) {
 		var data = {
@@ -85,6 +86,7 @@ app.get('/auth/facebook/callback',
 
 
 app.get('/auth/twitter', passport.authenticate('twitter'));
+
 app.get('/auth/twitter/callback', 
   passport.authenticate('twitter', { successRedirect: '/',
                                      failureRedirect: '/' }));
