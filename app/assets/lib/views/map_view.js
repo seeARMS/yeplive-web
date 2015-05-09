@@ -409,6 +409,7 @@ define(['jquery',
 					var thumbnail_path = yep.image_path;
 					var video_path = '';
 
+					/*
 					if(yep.vod_enable){
 						video_path = yep.vod_path;
 					}
@@ -417,7 +418,17 @@ define(['jquery',
 						video_path = (yep.stream_url).replace('rtsp', 'rtmp');
 					}
 
-					var playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
+					var playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';*/
+
+
+					if(yep.is_web){
+						video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_hls;
+						playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
+					} else {
+						video_path = (yep.vod_enable) ? yep.vod_path : (yep.stream_url).replace('rtsp', 'rtmp');
+						playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
+					}
+
 
 					var data = {
 						el : '#main',
@@ -548,6 +559,8 @@ define(['jquery',
 			},
 
 			renderDiscover: function(data){
+
+				console.log(data);
 
 				var videoPath = data.video.video_path;
 				var playbackType = data.video.playback_type;

@@ -7,7 +7,7 @@ module.exports = (function(){
 		//connectionstring:String
 		//desc: the rtmp connection string to the hdfvr application on your media server
 		//values: 'rtmp://localhost/hdfvr/_definst_', 'rtmp://myfmsserver.com/hdfvr/_definst_', etc...
-		configParams['connectionstring']='rtmp://52.24.42.180:1935/hdfvr/_definst_';
+		configParams['connectionstring']='rtmp://52.24.223.236:1935/hdfvr/_definst_';
 		
 		//This variable is sent to videorecorder.swf via flash vars and sent to this Php script via GET/query string. 
 		//To edit it's value look in the VideoRecorder.html file for "&recorderId=123", 123 is it's default value.
@@ -34,7 +34,7 @@ module.exports = (function(){
 		//desc: the maximum recording time in seconds
 		//values: any number greater than 0;
 		//default:120
-		configParams['maxRecordingTime']= 3600; 
+		configParams['maxRecordingTime']= 86400; 
 		
 		//userId: String
 		//desc: the id of the user logged into the website, not mandatory, this var is passed back to the save_video_to_db.php file via GET when the [SAVE] button in the recorder is pressed, this variable can also be passed via flash vars like this: videorecorder.swf?userId=XXX, but the value in this file, if not empty, takes precedence. If configParams["useUserId"]="true", the value of this variable is also used in the stream name.

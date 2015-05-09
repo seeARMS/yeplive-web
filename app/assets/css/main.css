@@ -398,6 +398,7 @@ ul.navbar-button{
 }
 
 .video-overlay-2{
+	display:none;
 	width:640px;
 	height:480px;
 	margin-left:auto;
