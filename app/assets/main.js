@@ -14,7 +14,8 @@ requirejs.config({
 		videojs: 'vendor/videojs/dist/video-js/video',
 		videojsMedia: 'vendor/videojs-contrib-media-sources/src/videojs-media-sources',
 		videojsHLS: 'vendor/videojs-contrib-hls/dist/videojs.hls.min',
-		socketio: 'vendor/socket.io-client/socket.io'
+		socketio: 'vendor/socket.io-client/socket.io',
+		swal: 'vendor/sweetalert/lib/sweet-alert.min'
 	},
 	shim:{
 		backbone: {

@@ -2,6 +2,7 @@ define(['jquery',
 				'underscore',
 				'backbone',
 				'swfobject',
+				'swal',
 				'lib/api',
 				'text!lib/templates/yep_preview.html',
 				'text!lib/templates/yep_recording.html',
@@ -11,7 +12,7 @@ define(['jquery',
 				'text!lib/templates/video_overlay.html',
 				'text!lib/templates/yep_complete.html'
 				],
-	function($, _, Backbone, nope,API, previewTpl, recordingTpl, socket, user, chatMessageTpl, videoOverlayTpl, completeTpl){
+	function($, _, Backbone, nope, swal, API, previewTpl, recordingTpl, socket, user, chatMessageTpl, videoOverlayTpl, completeTpl){
 
 
 	var CreateYepView = Backbone.View.extend({
@@ -29,12 +30,12 @@ define(['jquery',
 					longitude: longitude 
 				}, window.localStorage.getItem('token'), function(err, res){
 					if(err){
-						return alert('error starting recording');	
+						return swal("Warning", "Something is wrong", "warning");
 					}
 					self.renderRecorder(res);	
 					setTimeout(function(){
 						API.post('/thumbnail/'+res.id,{},window.localStorage.getItem('token'), function(err, tres){
-							console.log(tres);	
+							console.log(tres);
 						});
 					},5000);
 				});
