@@ -70,6 +70,9 @@ define(['jquery',
 				setupSocket(res);	
 				self.setupStop(res);
 			};
+			window.onCamAccess = function(allowed, id){
+				console.log(allowed);
+			};
 			window.onFlashReady = function(id){
 				window.onbeforeunload = confirmOnPageExit;
 				document.getElementById('VideoRecorder').record();
