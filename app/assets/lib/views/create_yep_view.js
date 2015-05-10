@@ -64,14 +64,17 @@ define(['jquery',
 			var self = this;
 			this.$el.html(this.recordingTpl(res));
 			window.onRecordingStarted = function(){
-				showOverlay();
+				
 				console.log(res.share_url);
-				setupShare(res);
-				setupSocket(res);	
-				self.setupStop(res);
+				
 			};
 			window.onCamAccess = function(allowed, id){
-				console.log(allowed);
+				if(allowed && !$('.video-overlay-2').length){
+					showOverlay();
+					setupShare(res);
+					setupSocket(res);	
+					self.setupStop(res);
+				}
 			};
 			window.onFlashReady = function(id){
 				window.onbeforeunload = confirmOnPageExit;
@@ -128,7 +131,7 @@ define(['jquery',
 		if(mobile == false){
 			swfobject.embedSWF("/hdfvr/VideoRecorder.swf", "recorder", "640", "480", "10.3.0", "", flashvars, params, attributes);
 		}else{
-			//do nothing
+			swfobject.embedSWF("/hdfvr/VideoRecorder.swf", "recorder", "640", "480", "10.3.0", "", flashvars, params, attributes);
 		}
 	};
 
@@ -208,16 +211,16 @@ define(['jquery',
 	};
 
 	function showOverlay(){
-		$('.video-overlay-wrapper').append(videoOverlayTpl);
+		$('div.recording-chat').append(videoOverlayTpl);
 		$("#chat-input").bind("keypress", function(event) {
-	    if(event.which == 13) {
-				event.preventDefault();
-				socket.emit('message',{
-					message: $('#chat-input').val(),
-					user_id: user.user.get('user_id')
-				});
-				$('#chat-input').val('');
-	    }
+			if(event.which == 13) {
+					event.preventDefault();
+					socket.emit('message',{
+						message: $('#chat-input').val(),
+						user_id: user.user.get('user_id')
+					});
+					$('#chat-input').val('');
+		    }
 		});
 	}
 
