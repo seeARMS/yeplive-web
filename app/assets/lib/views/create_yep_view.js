@@ -1,18 +1,20 @@
 define(['jquery',
-				'underscore',
-				'backbone',
-				'swfobject',
-				'swal',
-				'lib/api',
-				'text!lib/templates/yep_preview.html',
-				'text!lib/templates/yep_recording.html',
-				'lib/socket',
-				'lib/user',
-				'text!lib/templates/chat_message.html',
-				'text!lib/templates/video_overlay.html',
-				'text!lib/templates/yep_complete.html'
-				],
-	function($, _, Backbone, nope, swal, API, previewTpl, recordingTpl, socket, user, chatMessageTpl, videoOverlayTpl, completeTpl){
+		'underscore',
+		'backbone',
+		'swfobject',
+		'swal',
+		'lib/api',
+		'text!lib/templates/yep_preview.html',
+		'text!lib/templates/yep_recording.html',
+		'lib/socket',
+		'lib/user',
+		'text!lib/templates/chat_message.html',
+		'text!lib/templates/video_overlay.html',
+		'text!lib/templates/yep_complete.html',
+		'text!lib/templates/get_app.html'
+		],
+
+	function($, _, Backbone, nope, swal, API, previewTpl, recordingTpl, socket, user, chatMessageTpl, videoOverlayTpl, completeTpl, getAppTpl){
 
 
 	var CreateYepView = Backbone.View.extend({
@@ -44,8 +46,20 @@ define(['jquery',
 		previewTpl: _.template(previewTpl),
 		recordingTpl: _.template(recordingTpl),
 		completeTpl: _.template(completeTpl),
-		initialize: function(){	
+		getAppTpl: _.template(getAppTpl),
+		initialize: function(){
+			if(isMobile()){
+				this.$el.html(this.getAppTpl());
+				return;
+			}
 			this.renderPreview();
+		},
+		isMobile: function(){
+			var ua = navigator.userAgent.toLowerCase();
+			if(navigator.appVersion.indexOf("iPad") != -1 || navigator.appVersion.indexOf("iPhone") != -1 || ua.indexOf("android") != -1 || ua.indexOf("ipod") != -1 || ua.indexOf("windows ce") != -1 || ua.indexOf("windows phone") != -1){
+				return true;
+			}
+			return false;
 		},
 		close: function(){
 			socket.emit('leave_room');
@@ -131,7 +145,7 @@ define(['jquery',
 		if(mobile == false){
 			swfobject.embedSWF("/hdfvr/VideoRecorder.swf", "recorder", "640", "480", "10.3.0", "", flashvars, params, attributes);
 		}else{
-			swfobject.embedSWF("/hdfvr/VideoRecorder.swf", "recorder", "640", "480", "10.3.0", "", flashvars, params, attributes);
+			// HTML Media Capture
 		}
 	};
 
