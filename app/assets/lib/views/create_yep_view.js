@@ -48,7 +48,7 @@ define(['jquery',
 		completeTpl: _.template(completeTpl),
 		getAppTpl: _.template(getAppTpl),
 		initialize: function(){
-			if(isMobile()){
+			if(this.isMobile()){
 				this.$el.html(this.getAppTpl());
 				return;
 			}
