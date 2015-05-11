@@ -186,7 +186,7 @@ define(['jquery',
 			setTimeout(function(){
 				$el.removeClass('fadeIn');
 				$el.addClass('fadeOut');
-			}, 5000);
+			}, 500000);
 			$chat.append($el);
 		};
 

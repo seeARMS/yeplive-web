@@ -56,9 +56,9 @@ body{
 }
 
 .chat-message p{
-	width:90%;
-	padding-left:5%;
-	word-wrap:break-word;
+	width: 90%;
+	padding-left: 5%;
+	word-wrap: break-word;
 }
 
 
@@ -287,7 +287,7 @@ ul.navbar-button{
 .recording-container{
 	/*background-color:#18191a;*/
 	height:1000px;
-	/*overflow:hidden;*/
+	overflow:hidden;
 	margin-top:-25px;
 	padding-top:25px;
 }
@@ -304,9 +304,9 @@ ul.navbar-button{
 
 .view-box{
 	position:absolute;
-	right:15px;
+	right:75px;
 	top:15px;
-	color:white;
+	color:black;
 	opacity:0.5;
 	font-size:20px;
 	font-weight:300;
@@ -314,9 +314,9 @@ ul.navbar-button{
 
 .like-box{
 	position:absolute;
-	right:15px;
+	right:75px;
 	top:75px;
-	color:white;
+	color:black;
 	opacity:0.5;
 	font-size:20px;
 	font-weight:300;
@@ -324,9 +324,9 @@ ul.navbar-button{
 
 .connection-box{
 	position:absolute;
-	right:15px;
+	right:75px;
 	top:45px;
-	color:white;
+	color:black;
 	opacity:0.5;
 	font-size:20px;
 	font-weight:300;
@@ -336,7 +336,8 @@ ul.navbar-button{
 	color:black;
 	background-color: rgba(0,0,0,0.5);
 	border-radius:35px;
-	padding-left:30px;
+	padding-left:17px;
+	padding-top:6px;
 }
 
 .yep-chat-box{
@@ -344,15 +345,15 @@ ul.navbar-button{
 	bottom:75px;
 	height:80px;
 	width:70%;
-	left:10px;
+	left:27px;
 	
 }
 
 .yep-chat-input-box{
 	position:absolute;
 	bottom:10px;
-	left:10%;
-	width:80%;
+	left:32%;
+	width:58%;
 	color:white;
 }
 
@@ -381,10 +382,14 @@ ul.navbar-button{
 	text-align:center;
 }
 
-.record-button{
-	width:
+.end-stream{
+	bottom: 10px;
+	position: absolute;
+	border: solid;
+	padding: 10px;
+	margin-left: 57px;
+	cursor: pointer;
 }
-	
 
 .video-overlay{
 	width:640px;
@@ -817,7 +822,50 @@ div.prompt-appstore{
 		height:85%;
 	}
 	*/
+
+	.yep-chat-box{
+		left: 132px;
+	}
+
+	.yep-chat-input-box{
+		width: 31%;
+		left: 43%;
+	}
+
+	#chat-input{
+		height: 41px;
+	}
+
+	.connection-box{
+		right: 174px;
+	}
+
+	.like-box{
+		right: 174px;
+	}
+
+	.view-box{
+		right: 174px;
+	}
+
+	.yep-chat-box{
+
+	}
+
+	img.chat-picture{
+		width: 25px;
+		height: 25px;
+	}
 	
+	.chat-message{
+		padding-left: 8px;
+		width: 63%;
+	}
+
+	.end-stream{
+		padding: 7px;
+		margin-left: 134px;
+	}
 }
 
 /* Medium devices (desktops, 992px - 769px) */
