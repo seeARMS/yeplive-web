@@ -50,13 +50,20 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 			}
 			if(!href) return;
 
-			console.log(href);
-
 			var passThrough = [
 				'/auth/facebook',
 				'/auth/google',
-				'/auth/twitter'
+				'/auth/twitter',
 			];
+
+			for(var i = 0; i< passThrough.length; i++){
+				if(href.search(passThrough[i])){
+					href = href.slice(0, passThrough[i].length-1);
+					break;
+				}
+			}
+
+			console.log(href);
 
 			if(passThrough.indexOf(href) === -1){
 				event.preventDefault();

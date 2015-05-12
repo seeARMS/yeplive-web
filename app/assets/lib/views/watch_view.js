@@ -164,24 +164,34 @@ define(['jquery',
 				$("input.watch-chat-input").bind("keypress", function(event) {
 
 					if(event.which == 13) {
-						
-							event.preventDefault();
 
-							socket.emit('message', {
-								message: $('input.watch-chat-input').val(),
-								user_id: User.user.get('user_id')
-							});
+						if(!User.authed){
+							$('#login-modal').modal('show');
+							return;
+						}
 
-							$('input.watch-chat-input').val('');
+						event.preventDefault();
+
+						socket.emit('message', {
+							message: $('input.watch-chat-input').val(),
+							user_id: User.user.get('user_id')
+						});
+
+						$('input.watch-chat-input').val('');
+
 				    }
 
 				});
-					
+
+				var userId = User.user.get('user_id'),
+					displayName = User.user.get('display_name'),
+					picturePath = User.user.get('picture_path');
+
 				socket.emit('join_room', {
-					user_id: User.user.get('user_id'),
+					user_id: userId ? userId : 'guest',
 					yep_id: options.yepId,
-					display_name: User.user.get('display_name'),
-					picture_path: User.user.get('picture_path')
+					display_name: displayName ? displayName : 'guest',
+					picture_path: picturePath ? picturePath : 'no picture path'
 				});
 
 				socket.on('server:error', function(data){
@@ -190,7 +200,6 @@ define(['jquery',
 
 				socket.on('yep:connection', function(data){
 					console.log(data);
-
 				});
 
 				socket.on('chat:history', function(data){
@@ -290,7 +299,7 @@ define(['jquery',
 			},
 
 			render: function(data, options){
-				
+				console.log(data);
 				this.$el.html(this.tpl(data));
 				this.listen(options);
 				this.setupVideo(data);

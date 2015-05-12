@@ -85,11 +85,17 @@ app.get('/auth/facebook/callback',
 }));
 
 
-app.get('/auth/twitter', passport.authenticate('twitter'));
+app.get('/auth/twitter', function(req, res, next){
+    req.session.redirect = req.query.redirect;
+    next();
+  }, passport.authenticate('twitter')
+);
 
-app.get('/auth/twitter/callback', 
-  passport.authenticate('twitter', { successRedirect: '/',
-                                     failureRedirect: '/' }));
+app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/' }), function(req, res){
+    res.redirect(req.session.redirect || '/');
+    delete req.session.redirect;
+  }
+);
 
 app.get('/auth/google', passport.authenticate('google', {scope:['profile','https://www.googleapis.com/auth/plus.login','https://www.googleapis.com/auth/plus.circles.read'], accessType: 'offline', approvalPrompt: 'force'}));
 app.get('/auth/google/callback', 

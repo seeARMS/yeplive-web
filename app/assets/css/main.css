@@ -652,6 +652,8 @@ img.explorer-image{
 }
 
 .btn-navbar-button{
+	font-family: 'roboto';
+	font-weight: 200;
 	margin-top:13px;
 	font-size:14px;
 }
@@ -910,6 +912,10 @@ div.prompt-appstore{
 		padding: 7px;
 		margin-left: 134px;
 	}
+
+	.video-js{
+		width:530px !important;
+	}
 }
 
 /* Medium devices (desktops, 992px - 769px) */
@@ -1082,7 +1088,7 @@ div.prompt-appstore{
 	}
 
 	.img-user{
-		margin-top:0.5em;
+		margin-top:1em;
 		margin-right:0.5em;
 		height:40px;
 		width:40px;
@@ -1102,7 +1108,7 @@ div.prompt-appstore{
 	}
 
 	.btn-navbar-button{
-		margin-top:8px;
+		margin-top:18px;
 		padding:7px 7px;
 		font-size:12px;
 	}
