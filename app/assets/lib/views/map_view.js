@@ -418,9 +418,12 @@ define(['jquery',
 						video_path = (yep.stream_url).replace('rtsp', 'rtmp');
 					}
 
+
 					var playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';*/
 
 
+					
+					
 					if(yep.is_web){
 						video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_hls;
 						playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
@@ -428,8 +431,13 @@ define(['jquery',
 						video_path = (yep.vod_enable) ? yep.vod_path : (yep.stream_url).replace('rtsp', 'rtmp');
 						playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
 					}
+					
+					/*
 
+					video_path = '/232-1431392929.mp4';
+					playback_type = 'video/mp4';
 
+					*/
 					var data = {
 						el : '#main',
 						video_path : video_path,
@@ -782,7 +790,7 @@ define(['jquery',
 							user : User.user.attributes,
 							success : 1
 						}
-						//console.log(data);
+						console.log(data);
 
 						self.renderDiscover(data);
 

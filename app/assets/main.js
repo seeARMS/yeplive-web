@@ -14,6 +14,7 @@ requirejs.config({
 		videojs: 'vendor/videojs/dist/video-js/video',
 		videojsMedia: 'vendor/videojs-contrib-media-sources/src/videojs-media-sources',
 		videojsHLS: 'vendor/videojs-contrib-hls/dist/videojs.hls.min',
+		videojsZoomRotate: 'vendor/videojs-zoomrotate/videojs.zoomrotate',
 		socketio: 'vendor/socket.io-client/socket.io',
 		swal: 'vendor/sweetalert/lib/sweet-alert.min'
 	},
@@ -30,6 +31,9 @@ requirejs.config({
 		},
 		videojsHLS:{
 			deps: ['videojs','videojsMedia']
+		},
+		videojsZoomRotate:{
+			dep: ['videojs']
 		},
 		gmap3:{
 			deps: ['jquery']

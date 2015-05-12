@@ -685,6 +685,11 @@ button.discover-user-comment-button{
 	word-wrap: break-word;
 }
 
+img.watch-author-picture{
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+}
 
 
 /* ----- End of WATCH VIEW ------ */

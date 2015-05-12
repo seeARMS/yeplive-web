@@ -8,14 +8,14 @@ define(['jquery',
 		'videojs',
 		'videojsMedia',
 		'videojsHLS',
+		'videojsZoomRotate',
 		'lib/socket',
 		'lib/user',
 		'text!lib/templates/chat_message.html',
-		'text!lib/templates/video_overlay.html',
+		'text!lib/templates/video_overlay.html'
 	],
 
-	function($, helper, async, _, Backbone, watchTpl, Api, vj, vjm, vjh, socket, User, messageTpl,
-		overlayTpl){
+	function($, helper, async, _, Backbone, watchTpl, Api, vj, vjm, vjh, vjRoomRotate, socket, User, messageTpl, overlayTpl){
 
 		var WatchView = Backbone.View.extend({
 
@@ -115,14 +115,17 @@ define(['jquery',
 				var videoEl = document.getElementById('playVideo');
 				var self = this;
 				vj(videoEl, {}, function(player){
-					this.play();
-					console.log(data.video);
+					//this.play();
+					//console.log(data.video);
 					if(data.video.yep.portrait){
-						self.rotateVideo();
+						this.zoomrotate({
+							rotate: 90,
+							zoom: 1
+						});
 					}
-					console.log(overlayTpl);
+					//console.log(overlayTpl);
 //					$('#recorder').append(overlayTpl);
-					console.log('VideoJS successfully loaded')
+					//console.log('VideoJS successfully loaded')
 				});
 			},
 
@@ -261,9 +264,10 @@ define(['jquery',
 				this.addVoteListener(options, data.video.yep);
 				this.addViewCount(options);
 				
-			},
-
+			}
+			/*
 			rotateVideo: function(){
+				
 				console.log('rotating');	
 				$('#playVideo').css({  
 					'-webkit-transform': 'rotate(90deg)',  //Safari 3.1+, Chrome  
@@ -279,6 +283,7 @@ define(['jquery',
 					'display':'none'
 				});
 			}
+			*/
 		});
 
 		return WatchView;
