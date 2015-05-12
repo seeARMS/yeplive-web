@@ -1,0 +1,89 @@
+<% if(!success) { %>
+
+	<div class="video-load-fail">
+		<h2 class='text-center'>Video Does Not Exist</h2>
+	</div>
+
+<% } else { %>
+
+
+<div class="recording-container">
+
+
+	<div class="video-recorder">
+		<div id="recorder">
+			<video id="playVideo" class="video-js vjs-default-skin" controls preload="auto" width="584" height="268" data-setup='{}'>
+
+			<source
+				src="<%- video.video_path %>"
+				type="<%- video.playback_type %>">  
+
+	<% if(video.yep.vod_enable) { %>
+			<source
+				type="<%- video.playback_type %>">  
+
+			</video>
+	<% } %>
+
+		</div>
+	</div>
+
+	<div class="container">
+
+		<div class="row watch-user-info">
+			<div class="col-xs-3"></div>
+			<div class="col-xs-6">
+				<img class="watch-author-picture" src="<%- video.yep.user.picture_path %>" />
+				<h1><%- video.yep.user.display_name %></h4>
+			</div>
+			<div class="col-xs-3"></div>
+		</div>
+
+	</div>
+
+	<div class="row">
+		<div class="col-xs-4"></div>
+		<div class="col-xs-4">
+			
+			<h2><%- video.yep.title %></h2>
+			<div class="watch-view-count" ><i class="fa fa-eye fa-2x" > <%- video.yep.views %></i></div>
+			<p></p>
+			<% if(video.yep.voted) { %>
+				<i class="fa fa-thumbs-up fa-2x watch-vote"> <%- video.yep.vote_count %></i>
+			<% } else { %>
+				<i class="fa fa-thumbs-o-up fa-2x watch-vote"> <%- video.yep.vote_count %></i>
+			<% } %>
+			<p></p>
+			<i class="fa fa-tags fa-2x" > 
+				<% video.yep.tags.forEach(function(val, index, array){ %>
+				
+					#<%- val %>
+
+				<% }) %>
+			</i> 
+		</div>
+		<div class="col-xs-4"></div>
+	</div>
+	<hr />
+
+</div>
+
+<% } %>
+
+	<div id="modal-div"></div>
+	<div class="modal fade" id="login-modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Login/Signup to Yeplive</h4>
+				</div>
+				<div class="modal-body">
+					<a href="/auth/facebook"><button class="btn btn-primary">Facebook</button></a>
+					<a href="/auth/twitter"><button class="btn btn-primary js-twitter-login">Twitter</button></a>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->

@@ -226,6 +226,7 @@ define(['jquery',
 
 	function showOverlay(){
 		$('div.recording-chat').append(videoOverlayTpl);
+		
 		$("#chat-input").bind("keypress", function(event) {
 			if(event.which == 13) {
 					event.preventDefault();

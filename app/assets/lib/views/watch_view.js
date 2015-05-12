@@ -15,7 +15,7 @@ define(['jquery',
 		'text!lib/templates/video_overlay.html'
 	],
 
-	function($, helper, async, _, Backbone, watchTpl, Api, vj, vjm, vjh, vjRoomRotate, socket, User, messageTpl, overlayTpl){
+	function($, helper, async, _, Backbone, watchTpl, Api, vj, vjm, vjh, vjRoomRotate, socket, User, chatMessageTpl, overlayTpl){
 
 		var WatchView = Backbone.View.extend({
 
@@ -91,7 +91,7 @@ define(['jquery',
 			},
 
 			initialize: function(options){
-				console.log('test');
+
 				var self = this;
 				async.parallel({
 					one: self.getYepInfo.bind(null, options),
@@ -136,41 +136,74 @@ define(['jquery',
 			},
 
 
-			listen: function(){
+			listen: function(options){
+
+				var $chat = $('#chat');
+				var chatMessage = _.template(chatMessageTpl);
+
+				var addMessage = function(messages){
+
+					// If from history
+					if(messages.messages){
+
+						messages.messages.forEach(function(val, index){
+							var $el = $(chatMessage(val));
+							$chat.append($el);
+						});
+
+					}
+					else if(messages.message){
+
+						var $el = $(chatMessage(messages));
+						$chat.append($el);
+					}
+
+					$('div.watch-chat-box').animate({scrollTop: $('div.watch-chat-box')[0].scrollHeight },'slow');
+				};
+
+				$("input.watch-chat-input").bind("keypress", function(event) {
+
+					if(event.which == 13) {
+						
+							event.preventDefault();
+
+							socket.emit('message', {
+								message: $('input.watch-chat-input').val(),
+								user_id: User.user.get('user_id')
+							});
+
+							$('input.watch-chat-input').val('');
+				    }
+
+				});
 					
 				socket.emit('join_room', {
-					user_id: 123,
-					display_name: 'mock',
-					yep_id: '7',
-					picture_path: 'something'
+					user_id: User.user.get('user_id'),
+					yep_id: options.yepId,
+					display_name: User.user.get('display_name'),
+					picture_path: User.user.get('picture_path')
 				});
 
 				socket.on('server:error', function(data){
 					console.log(data);
-
 				});
 
 				socket.on('yep:connection', function(data){
 					console.log(data);
 
 				});
-				$chat = $('#chat');
-				message = _.template(messageTpl);
-				socket.on('chat:history', function(data){
-					$chat.append(message(data));
-				});
 
-				socket.emit('message', {
-					message: 'Test',
-					user_id: 123
+				socket.on('chat:history', function(data){
+					addMessage(data);
 				});
 
 				socket.on('chat:message', function(data){
-					console.log(data);
-
+					addMessage(data);
 				});
 
 			},
+
+
 
 			addCommentListener: function(options){
 				$('button.user-comment-button').on('click', function(){
@@ -257,10 +290,11 @@ define(['jquery',
 			},
 
 			render: function(data, options){
-				this.listen();
+				
 				this.$el.html(this.tpl(data));
+				this.listen(options);
 				this.setupVideo(data);
-				this.addCommentListener(options);
+				//this.addCommentListener(options);
 				this.addVoteListener(options, data.video.yep);
 				this.addViewCount(options);
 				

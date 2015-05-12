@@ -6,65 +6,104 @@
 
 <% } else { %>
 
-<div class="recording-container">
 
-
-	<div class="video-recorder">
-		<div id="recorder">
-			<video id="playVideo" class="video-js vjs-default-skin" controls preload="auto" width="584" height="268" data-setup='{}'>
-
-			<source
-				src="<%- video.video_path %>"
-				type="<%- video.playback_type %>">  
-
-	<% if(video.yep.vod_enable) { %>
-			<source
-				type="<%- video.playback_type %>">  
-
-			</video>
-	<% } %>
-
-		</div>
-	</div>
-
-	<!-- <div><img src="img/live.gif" /></div> -->
-	<div class="container">
-
-		<div class="row watch-user-info">
-			<div class="col-xs-3"></div>
-			<div class="col-xs-6">
-				<img class="watch-author-picture" src="<%- video.yep.user.picture_path %>" />
-				<h1><%- video.yep.user.display_name %></h4>
-			</div>
-			<div class="col-xs-3"></div>
-		</div>
-
-	</div>
+<div class="container">
 
 	<div class="row">
-		<div class="col-xs-4"></div>
-		<div class="col-xs-4">
-			
-			<h2><%- video.yep.title %></h2>
-			<div class="watch-view-count" ><i class="fa fa-eye fa-2x" > <%- video.yep.views %></i></div>
-			<p></p>
-			<% if(video.yep.voted) { %>
-				<i class="fa fa-thumbs-up fa-2x watch-vote"> <%- video.yep.vote_count %></i>
-			<% } else { %>
-				<i class="fa fa-thumbs-o-up fa-2x watch-vote"> <%- video.yep.vote_count %></i>
-			<% } %>
-			<p></p>
-			<i class="fa fa-tags fa-2x" > 
-				<% video.yep.tags.forEach(function(val, index, array){ %>
-				
-					#<%- val %>
 
-				<% }) %>
-			</i> 
+		<div class="col-xs-7 watch-video-grid">
+
+			<div class="row">
+
+				<div clas="col-xs-12">
+
+					<div class="video-recorder">
+						<div id="recorder">
+							<video id="playVideo" class="video-js vjs-default-skin" controls preload="auto" width="584" height="268" data-setup='{}'>
+
+							<source
+								src="<%- video.video_path %>"
+								type="<%- video.playback_type %>">  
+
+					<% if(video.yep.vod_enable) { %>
+							<source
+								type="<%- video.playback_type %>">  
+
+							</video>
+					<% } %>
+
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+			<div class="row watch-video-info">
+
+				<div class="col-xs-3 col-xs-offset-1">
+
+					<img class="watch-author-picture" src="<%- video.yep.user.picture_path %>" />
+					<h1><%- video.yep.user.display_name %></h4>
+
+				</div>
+
+				<div class="col-xs-7 col-xs-offset-1">
+
+					<h2><%- video.yep.title %></h2>
+					<div class="watch-view-count" ><i class="fa fa-eye fa-2x" > <%- video.yep.views %></i></div>
+					<p></p>
+					<% if(video.yep.voted) { %>
+						<i class="fa fa-thumbs-up fa-2x watch-vote"> <%- video.yep.vote_count %></i>
+					<% } else { %>
+						<i class="fa fa-thumbs-o-up fa-2x watch-vote"> <%- video.yep.vote_count %></i>
+					<% } %>
+					<p></p>
+					<i class="fa fa-tags fa-2x" > 
+						<% video.yep.tags.forEach(function(val, index, array){ %>
+						
+							#<%- val %>
+
+						<% }) %>
+					</i> 
+					
+				</div>
+
+			</div>
+
 		</div>
-		<div class="col-xs-4"></div>
+
+		<div class="col-xs-4 col-xs-offset-1 watch-chat-grid">
+
+			<div class="row">
+
+				<div class="col-xs-12">
+
+					<div class="watch-chat-box">
+
+						<div id="chat"></div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+			<div class="row">
+
+				<div class="col-xs-12">
+
+					<input class="watch-chat-input" placeholder="say something about this video">
+
+				</div>
+
+			</div>
+
+		</div>
+
 	</div>
-	<hr />
+
+</div>
 
 <% } %>
 
