@@ -297,7 +297,7 @@ ul.navbar-button{
 	display:block;
 }
 
-.video-recorder, .watch-video-grid, .watch-chat-grid, .watch-chat-box, .watch-chat-input{
+.watch-video-grid, .watch-chat-grid, .watch-chat-box, .watch-chat-input{
 	margin-top:25px;
 }
 
@@ -636,25 +636,26 @@ img.explorer-image{
 	margin-top: 18px
 }
 
-.explorer-close{
+#explorer-close{
 	position: absolute;
 	overflow: hidden;
-	top:0em;
-	right: 0.5em;
+	top: 0em;
+	right: 0.2em;
 	font-family: 'Roboto';
 	font-weight: 200;
 	font-size: 1.5em;
 	color: #b8b7ad;
-	width: 40px;
-	height: 40px;
+	width: 84px;
+	height: 92px;
 	text-align: center;
 }
 
+/*
 .explorer-close:hover{
 	border: dashed 2px;
 	border-radius: 50px;
 	cursor: pointer;
-}
+}*/
 
 .cluster-created-time, .explorer-created-time{
 	float:left;
@@ -771,13 +772,8 @@ b.chat-user-name{
 	position:relative;
 }
 
-
-i#discover-close{
-	margin-left: 588px;
-	margin-top: -30px;
-	position: absolute;
-	z-index: 10px;
-	cursor: pointer;
+.close{
+	padding-left: 1px;
 }
 
 div.watch-vote{

@@ -7,7 +7,7 @@ define(['jquery',
 		'lib/api',
 		'gmap3',
 		'text!lib/templates/map.html',
-		'text!lib/templates/watch.html',
+		'text!lib/templates/discover.html',
 		'text!lib/templates/chat_message.html',
 		'lib/map',
 		'lib/collections/yeps',
@@ -17,21 +17,20 @@ define(['jquery',
 		'lib/socket',
 		],
 
-	function($, helper, async, User, _, Backbone, Api, gmap3, mapTpl, watchTpl, messageTpl, googleMaps, yepsCollection, vj, vjm, vjh, socket){
+	function($, helper, async, User, _, Backbone, Api, gmap3, mapTpl, discoverTpl, messageTpl, googleMaps, yepsCollection, vj, vjm, vjh, socket){
 
 		var yepsCollection = new yepsCollection();
 
 		var mapView;
 		var messageUI = _.template(messageTpl);
-		var watchUI = _.template(watchTpl);
+		var discoverUI = _.template(discoverTpl);
 
 		var markerClicked = function(marker, event, context){
 			
 			var self = this;
 
 			// Lock the view
-			$('div#map-canvas').css('opacity', '0.2');
-			$('div#main').append('<div class="discover-body"><img class="loading" src="/img/loading.gif" /></div>')
+			viewLocker();
 
 			var yepId = context.data;
 			
@@ -54,14 +53,7 @@ define(['jquery',
 
 
 			// Close Button is clicked
-			$('#main').on('click', 'i#discover-close', function(){
-
-				$('div.discover-body').remove();
-
-				$('div#map-canvas').css('opacity', '1');
-
-			});
-
+			addCloseDiscoverListener();
 
 		};
 
@@ -197,13 +189,13 @@ define(['jquery',
 				content += '</div></a><hr /></div>';
 			}
 
-			var closeButton = '<div class="explorer-close">x</div>';
+			var closeButton = '<div id="explorer-close" class="close"><i class="close-discover fa fa-times-circle-o fa-4x"></i></div>';
 
 			$('div.explore-container').append(closeButton);
 			$('div.explore-container').append(content);
 			$('div.explore-container').addClass('explore-container-show');
 			
-			$('div.explorer-close').on('click', function(){
+			$('div#explorer-close').on('click', function(){
 				$('div.explore-container').removeClass('explore-container-show');
 			});
 		};
@@ -271,6 +263,33 @@ define(['jquery',
 				}
 			}
 		};
+
+		var addCloseDiscoverListener = function(){
+
+			$('#main').on('click', 'i.close-discover', function(){
+
+				$('div.discover-body').remove();
+
+				$('div#map-canvas').css('opacity', '1');
+				$('div.explore-container').css('opacity', '1');
+
+				socket.emit('client:leave', {});
+				socket.emit('disconnect', socket);
+
+			});
+		};
+
+		var viewLocker = function(){
+			$('div#map-canvas').css('opacity', '0.2');
+			$('div.explore-container').css('opacity', '0.2');
+			$('#main').append('<div class="discover-body"></div>');
+			$('div#load-boy').append('<img class="loading" src="/img/loading.gif" />');
+		};
+
+		var loaderClose = function(){
+			$('div#load-boy').empty();
+			$('div#main').css('opacity', '1');
+		}
 
 		var MapView = Backbone.View.extend({
 
@@ -489,7 +508,7 @@ define(['jquery',
 
 			renderDiscover: function(data){
 
-				$('div.discover-body').append(watchUI(data));
+				$('div.discover-body').append(discoverUI(data));
 				/*
 				var videoPath = data.video.video_path;
 				var playbackType = data.video.playback_type;
@@ -539,7 +558,7 @@ define(['jquery',
 				*/
 
 				// Deactivate Loading
-				$('img.loading').remove();
+				loaderClose();
 
 
 				// Render Socket IO Messaging UI
@@ -693,12 +712,7 @@ define(['jquery',
 				$('#main').on('click', 'a.discover', function(){
 
 					// Lock the view
-					$('div#map-canvas').css('opacity', '0.2');
-					//$(this).parent().css('opacity', '1');
-					$('div.explore-container').css('opacity', '0.2');
-
-					
-					$('div#main').append('<div class="discover-body"><img class="loading" src="/img/loading.gif" /></div>');
+					viewLocker();
 
 					var yepId = $(this).attr('id');
 					
@@ -726,17 +740,7 @@ define(['jquery',
 				});
 
 				// Close Button is clicked
-				$('#main').on('click', 'i#discover-close', function(){
-
-					$('div.discover-body').remove();
-
-					$('div#map-canvas').css('opacity', '1');
-					$('div.explore-container').css('opacity', '1');
-
-					socket.emit('client:leave', {});
-					socket.emit('disconnect', socket);
-
-				});
+				addCloseDiscoverListener();
 			},
 
 			render: function(){
@@ -764,8 +768,7 @@ define(['jquery',
 				});
 
 				// Done loading, kill load boy
-				$('div#load-boy').empty();
-				$('div#main').css('opacity', '1');
+				loaderClose();
 			}
 		});
 
