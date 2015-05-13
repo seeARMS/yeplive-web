@@ -49,6 +49,7 @@ define(['jquery',
 					success : 1
 				}
 				mapView.renderDiscover(data);
+				socketJoinRoom(data);
 			});
 
 
@@ -219,6 +220,21 @@ define(['jquery',
 				style: google.maps.ZoomControlStyle.LARGE,
 				position: google.maps.ControlPosition.LEFT_CENTER
 			}
+		};
+
+		var socketJoinRoom = function(data){
+
+			var self = this;
+			var user = data.user;
+			var yep = data.video.yep;
+
+			socket.emit('join_room', {
+				user_id: user.user_id,
+				display_name: user.display_name,
+				yep_id: yep.id,
+				picture_path: user.picture_path
+			});
+
 		};
 
 		var marker = function(data){
@@ -666,19 +682,7 @@ define(['jquery',
 				*/
 			},
 
-			socketJoinRoom: function(data){
-
-				var self = this;
-				var user = data.user;
-				var yep = data.video.yep;
-
-				socket.emit('join_room', {
-					user_id: user.user_id,
-					display_name: user.display_name,
-					yep_id: yep.id,
-					picture_path: user.picture_path
-				});
-			},
+			
 
 			registerSocketEvents: function(){
 
@@ -734,7 +738,7 @@ define(['jquery',
 						self.renderDiscover(data);
 
 						// Join a socket room
-						self.socketJoinRoom(data);
+						socketJoinRoom(data);
 					});
 
 				});
