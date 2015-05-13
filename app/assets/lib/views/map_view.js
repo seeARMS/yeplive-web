@@ -7,6 +7,8 @@ define(['jquery',
 		'lib/api',
 		'gmap3',
 		'text!lib/templates/map.html',
+		'text!lib/templates/watch.html',
+		'text!lib/templates/chat_message.html',
 		'lib/map',
 		'lib/collections/yeps',
 		'videojs',
@@ -15,86 +17,17 @@ define(['jquery',
 		'lib/socket',
 		],
 
-	function($, helper, async, User, _, Backbone, Api, gmap3, mapTpl, googleMaps, yepsCollection, vj, vjm, vjh, socket){
+	function($, helper, async, User, _, Backbone, Api, gmap3, mapTpl, watchTpl, messageTpl, googleMaps, yepsCollection, vj, vjm, vjh, socket){
 
 		var yepsCollection = new yepsCollection();
 
 		var mapView;
-
-		/*
-		var markerContent = function(context){
-
-			var yep = yepsCollection.find(function(currentYep){
-				return currentYep.get('id') === context.data;
-			});
-			
-			yep = yep.attributes;
-
-			var yepId = yep.id;
-			var yepTitle = yep.title;
-			var imagePath = yep.image_path;
-			var displayName = yep.user.display_name;
-			var views = yep.views;
-			var vodEnable = yep.vod_enable;
-			var startTime = yep.start_time;
-			var currentTime = (new Date).getTime();
-			var timeDiff = (currentTime / 1000) - startTime;
-
-			if (imagePath === ''){
-				imagePath = '/img/video-thumbnail.png'
-			}
-
-			if (yepTitle === ''){
-				yepTitle = 'Title'
-			}
-
-			if (displayName === ''){
-				displayName = 'Andrew'
-			}
-
-			var content = '<div class="infoWindow">';
-				content += '<div class="cluster-wrapper"><a class="discover" href="#" id="' + yepId + '">';
-				content += '<img src="' + imagePath + '" class="cluster-Image">';
-				content += '<div class="cluster-body">';
-				content += '<div class="cluster-title"><strong>' + yepTitle + '</strong></div>';
-				content += '<div class="cluster-display-name">' + displayName + '</div>';
-				content += '<div class="cluster-views">Views: ' + views + '</div>';
-				content += '</div>';
-				content += '<div class="cluster-created-time">' + helper.timeElapsedCalculator(timeDiff) + '</div>';
-				content += '</div></a><div>';
-
-			return content;
-
-		};*/		
-
+		var messageUI = _.template(messageTpl);
+		var watchUI = _.template(watchTpl);
 
 		var markerClicked = function(marker, event, context){
-
-			/*
-			var infowindow = $(this).gmap3({get:{name:"infowindow"}});
-
-			if(infowindow){
-				infowindow.close();
-			}
-
-			$(this).gmap3({
-				infowindow:{
-					latLng: context.data.latLng,
-					options:{
-						content: markerContent(context)
-					},
-					events:{
-						closeclick: function(infowindow){
-							//
-						}
-					}
-				}
-			});*/
 			
-			console.log(MapView);
-
 			var self = this;
-
 
 			// Lock the view
 			$('div#map-canvas').css('opacity', '0.2');
@@ -207,34 +140,8 @@ define(['jquery',
 		var clusterClick = function(cluster, event, context){
 
 			$('#map-canvas').gmap3('get').setCenter(context.data.latLng);
-			
-			/*
-
-			var infowindow = $(this).gmap3({get:{name:"infowindow"}});
-
-			if(infowindow){
-				infowindow.close();
-			}
-
-			$(this).gmap3({
-				infowindow:{
-					latLng: context.data.latLng,
-					options:{
-						content: clusterContent(context)
-					},
-					events:{
-						closeclick: function(infowindow){
-							//
-						}
-					}
-				}
-			});
-
-			$(this).gmap3({action: 'setCenter', args:[ context.data.latLng ]});
-			*/
 
 			clearExplorer();
-
 
 			$('div#main').append('<div class="explore-container"></div>');
 
@@ -570,7 +477,8 @@ define(['jquery',
 			renderDiscover: function(data){
 
 				console.log(data);
-
+				$('div.discover-body').append(watchUI(data));
+				/*
 				var videoPath = data.video.video_path;
 				var playbackType = data.video.playback_type;
 				var authorPicture = data.video.yep.user.picture_path;
@@ -616,38 +524,15 @@ define(['jquery',
 				$('div.discover-body').append(videoWrapper);
 				$('div.discover-body').append(videoAuthorDisplay);
 				$('div.discover-body').append(videoInfo);
+				*/
 
 				// Deactivate Loading
 				$('img.loading').remove();
 
-				// Render Comments
-
-				// Temp disable Comments at the moment
-				/*
-				var commentUI = '<div class="container comment-area"><div class="col-xs-3"></div><div class="col-xs-6"><div class="row"><div class="col-xs-2">';
-					commentUI += '<img src="' + userPicture + '" /></div><div class="col-xs-10">';
-					commentUI += '<textarea class="form-control user-comment-area" rows="3" placeholder="say something about this video"></textarea>';
-					commentUI += '</div></div><br><button class="btn btn-primary user-comment-button">Send</button></div><div class="col-xs-3"></div></div><hr />';
-
-				var comments = '<div class="comment-container container">';
-
-				commentArray.forEach(function(val, index, array){
-					comments += '<div class="row comments">';
-					comments += '<div class="col-xs-4"></div>';
-					comments += '<div class="col-xs-4"><img class="commenter-picture" src="' + val.picture_path + '" />';
-					comments += '<div>' + val.display_name + ' <i>' + val.created_at + '</i></div>';
-					comments += '<div>' + val.comment + '</div></div><div class="col-xs-4"></div></div><hr />';
-				});
-
-					comments += '</div>';
-
-				$('div.discover-body').append(commentUI);
-				$('div.discover-body').append(comments);
-
-				this.addCommentListener(data);
-				*/
 
 				// Render Socket IO Messaging UI
+				
+				/*
 				var messageBox = '<div class="container"><div class="row"><div class="col-xs-3" ></div><div class="col-xs-6" ><div class="discover-message-box"></div></div><div class="col-xs-3" ></div></div></div><br>'
 
 				$('div.discover-body').append(messageBox);
@@ -658,11 +543,13 @@ define(['jquery',
 					messagingUI += '</div></div><br><button class="btn btn-primary discover-user-comment-button">Send</button></div><div class="col-xs-3"></div></div><hr />';
 
 				$('div.discover-body').append(messagingUI);
+				*/
 				this.messagingListener(data);
-
+				
 
 				this.addVoteListener(data);
 				this.addViewCount(data);
+
 
 				// Setting up VideoJS
 				this.setupVideo();
@@ -670,6 +557,8 @@ define(['jquery',
 			},
 
 			messagingListener: function(data){
+
+				/*
 
 				var user = data.user;
 				var yep = data.video.yep;
@@ -685,9 +574,52 @@ define(['jquery',
 
 				});
 
+				*/
+
+				var user = data.user;
+
+				$("input.watch-chat-input").bind("keypress", function(event) {
+
+					if(event.which == 13) {
+
+						event.preventDefault();
+
+						socket.emit('message', {
+							message: $('input.watch-chat-input').val(),
+							user_id: user.user_id
+						});
+
+						$('input.watch-chat-input').val('');
+
+				    }
+
+				});
+
+
 			},
 
 			decorateMessaging: function(messages){
+
+				var $chat = $('#chat');
+
+				// If from history
+				if(messages.messages){
+
+					messages.messages.forEach(function(val, index){
+						var $el = $(messageUI(val));
+						$chat.append($el);
+					});
+
+				}
+				else if(messages.message){
+
+					var $el = $(messageUI(messages));
+					$chat.append($el);
+				}
+
+				$('div.watch-chat-box').animate({scrollTop: $('div.watch-chat-box')[0].scrollHeight },'slow');
+
+				/*
 
 				var newMessage = '';
 
@@ -716,6 +648,8 @@ define(['jquery',
 				$('div.discover-message-box').append(newMessage);
 				$('textarea.discover-user-comment-area').val('');
 				$('div.discover-message-box').animate({scrollTop: $('div.discover-message-box')[0].scrollHeight },'slow');
+
+				*/
 			},
 
 			socketJoinRoom: function(data){
@@ -787,7 +721,6 @@ define(['jquery',
 							user : User.user.attributes,
 							success : 1
 						}
-						console.log(data);
 
 						self.renderDiscover(data);
 
@@ -816,6 +749,7 @@ define(['jquery',
 				var self = this;
 
 				self.$el.html(this.tpl());
+
 				yepsCollection.fetch().then(function(){
 					self.populate(yepsCollection.getMapData());
 				});

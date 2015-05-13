@@ -129,13 +129,6 @@ define(['jquery',
 				});
 			},
 
-			render: function(data){
-				console.log(data);
-				this.$el.html(this.tpl(data));
-				this.setupVideo(data);
-			},
-
-
 			listen: function(options){
 
 				var $chat = $('#chat');
@@ -299,7 +292,6 @@ define(['jquery',
 			},
 
 			render: function(data, options){
-				console.log(data);
 				this.$el.html(this.tpl(data));
 				this.listen(options);
 				this.setupVideo(data);
