@@ -206,6 +206,9 @@ define(['jquery',
 
 		var clusterClick = function(cluster, event, context){
 
+			
+			$('#map-canvas').gmap3('get').setCenter(context.data.latLng);
+			
 			/*
 
 			var infowindow = $(this).gmap3({get:{name:"infowindow"}});
