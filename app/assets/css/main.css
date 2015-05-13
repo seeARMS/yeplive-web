@@ -297,7 +297,7 @@ ul.navbar-button{
 	display:block;
 }
 
-.watch-video-grid, .watch-chat-grid, .watch-chat-box, .watch-chat-input{
+.video-recorder, .watch-video-grid, .watch-chat-grid, .watch-chat-box, .watch-chat-input{
 	margin-top:25px;
 }
 
@@ -508,6 +508,11 @@ img.loading{
 
 
 /* ----- GOOGLE MAP ------ */
+
+
+.discover-video-player{
+	margin-bottom:25px;
+}
 
 img.discover-comment-user-img{
 	border-radius: 30px;
