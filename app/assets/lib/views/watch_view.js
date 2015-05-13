@@ -64,6 +64,7 @@ define(['jquery',
 				});
 			},
 
+			/*
 			getCommentInfo: function(options, cb){
 				
 				return cb(null, true);
@@ -89,20 +90,21 @@ define(['jquery',
 
 				});
 			},
+			*/
 
 			initialize: function(options){
 
 				var self = this;
 				async.parallel({
-					one: self.getYepInfo.bind(null, options),
-					two: self.getCommentInfo.bind(null, options) 
+					one: self.getYepInfo.bind(null, options)
+					//two: self.getCommentInfo.bind(null, options) 
 				}, function(err, results){
 					if(err){
 						self.render({success : 0});
 					}
 					var data = {
 						video : results['one'],
-						comments : results['two'],
+						//comments : results['two'],
 						user : User.authed ? User.user.attributes : "",
 						success : 1
 					}
@@ -129,8 +131,13 @@ define(['jquery',
 				});
 			},
 
-			listen: function(options){
+			promptLogin: function(){
+				$('#login-modal').modal('show');
+			},
 
+			addMessagingListener: function(options){
+
+				var self = this;
 				var $chat = $('#chat');
 				var chatMessage = _.template(chatMessageTpl);
 
@@ -159,7 +166,7 @@ define(['jquery',
 					if(event.which == 13) {
 
 						if(!User.authed){
-							$('#login-modal').modal('show');
+							self.promptLogin();
 							return;
 						}
 
@@ -205,8 +212,7 @@ define(['jquery',
 
 			},
 
-
-
+			/*
 			addCommentListener: function(options){
 				$('button.user-comment-button').on('click', function(){
 
@@ -249,11 +255,17 @@ define(['jquery',
 
 				});
 			},
+			*/
 
 			addVoteListener: function(options, yep){
+
+				var $voteIcon = $('i#voteIcon');
+
 				if(User.authed){
+
 					var currentVotes = yep.vote_count;
-					$('i.watch-vote').on('click', function(){
+
+					$('div.watch-vote').on('click', function(){
 						Api.post('/yeps/' + options.yepId + '/votes', {},
 								window.localStorage.getItem('token'),
 								function(err, res){
@@ -261,19 +273,23 @@ define(['jquery',
 										console.log(err);
 										return;
 									}
-									if(res.vote){
-										$('i.watch-vote').attr('class', 'fa fa-thumbs-up fa-large watch-vote');
-										$('i.watch-vote').html(' ' + (res.vote + currentVotes).toString());
+									if(res.vote < 5){
 										currentVotes++;
+										$voteIcon.attr('class', 'fa fa-star fa-2x');
+										$voteIcon.html(' ' + re.vote_count.toString());
 									}
 									else{
-										$('i.watch-vote').attr('class', 'fa fa-thumbs-o-up fa-large watch-vote');
-										$('i.watch-vote').html(' ' + (currentVotes - 1).toString());
 										currentVotes--;
+										$voteIcon.attr('class', 'fa fa-thumbs-o-up fa-2x');
+										$voteIcon.html(' ' + re.vote_count.toString());	
 									}
 								}
 						);
 					});
+				}
+				else{
+					this.promptLogin();
+					return;
 				}
 			},
 
@@ -292,8 +308,12 @@ define(['jquery',
 			},
 
 			render: function(data, options){
+
 				this.$el.html(this.tpl(data));
-				this.listen(options);
+
+				$('[data-toggle="tooltip"]').tooltip();
+
+				this.addMessagingListener(options);
 				this.setupVideo(data);
 				//this.addCommentListener(options);
 				this.addVoteListener(options, data.video.yep);

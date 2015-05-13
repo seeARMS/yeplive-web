@@ -580,16 +580,25 @@ img.explorer-image{
 	position: absolute;
 	overflow: scroll;
 	z-index: 5;
-	width: 650px;
-	height: 86%;
+	width: 370px;
+	height: 88%;
 	background: #373a47;
 	padding: 2em 1.5em 0;
-	padding-left: 330px;
+	padding-left: 20px;
 	font-size: 1.15em;
-	-webkit-transform: translate3d(-320px,0,0);
-	transform: translate3d(-320px,0,0);
+	-webkit-transform: translate3d(-370px,0,0);
+	transform: translate3d(-370px,0,0);
 	-webkit-transition: -webkit-transform 0.4s;
 	transition: transform 0.4s;
+	-webkit-transition-timing-function: cubic-bezier(0.7,0,0.3,1);
+	transition-timing-function: cubic-bezier(0.7,0,0.3,1);
+}
+
+.explore-container-show{
+	-webkit-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
+	-webkit-transition: -webkit-transform 0.8s;
+	transition: transform 0.8s;
 	-webkit-transition-timing-function: cubic-bezier(0.7,0,0.3,1);
 	transition-timing-function: cubic-bezier(0.7,0,0.3,1);
 }
@@ -771,9 +780,10 @@ i#discover-close{
 	cursor: pointer;
 }
 
-i.watch-vote{
+div.watch-vote{
 	cursor: pointer;
 }
+
 
 div.discover-message-box{
 	border: dashed;
@@ -826,7 +836,7 @@ div.prompt-appstore{
 	}
 
 	div.explore-container{
-		width:630px;
+		width:325px;
 	}
 
 	div.explorer-body{
@@ -921,6 +931,11 @@ div.prompt-appstore{
 /* Medium devices (desktops, 992px - 769px) */
 @media (max-width: 992px){
 
+
+	div.explore-container{
+		width:312px;
+	}
+
 	div.message-box{
 		height: 280px;
 	}
@@ -982,7 +997,7 @@ div.prompt-appstore{
 	}
 
 	div.explore-container{
-		width:580px;
+		width:200px;
 	}
 
 	img.explorer-image{
@@ -1074,7 +1089,7 @@ div.prompt-appstore{
 	}
 
 	div.explore-container{
-		width:492px;
+		width:174px;
 	}
 
 	div.explorer-body{

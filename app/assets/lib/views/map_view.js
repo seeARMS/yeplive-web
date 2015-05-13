@@ -65,6 +65,7 @@ define(['jquery',
 
 		};
 
+		/*
 		var clusterContent = function(context){
 
 			var yepMarks = context.data.markers;
@@ -121,9 +122,11 @@ define(['jquery',
 			return content;
 		};
 
+
 		var infoWindowOpen = function($this, marker, data){
 			console.log(marker)
 		};
+		*/
 
 		var markerMousedOver = function(marker, event, context){
 		};
@@ -132,9 +135,12 @@ define(['jquery',
 		};
 
 		var clearExplorer = function(){
-			if ( $('div.explore-container').length ){
-				$('div.explore-container').remove();
-			};
+			if($('div.explore-container').is(':empty')){
+				return;
+			}
+			else{
+				$('div.explore-container').empty();
+			}
 		};
 
 		var clusterClick = function(cluster, event, context){
@@ -142,8 +148,6 @@ define(['jquery',
 			$('#map-canvas').gmap3('get').setCenter(context.data.latLng);
 
 			clearExplorer();
-
-			$('div#main').append('<div class="explore-container"></div>');
 
 			var yepMarks = context.data.markers;
 
@@ -192,11 +196,15 @@ define(['jquery',
 				content += '<i class="fa fa-eye explorer-views" > ' + views + '</i></div>'
 				content += '</div></a><hr /></div>';
 			}
+
 			var closeButton = '<div class="explorer-close">x</div>';
+
 			$('div.explore-container').append(closeButton);
 			$('div.explore-container').append(content);
+			$('div.explore-container').addClass('explore-container-show');
+			
 			$('div.explorer-close').on('click', function(){
-				clearExplorer();
+				$('div.explore-container').removeClass('explore-container-show');
 			});
 		};
 
@@ -383,10 +391,15 @@ define(['jquery',
 				});
 			},
 
-			setupVideo: function(){
+			setupVideo: function(data){
 				var videoEl = document.getElementById('playVideo');
 				vj(videoEl, {}, function(){
-					//console.log('VideoJS successfully loaded')
+					if(data.video.yep.portrait){
+						this.zoomrotate({
+							rotate: 90,
+							zoom: 1
+						});
+					}
 				});
 			},
 
@@ -476,7 +489,6 @@ define(['jquery',
 
 			renderDiscover: function(data){
 
-				console.log(data);
 				$('div.discover-body').append(watchUI(data));
 				/*
 				var videoPath = data.video.video_path;
@@ -544,6 +556,7 @@ define(['jquery',
 
 				$('div.discover-body').append(messagingUI);
 				*/
+
 				this.messagingListener(data);
 				
 
@@ -552,29 +565,11 @@ define(['jquery',
 
 
 				// Setting up VideoJS
-				this.setupVideo();
+				this.setupVideo(data);
 				
 			},
 
 			messagingListener: function(data){
-
-				/*
-
-				var user = data.user;
-				var yep = data.video.yep;
-
-				$('button.discover-user-comment-button').on('click', function(){
-
-					var message = $('textarea.discover-user-comment-area').val();
-
-					socket.emit('message', {
-						message: message,
-						user_id: user.user_id
-					});
-
-				});
-
-				*/
 
 				var user = data.user;
 
@@ -749,6 +744,7 @@ define(['jquery',
 				var self = this;
 
 				self.$el.html(this.tpl());
+				$('div#main').append('<div class="explore-container"></div>');
 
 				yepsCollection.fetch().then(function(){
 					self.populate(yepsCollection.getMapData());

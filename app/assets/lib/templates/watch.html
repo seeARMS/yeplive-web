@@ -53,11 +53,19 @@
 					<h2><%- video.yep.title %></h2>
 					<div class="watch-view-count" ><i class="fa fa-eye fa-2x" > <%- video.yep.views %></i></div>
 					<p></p>
-					<% if(video.yep.voted) { %>
-						<i class="fa fa-thumbs-up fa-2x watch-vote"> <%- video.yep.vote_count %></i>
+
+					<% if(video.yep.voted < 5) { %>
+					<% var title = 'star this video'; %>
+					<% var voteIcon = 'fa fa-star-o fa-2x'; %>
 					<% } else { %>
-						<i class="fa fa-thumbs-o-up fa-2x watch-vote"> <%- video.yep.vote_count %></i>
+					<% var title = 'reach max stars'; %>
+					<% var voteIcon = 'fa fa-star fa-2x'; %>
 					<% } %>
+
+					<div class="watch-vote" data-toggle="tooltip" data-placement="left" title="<%- title %>" >
+						<i id="voteIcon" class="<%- voteIcon %>"> <%- video.yep.vote_count %></i>
+					</div>
+
 					<p></p>
 					<i class="fa fa-tags fa-2x" > 
 						<% video.yep.tags.forEach(function(val, index, array){ %>
