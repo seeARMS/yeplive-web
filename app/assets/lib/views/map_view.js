@@ -206,7 +206,6 @@ define(['jquery',
 
 		var clusterClick = function(cluster, event, context){
 
-			
 			$('#map-canvas').gmap3('get').setCenter(context.data.latLng);
 			
 			/*
@@ -275,7 +274,6 @@ define(['jquery',
 				if (displayName === ''){
 					displayName = 'Andrew'
 				}
-
 
 				content += '<div class="explorer-wrapper"><a class="discover" href="#" id="' + yepId + '">';
 				content += '<img src="' + imagePath + '" class="explorer-image">';
@@ -691,8 +689,6 @@ define(['jquery',
 
 			decorateMessaging: function(messages){
 
-				console.log(messages);
-
 				var newMessage = '';
 
 				// If loading history
@@ -751,12 +747,10 @@ define(['jquery',
 				});
 
 				socket.on('chat:history', function(data){
-					console.log('history');
 					self.decorateMessaging(data);
 				});
 
 				socket.on('chat:message', function(data){
-					console.log('New message');
 					self.decorateMessaging(data);
 				});
 

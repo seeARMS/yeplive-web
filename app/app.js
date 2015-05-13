@@ -5,9 +5,11 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var hdfvrconfig = require('./hdfvrconfig');
+var favicon = require('serve-favicon');
 
 var app = express();
 
+app.use(favicon(__dirname + '/assets/img/favicon.ico'));
 app.use(bodyParser.urlencoded({extended:true}));
 
 app.use(session({
