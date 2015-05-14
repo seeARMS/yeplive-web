@@ -138,7 +138,7 @@ define(['jquery',
 
 		var clusterClick = function(cluster, event, context){
 
-			$('#map-canvas').gmap3('get').setCenter(context.data.latLng);
+			$('#map-canvas').gmap3('get').panTo(context.data.latLng);
 
 			clearExplorer();
 
