@@ -897,6 +897,18 @@ div.prompt-appstore{
 		width: 160px;
 	}
 
+	.record-end-stream{
+		padding:3px;
+	}
+
+	.record-chat-box{
+		height:310px;
+	}
+
+	input.record-chat-input{
+		font-size:16px;
+	}
+
 	.img-user{
 		margin-top:0.5em;
 		margin-right:0.5em;
@@ -986,6 +998,16 @@ div.prompt-appstore{
 
 /* Medium devices (desktops, 992px - 769px) */
 @media (max-width: 992px){
+
+	.record-end-stream{
+		padding:11px;
+	}
+
+	input.record-chat-input{
+		width:95%;
+		height: 42px;
+		margin-bottom: 10px;
+	}
 
 
 	div.explore-container{
