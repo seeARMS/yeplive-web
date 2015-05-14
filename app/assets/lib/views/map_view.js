@@ -523,6 +523,7 @@ define(['jquery',
 			},
 
 			renderDiscover: function(data){
+				console.log(data);
 
 				$('div.discover-body').append(discoverUI(data));
 				/*

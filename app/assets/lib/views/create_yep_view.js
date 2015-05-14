@@ -83,7 +83,9 @@ define(['jquery',
 				
 			};
 			window.onCamAccess = function(allowed, id){
-				if(allowed && !$('.video-overlay-2').length){
+				// If user clicked allowed, and also the templates have not been appended
+				// Because user may click allow and click disallow again
+				if(allowed && $('.recording-chat').is(':empty')){
 					showOverlay();
 					setupShare(res);
 					setupSocket(res);	

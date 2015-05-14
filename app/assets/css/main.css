@@ -305,6 +305,8 @@ ul.navbar-button{
 	margin-bottom:25px;
 }
 
+/*
+
 .view-box{
 	position:absolute;
 	right:75px;
@@ -325,6 +327,7 @@ ul.navbar-button{
 	font-weight:300;
 }
 
+
 .connection-box{
 	position:absolute;
 	right:75px;
@@ -334,6 +337,8 @@ ul.navbar-button{
 	font-size:20px;
 	font-weight:300;
 }
+*/
+
 
 .chat-message{
 	color:black;
@@ -344,6 +349,7 @@ ul.navbar-button{
 	width:92%;
 }
 
+/*
 .yep-chat-box{
 	position:absolute;
 	bottom:75px;
@@ -360,6 +366,7 @@ ul.navbar-button{
 	width:58%;
 	color:white;
 }
+*/
 
 #chat-input{
 	height:50px;
@@ -385,7 +392,7 @@ ul.navbar-button{
 	margin-top:75px;
 	text-align:center;
 }
-
+/*
 .end-stream{
 	bottom: 10px;
 	position: absolute;
@@ -393,7 +400,7 @@ ul.navbar-button{
 	padding: 10px;
 	margin-left: 57px;
 	cursor: pointer;
-}
+}*/
 
 .video-overlay{
 	width:640px;
@@ -406,19 +413,21 @@ ul.navbar-button{
 	background-color:rgba(0,0,0,0.5);
 }
 
+/*
 .video-overlay-2{
 	width:640px;
 	height:480px;
 	margin-left:auto;
 	margin-right:auto;
 	position:relative;
-	/*left:-50%;*/
+
 	margin-top:25px;
 }
 
 .video-overlay-2 .glyphicon{
 	top:3px;
 }
+*/
 
 .video-overlay-wrapper{
 	position:absolute;
@@ -505,6 +514,25 @@ img.loading{
 	left: 50%;
 	z-index: 1000;
 }
+
+/* ----- RECORDING VIEW ------ */
+
+.record-controller{
+	margin-top: 25px;
+}
+
+.record-chat-box{
+	height: 300px;
+	overflow: scroll;
+}
+
+/* ----- END OF RECORDING VIEW ------ */
+
+
+
+
+
+
 
 
 /* ----- GOOGLE MAP ------ */
@@ -878,21 +906,25 @@ div.prompt-appstore{
 		width:85%;
 		height:85%;
 	}
-	*/
+	
 
 	.yep-chat-box{
 		left: 132px;
 	}
+	
 
 	.yep-chat-input-box{
 		width: 31%;
 		left: 43%;
 	}
+	*/
 
 	#chat-input{
 		height: 41px;
 	}
 
+
+	/*
 	.connection-box{
 		right: 174px;
 	}
@@ -908,6 +940,7 @@ div.prompt-appstore{
 	.yep-chat-box{
 
 	}
+	*/
 
 	img.chat-picture{
 		width: 25px;
@@ -918,11 +951,11 @@ div.prompt-appstore{
 		padding-left: 8px;
 		width: 63%;
 	}
-
+	/*
 	.end-stream{
 		padding: 7px;
 		margin-left: 134px;
-	}
+	}*/
 
 	.video-js{
 		width:530px !important;
