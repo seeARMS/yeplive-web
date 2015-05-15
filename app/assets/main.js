@@ -33,7 +33,7 @@ requirejs.config({
 			deps: ['videojs','videojsMedia']
 		},
 		videojsZoomRotate:{
-			dep: ['videojs', 'videojsMedia']
+			deps: ['videojs', 'videojsMedia']
 		},
 		gmap3:{
 			deps: ['jquery']

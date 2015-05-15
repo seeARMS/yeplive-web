@@ -165,6 +165,8 @@ define(['jquery',
 				var vodEnable = yep.vod_enable;
 				var startTime = yep.start_time;
 				var currentTime = (new Date).getTime();
+				var userImage = yep.user.picture_path;
+				var isPortrait = yep.portrait === 1 ? true : false;
 				var timeDiff = (currentTime / 1000) - startTime;
 
 				if (imagePath === ''){
@@ -180,17 +182,23 @@ define(['jquery',
 				}
 
 				content += '<div class="explorer-wrapper"><a class="discover" href="#" id="' + yepId + '">';
-				content += '<img src="' + imagePath + '" class="explorer-image">';
-				content += '<div class="explorer-body">';
-				content += '<div class="explorer-title">' + yepTitle + '</div>';
-				content += '<div class="explorer-display-name"><i class="fa fa-user"> </i> ' + displayName + '</div>';
+				if(isPortrait){
+					content += '<img src="' + imagePath + '" class="explorer-image explorer-portrait rotateCW">';
+					content += '<div class="explorer-body explorer-portrait-body">';
+				} else {
+					content += '<img src="' + imagePath + '" class="explorer-image">';
+					content += '<div class="explorer-body">';
+				}
+				content += '<div class="explorer-title">' + helper.truncate(yepTitle,15) + '</div>';
+				content += '<img src="'+userImage+'" class="explorer-user-image img-circle">';
+				content += '<div class="explorer-display-name">' + displayName + '</div>';
 				content += '</div>';
 				content += '<div class="row"><div class="explorer-created-time col-xs-12">' + helper.timeElapsedCalculator(timeDiff) ;
-				content += '<i class="fa fa-eye explorer-views" > ' + views + '</i></div>'
+				content += '<div class="explorer-views">'+views + ' views</div></div>'
 				content += '</div></a><hr /></div>';
 			}
 
-			var closeButton = '<div id="explorer-close" class="close"><i class="close-discover fa fa-times-circle-o fa-4x"></i></div>';
+			var closeButton = '<div id="explorer-close" class="close">x</div>';
 
 			$('div.explore-container').append(closeButton);
 			$('div.explore-container').append(content);
@@ -282,7 +290,7 @@ define(['jquery',
 
 		var addCloseDiscoverListener = function(){
 
-			$('#main').on('click', 'i.close-discover', function(){
+			$('#main').on('click', '.close-discover', function(){
 
 				$('div.discover-body').remove();
 
@@ -435,6 +443,7 @@ define(['jquery',
 							zoom: 1
 						});
 					}
+					this.play();
 				});
 			},
 
@@ -516,13 +525,14 @@ define(['jquery',
 									console.log(err);
 									return;
 								}
-								$('div.watch-view-count').html('<i class="fa fa-eye fa-2x" > ' + res.views + '</i>');
+								$('div.watch-view-count').html('<h5>'+res.views + ' views</h5>');
 								return;
 							}
 				);
 			},
 
 			renderDiscover: function(data){
+				console.log(data);
 
 				$('div.discover-body').append(discoverUI(data));
 				/*
@@ -623,6 +633,14 @@ define(['jquery',
 
 				    }
 
+				});
+
+
+				$('.js-vote').click(function(e){
+					Api.post('/yeps/'+data.video.yep.id+'/votes',{}, window.localStorage.getItem('token'),
+						 function(err, res){
+						console.log(res);
+					});
 				});
 
 

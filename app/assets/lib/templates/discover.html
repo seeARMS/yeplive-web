@@ -9,23 +9,18 @@
 
 <div class="container">
 
-	<div class="row">
+	<div class="row yep-overlay" style="background-color:white">
 
 		<div class="col-md-7 watch-video-grid">
 
-			<div class="row">
-				<div class="close">
-					<i class="close-discover fa fa-times-circle-o fa-4x"></i>
-				</div>
-			</div>
 
-			<div class="row">
+			<div class="row" style="height:100%">
 
-				<div clas="col-xs-12">
+				<div clas="col-xs-12" style="height:100%">
 
-					<div class="discover-video-player">
-						<div id="recorder">
-							<video id="playVideo" class="video-js vjs-default-skin" controls preload="auto" width="584" height="268" data-setup='{}'>
+					<div class="discover-video-player" style="height:100%">
+						<div id="recorder" style="height:100%">
+							<video id="playVideo" class="video-js vjs-default-skin" controls preload="auto" width="auto" height="100%" data-setup='{}'>
 
 							<source
 								src="<%- video.video_path %>"
@@ -45,49 +40,33 @@
 
 			</div>
 
+		</div>
+
+		<div class="col-md-5 watch-chat-grid">
+				<div id="close-discover" class="close-discover">
+					X
+				</div>
 			<div class="row watch-video-info">
 
-				<div class="col-xs-3 col-xs-offset-1">
-
+				<div class="col-xs-3">
 					<img class="watch-author-picture" src="<%- video.yep.user.picture_path %>" />
-					<h1><%- video.yep.user.display_name %></h4>
-
 				</div>
 
-				<div class="col-xs-7 col-xs-offset-1">
+				<div class="col-xs-6">
+					<h4><%- video.yep.user.display_name %></h4>
+					<p>5 hours ago</p>
+					<h4><%- video.yep.title %></h4>
+				</div>
+				<div class="col-xs-3">
+					<div class="watch-view-count" ><%- video.yep.views %> views</div>
 
-					<h2><%- video.yep.title %></h2>
-					<div class="watch-view-count" ><i class="fa fa-eye fa-2x" > <%- video.yep.views %></i></div>
-					<p></p>
+					<h5><%- video.yep.vote_count %> stars</h5>
 
-					<% if(video.yep.voted < 5) { %>
-					<% var title = 'star this video'; %>
-					<% var voteIcon = 'fa fa-star-o fa-2x'; %>
-					<% } else { %>
-					<% var title = 'reach max stars'; %>
-					<% var voteIcon = 'fa fa-star fa-2x'; %>
-					<% } %>
-
-					<div class="watch-vote" data-toggle="tooltip" data-placement="left" title="<%- title %>" >
-						<i id="voteIcon" class="<%- voteIcon %>"> <%- video.yep.vote_count %></i>
-					</div>
-
-					<p></p>
-					<i class="fa fa-tags fa-2x" > 
-						<% video.yep.tags.forEach(function(val, index, array){ %>
-						
-							#<%- val %>
-
-						<% }) %>
-					</i> 
-					
 				</div>
 
 			</div>
+			<hr />
 
-		</div>
-
-		<div class="col-md-4 col-md-offset-1 watch-chat-grid">
 
 			<div class="row">
 
@@ -102,12 +81,17 @@
 				</div>
 
 			</div>
+			<hr>
 
 			<div class="row">
+				
+				<div class="col-xs-2">
+					<button class="js-vote btn btn-star btn-default"><i id="voteIcon" class="fa fa-star-o fa-2x"></i></button>
+				</div>
 
-				<div class="col-xs-12">
+				<div class="col-xs-10">
 
-					<input class="watch-chat-input" placeholder="say something about this video">
+					<input class="watch-chat-input" placeholder="say something...">
 
 				</div>
 

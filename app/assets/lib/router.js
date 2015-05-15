@@ -53,7 +53,10 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 				'/auth/twitter',
 			];
 
+			console.log(href);
+
 			for(var i = 0; i< passThrough.length; i++){
+				if(href === '/auth/facebook') break;
 				if(href.search(passThrough[i])){
 					href = href.slice(0, passThrough[i].length-1);
 					break;
@@ -144,7 +147,6 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 				navbarVIew = new NavbarView({el: '#navbar'});	
 			}
 			currentView = new CreateYepView({el:'#main'});
-			
 		});
 
 		appRouter.on('route:facebookRedirect', function(actions){

@@ -2,6 +2,18 @@ html, body{
 	width:100%;
 }
 
+.vjs-control-bar{
+	display:none !important;
+}
+
+.rotateCW{
+	 -webkit-transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+	-o-transform: rotate(90deg);
+	-ms-transform: rotate(90deg);
+	transform: rotate(90deg);
+}
+
 .btn-facebook{
 margin-top:25px;
 font-size:25px;	
@@ -13,6 +25,13 @@ color:white;
 margin-top:25px;
 font-size:25px;
 background-color:#3df;
+color:white;
+}
+
+.btn-google{
+margin-top:25px;
+font-size:25px;
+background-color:rgb(233, 74, 50);
 color:white;
 }
 
@@ -40,7 +59,7 @@ body{
 }
 
 #map-canvas{
-	margin-top:-100px;
+/*	margin-top:-100px;*/
 	position:absolute;
 	width:100%;
 	height:100%;
@@ -134,6 +153,7 @@ body{
 }
 
 .img-user{
+	cursor:pointer;
 	margin-top:0.5em;
 	margin-right:1em;
 	height:60px;
@@ -214,6 +234,12 @@ ul.navbar-button{
 	font-size:30px;
 	position:absolute;
 	left:50%;
+}
+
+.yep-overlay{
+	-webkit-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.75);
 }
 
 .loader {
@@ -297,8 +323,17 @@ ul.navbar-button{
 	display:block;
 }
 
-.video-recorder, .watch-video-grid, .watch-chat-grid, .watch-chat-box, .watch-chat-input{
+.video-recorder, .watch-chat-grid, .watch-chat-box{
 	margin-top:25px;
+}
+
+.watch-video-grid{
+	background-color: black;
+	height:600px;
+	}
+
+#playVideo_html5_api{
+	top:-10px;
 }
 
 .video-recorder, .watch-chat-input{
@@ -335,9 +370,16 @@ ul.navbar-button{
 	font-weight:300;
 }
 
+.close-discover{
+	position:absolute;
+	right:10px;
+	top:-20px;
+	color:#ccc;
+	cursor: pointer;
+}
+
 .chat-message{
 	color:black;
-	background-color: rgba(161, 161, 161, 0.5);
 	border-radius:35px;
 	padding-left:17px;
 	padding-top:6px;
@@ -437,9 +479,8 @@ ul.navbar-button{
 .overlay{
   display: block;
   width: 100%;
-  background-color: white;
-  /*background-image: url('http://themes.startbootstrap.com/spectrum-v1.2.0/assets/img/diagonal-noise.png');*/
-  opacity: 0.3;
+  background-image: url('http://themes.startbootstrap.com/spectrum-v1.2.0/assets/img/diagonal-noise.png');
+  opacity: 0.5;
   position: fixed;
   top: 0;
   left: 0;
@@ -578,6 +619,7 @@ img.explorer-image{
 
 .explorer-views{
 	margin-left:10px;
+	display:inline-block;
 }
 
 .explore-container{
@@ -587,7 +629,7 @@ img.explorer-image{
 	z-index: 5;
 	width: 370px;
 	height: 88%;
-	background: #373a47;
+	background: #fff;
 	padding: 2em 1.5em 0;
 	padding-left: 20px;
 	font-size: 1.15em;
@@ -611,6 +653,21 @@ img.explorer-image{
 .explorer-title{
 	font-family: 'Roboto';
 	font-weight: 400;
+	color:black;
+}
+
+.explorer-user-image{
+	width:50px;
+	height:50px;
+}
+
+.explorer-portrait{
+	margin-top:30px;
+	margin-bottom:10px;
+}
+
+.explorer-portrait-body{
+	margin-top:25px;
 }
 
 .cluster-body{
@@ -618,12 +675,15 @@ img.explorer-image{
 	margin-right: 5px;
 	float:left;
 	width: 100px;
+	color:black;
 }
 
 .explorer-display-name{
 	font-family: 'Roboto';
 	font-weight: 200;
 	margin-top: 10px;
+	display:inline-block;
+	margin-left:20px;
 }
 
 .explorer-body{
@@ -644,14 +704,14 @@ img.explorer-image{
 #explorer-close{
 	position: absolute;
 	overflow: hidden;
-	top: 0em;
-	right: 0.2em;
+	top: 0.5em;
+	right: 0.5em;
 	font-family: 'Roboto';
 	font-weight: 200;
 	font-size: 1.5em;
 	color: #b8b7ad;
-	width: 84px;
-	height: 92px;
+	width: 25;
+	height: 25;
 	text-align: center;
 }
 
@@ -707,27 +767,33 @@ button.discover-user-comment-button{
 }
 
 img.watch-author-picture{
-	width: 100px;
-	height: 100px;
+	width: 75px;
+	height: 75px;
 	border-radius: 50%;
 }
 
 .watch-video-grid, .watch-chat-grid{
-	background-color: rgb(234, 234, 234);
+	/*background-color: rgb(234, 234, 234);*/
 }
 
 
 div.watch-chat-box{
 	height: 300px;
-	overflow: scroll;
+	overflow-y: scroll;
+	overflow-x:hidden;
+}
+
+.btn-star{
+	width:65px;
+	height:50px;
 }
 
 input.watch-chat-input{
 	height:50px;
-	border-radius:25px;
+	border-radius:5px;
 	background-color: white;
 	font-size:20px;
-	border:none;
+	border:1px solid #ccc;
 	padding-left:20px;
 	width:100%;
 	outline: none;
@@ -925,7 +991,7 @@ div.prompt-appstore{
 	}
 
 	.video-js{
-		width:530px !important;
+/*		width:530px !important; */
 	}
 }
 
@@ -998,12 +1064,10 @@ div.prompt-appstore{
 	}
 
 	div.explore-container{
-		width:200px;
+		width:300px;
 	}
 
 	img.explorer-image{
-		width:60%;
-		height:60%;
 	}
 
 	div.explorer-body{
@@ -1054,6 +1118,12 @@ div.prompt-appstore{
 /* Mini devices (tablets, 430 and below) */
 @media (max-width: 430px){
 
+#map-canvas{
+	margin-top:0px;
+	position:absolute;
+	width:100%;
+	height:100%;
+}
 	img.discover-user-picture{
 		margin-right:0px;
 	}
@@ -1090,16 +1160,15 @@ div.prompt-appstore{
 	}
 
 	div.explore-container{
-		width:174px;
+		width:300px;
 	}
 
 	div.explorer-body{
-		width:141px;
+		width:125px;
 		font-size:0.8em;
 	}
 
 	div.explorer-created-time{
-		margin-top: -7px;
 		font-size:0.8em;
 	}
 
@@ -1144,6 +1213,7 @@ div.prompt-appstore{
 
 
 /* For watching video only */
+/*
 @media (max-width: 628px){
 	.video-js{
 		width:500px !important;
@@ -1183,4 +1253,179 @@ div.prompt-appstore{
 	.video-wrapper{
 		width:115px !important;
 	}
+}
+*/
+
+/* IE8 Fix */
+video { display: block; }
+
+
+video#bgvid {
+position: fixed; right: 0; bottom: 0;
+min-width: 100%; min-height: 100%;
+width: auto; height: auto; z-index: -100;
+background: url(../img/preview_good.jpg) no-repeat;
+background-size: cover;
+  /*opacity: 0.7;*/
+}
+
+.yeplive-loading{
+	position:absolute;
+	width:100%;
+	height:100%;
+	left:0px;
+	top:0px;
+	background-color:rgb(200, 23, 37);
+}
+
+.loader-center-outside{
+	position:absolute;
+	top:47.5%;
+	left:50%;
+}
+
+.loader-center-inside{
+	position:relative;
+	left:-50%;
+	top:-50%;
+}
+
+/* LOADER CSS */
+.la-ball-clip-rotate {
+    position: relative;
+}
+.la-ball-clip-rotate > div {
+    position: relative;
+    box-sizing: content-box;
+    color: #fff;
+    background: #fff;
+    border-color: #fff;
+    border-style: solid;
+    border-width: 0;
+}
+.la-ball-clip-rotate:after {
+    display: table;
+    clear: both;
+    line-height: 0;
+    content: "";
+}
+.la-ball-clip-rotate.la-dark > div {
+    color: #444;
+    background: #444;
+    border-color: #444;
+}
+/*
+ * Animation
+ */
+@keyframes ball-clip-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes ball-clip-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+@-moz-keyframes ball-clip-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+@-o-keyframes ball-clip-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+@-ms-keyframes ball-clip-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.la-ball-clip-rotate {
+    width: 32px;
+    height: 32px;
+}
+.la-ball-clip-rotate > div {
+    display: inline-block;
+    float: left;
+    width: 28px;
+    height: 28px;
+    margin: 0;
+    background: transparent !important;
+    border-style: solid;
+    border-width: 2px;
+    border-bottom-color: transparent !important;
+    border-radius: 100%;
+		 animation: ball-clip-rotate .75s linear infinite;
+		 -moz-animation: ball-clip-rotate .75s linear infinite;
+		 -webkit-animation: ball-clip-rotate .75s linear infinite;
+		 -ms-animation: ball-clip-rotate .75s linear infinite;
+		 -o-animation: ball-clip-rotate .75s linear infinite;
+		-webkit-animation-name: ball-clip-rotate;
+		-webkit-animation-duration: .75s;
+		-webkit-animation-iteration-count: infinite;
+		-webkit-animation-timing-function: linear;
+		
+}
+.la-ball-clip-rotate.la-sm {
+    width: 16px;
+    height: 16px;
+}
+.la-ball-clip-rotate.la-sm > div {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    border-width: 1px;
+}
+.la-ball-clip-rotate.la-lg {
+    width: 48px;
+    height: 48px;
+}
+.la-ball-clip-rotate.la-lg > div {
+    width: 42px;
+    height: 42px;
+    margin: 0;
+    border-width: 3px;
+}
+.la-ball-clip-rotate.la-2x {
+    width: 64px;
+    height: 64px;
+}
+.la-ball-clip-rotate.la-2x > div {
+    width: 56px;
+    height: 56px;
+    margin: 0;
+    border-width: 4px;
 }

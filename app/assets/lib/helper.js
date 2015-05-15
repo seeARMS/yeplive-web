@@ -45,7 +45,15 @@ define(['jquery'], function($){
             else{
                 return 'more than a year ago';
             }
-        }
+        },
+
+				truncate: function(s, num){
+					if(s.length > num){
+						return s.substring(0,num)+'...';
+					} else {
+						return s;
+					}
+				}
     };
 
     return helper;
