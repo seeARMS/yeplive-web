@@ -15,7 +15,7 @@ var basic = auth.basic({
 });
 
 
-app.use(auth.connect(basic));
+/*app.use(auth.connect(basic));*/
 app.use(favicon(__dirname + '/assets/img/favicon.ico'));
 app.use(bodyParser.urlencoded({extended:true}));
 

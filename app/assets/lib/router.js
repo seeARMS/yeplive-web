@@ -1,18 +1,19 @@
 define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/navbar_view',
 				'lib/views/login_view',
 				'lib/views/watch_view',
+				'lib/views/user_view',
 				'lib/user',
 				'lib/api',
 				'lib/views/create_yep_view',
 				'lib/views/not_found_view'
 ],
 
-	function($, _, Backbone, MapView, NavbarView, LoginView, WatchView, User, API, CreateYepView,
-		NotFoundView){
+	function($, _, Backbone, MapView, NavbarView, LoginView, WatchView, UserView, User, API, CreateYepView, NotFoundView){
 
 	var AppRouter = Backbone.Router.extend({
 		routes:{
 			'watch/:yepId' : 'watch',
+			'user/:userId' : 'user',
 			'': 'root',
 			'me': 'me',
 			'_=_': 'facebookRedirect',
@@ -89,12 +90,12 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 			currentView = new LoginView({el: '#main'});
 		});
 
-		appRouter.on('route:user', function(id){
+		appRouter.on('route:user', function(userId){
 			cleanView();
 			if(! User.authed){
 				return appRouter.navigate("/login", {trigger:true})
 			}
-			currentView = new UserView({el: '#main', user_id:id});
+			currentView = new UserView({el: '#main', userId : userId});
 		});
 
 		appRouter.on('route:logout', function(actions){

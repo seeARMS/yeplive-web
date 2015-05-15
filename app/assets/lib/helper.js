@@ -45,6 +45,16 @@ define(['jquery'], function($){
             else{
                 return 'more than a year ago';
             }
+        },
+        videoDurationConverter : function(seconds){
+            if(seconds < 60){
+                return '0:' + seconds.toString();
+            }
+            else if(seconds >= 60){
+                var minutes = Math.floor(seconds / 60);
+                seconds = seconds - ( minutes * 60 );
+                return minutes.toString() + ':' + seconds.toString();
+            }
         }
     };
 
