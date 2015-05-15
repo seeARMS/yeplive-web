@@ -6,9 +6,16 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var hdfvrconfig = require('./hdfvrconfig');
 var favicon = require('serve-favicon');
-
+var auth = require('http-auth');
 var app = express();
 
+var basic = auth.basic({
+    realm: 'Restricted',
+    file: __dirname + '/../data/users.htpasswd'
+});
+
+
+app.use(auth.connect(basic));
 app.use(favicon(__dirname + '/assets/img/favicon.ico'));
 app.use(bodyParser.urlencoded({extended:true}));
 
