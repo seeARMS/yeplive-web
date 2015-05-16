@@ -41,7 +41,7 @@ define(['jquery',
 						playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
 					} else {
 						video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_hls;
-						playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
+						playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
 					}
 
 

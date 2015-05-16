@@ -1,24 +1,49 @@
-<div class="video-overlay-2" >
-	<div class="connection-box">
-		<span id="connections">0</span>
-		<span class="glyphicon glyphicon-eye-open"></span>
+<div class="record-controller">
+
+	<div class="row record-chat-top" >
+
+		<div class="col-xs-4">
+			<div class="connection-box">
+				<span id="connections">0</span>
+				<span class="glyphicon glyphicon-eye-open"></span>
+			</div>
+		</div>
+
+
+		<div class="col-xs-4">
+			<div class="like-box">
+				<span id="likes">0</span>
+				<span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+			</div>
+		</div>
+
+		<div class="col-xs-4">
+			<div class="view-box">
+				<span id="views">0</span>
+				<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+			</div>
+		</div>
+
 	</div>
-	<div class="like-box">
-		<span id="likes">0</span>
-		<span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="record-chat-box">
+				<div id="chat"></div>
+			</div>
+		</div>
 	</div>
-	<div class="view-box">
-		<span id="views">0</span>
-		<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+
+	<div class="row record-chat-bottom" >
+		<div class="col-xs-3">
+			<div class="record-end-stream js-stop">
+				<i class="fa fa-stop"></i>
+				<span>End Recording</span>
+			</div>
+		</div>
+		<div class="col-xs-9">
+			<input class="record-chat-input" placeholder="say something about this video">
+		</div>
 	</div>
-	<div class="yep-chat-box">
-		<div id="chat"></div>
-	</div>
-	<div class="end-stream js-stop">
-		<i class="fa fa-stop"></i>
-		<span>End Recording</span>
-	</div>
-	<div class="yep-chat-input-box">
-		<input id="chat-input" placeholder="chat...">
-	</div>
+
 </div>

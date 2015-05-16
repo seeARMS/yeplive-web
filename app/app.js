@@ -6,8 +6,16 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var hdfvrconfig = require('./hdfvrconfig');
 var favicon = require('serve-favicon');
-
+var auth = require('http-auth');
 var app = express();
+
+var basic = auth.basic({
+    realm: 'Restricted',
+    file: __dirname + '/../data/users.htpasswd'
+});
+
+
+//app.use(auth.connect(basic));
 
 app.use(favicon(__dirname + '/assets/img/favicon.ico'));
 app.use(bodyParser.urlencoded({extended:true}));
@@ -44,7 +52,7 @@ app.use('/api', require('./api'));
 require('./auth')(app);
 
 //Match all strings
-app.get(/^[^.]*$/, function(req, res){
+app.get(/^[^.]*$/,auth.connect(basic), function(req, res){
 	var url = req.url.split('/');
 	var id;
 	if(url[1] === 'watch'){

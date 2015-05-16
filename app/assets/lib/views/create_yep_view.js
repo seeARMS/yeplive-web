@@ -83,7 +83,9 @@ define(['jquery',
 				
 			};
 			window.onCamAccess = function(allowed, id){
-				if(allowed && !$('.video-overlay-2').length){
+				// If user clicked allowed, and also the templates have not been appended
+				// Because user may click allow and click disallow again
+				if(allowed && $('.recording-chat').is(':empty')){
 					showOverlay();
 					setupShare(res);
 					setupSocket(res);	
@@ -107,7 +109,8 @@ define(['jquery',
 				API.post('/yeps/'+id+'/complete',{},
 					 window.localStorage.getItem('token'), function(err, body){
 						$('#VideoRecorder')[0].stopVideo();
-						self.renderComplete(body);
+						window.location.href = '/';	
+						//self.renderComplete(body);
 				});
 			});
 		}
@@ -172,7 +175,13 @@ define(['jquery',
 		var chatOffset = parseInt($chat.parent().css('bottom'));
 
 
-		var addMessage = function(data){
+		var addMessage = function(message){
+
+			var $el = $(chatMessage(message));
+			$chat.append($el);
+			$('div.record-chat-box').animate({scrollTop: $('div.record-chat-box')[0].scrollHeight },'slow');
+
+			/*
 			if(message){
 				chatOffset+=80;
 				$chat.parent().animate({
@@ -188,6 +197,7 @@ define(['jquery',
 				$el.addClass('fadeOut');
 			}, 5000);
 			$chat.append($el);
+			*/
 		};
 
 		var room = {
@@ -206,8 +216,7 @@ define(['jquery',
 			console.log(messages);
 		});
 
-		socket.on('chat:message', function(message){
-			console.log(message);
+		socket.on('chat:message', function(message){;
 			addMessage(message);
 		});
 
@@ -227,14 +236,14 @@ define(['jquery',
 	function showOverlay(){
 		$('div.recording-chat').append(videoOverlayTpl);
 		
-		$("#chat-input").bind("keypress", function(event) {
+		$(".record-chat-input").bind("keypress", function(event) {
 			if(event.which == 13) {
 					event.preventDefault();
 					socket.emit('message',{
-						message: $('#chat-input').val(),
+						message: $('.record-chat-input').val(),
 						user_id: user.user.get('user_id')
 					});
-					$('#chat-input').val('');
+					$('.record-chat-input').val('');
 		    }
 		});
 	}
