@@ -238,6 +238,7 @@ define(['jquery',
 		};
 
 		var marker = function(data){
+			console.log(data);
 			return {
 				values: data,
 				options:{
@@ -374,14 +375,19 @@ define(['jquery',
 
 
 					
-					
+					/*
 					if(yep.is_web){
 						video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_hls;
 						playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
 					} else {
 						video_path = (yep.vod_enable) ? yep.vod_path : (yep.stream_url).replace('rtsp', 'rtmp');
 						playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
-					}
+					}*/
+					console.log(yep);
+
+					video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
+					playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
+
 					
 					/*
 
@@ -748,6 +754,25 @@ define(['jquery',
 				addCloseDiscoverListener();
 			},
 
+			test: function(){
+				setTimeout(function(){
+					console.log('ahahaha');
+					$('#map-canvas').gmap3(
+						{	action: 'addMarkers',
+							markers:[
+								{lat:47.2807359, lng:-2.3830308000000286},
+							],
+							marker:{
+								options:{
+									draggable: false
+								}
+							}
+						}
+					);
+				}, 5000);
+			
+			},
+
 			render: function(){
 
 				var self = this;
@@ -764,6 +789,9 @@ define(['jquery',
 
 				// Launch Discovery
 				self.discover();
+
+
+				this.test();
 			},
 
 			populate: function(data){
