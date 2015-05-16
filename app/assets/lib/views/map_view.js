@@ -373,20 +373,25 @@ define(['jquery',
 
 					var playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';*/
 
+					// If Streaming from Apple Products, always use HLS
+					var ua = navigator.userAgent.toLowerCase();
+					if( navigator.appVersion.indexOf("iPad") != -1 || navigator.appVersion.indexOf("iPhone") != -1 || ua.indexOf("ipod") != -1 ){
+						video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
+						playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
+					}
+					else{
+						if(yep.is_web){
+							video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_hls;
+							playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
+						} else {
+							video_path = (yep.vod_enable) ? yep.vod_path : (yep.stream_url).replace('rtsp', 'rtmp');
+							playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
+						}
+					}
+					
+					
 
 					
-					/*
-					if(yep.is_web){
-						video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_hls;
-						playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
-					} else {
-						video_path = (yep.vod_enable) ? yep.vod_path : (yep.stream_url).replace('rtsp', 'rtmp');
-						playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
-					}*/
-					console.log(yep);
-
-					video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
-					playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
 
 					
 					/*
