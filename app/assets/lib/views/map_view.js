@@ -24,6 +24,7 @@ define(['jquery',
 		var mapView;
 		var messageUI = _.template(messageTpl);
 		var discoverUI = _.template(discoverTpl);
+		var mapMarkers;
 
 		var markerClicked = function(marker, event, context){
 			
@@ -238,7 +239,6 @@ define(['jquery',
 		};
 
 		var marker = function(data){
-			console.log(data);
 			return {
 				values: data,
 				options:{
@@ -718,6 +718,15 @@ define(['jquery',
 					self.decorateMessaging(data);
 				});
 
+				socket.on('yep:new', function(data){
+					var newYep = {
+						latLng : [data.latitude, data.longitude],
+						data : data.id
+					}
+					mapMarkers.push(newYep);
+					self.populate(mapMarkers);
+				});
+
 			},
 
 			discover: function(){
@@ -759,25 +768,6 @@ define(['jquery',
 				addCloseDiscoverListener();
 			},
 
-			test: function(){
-				setTimeout(function(){
-					console.log('ahahaha');
-					$('#map-canvas').gmap3(
-						{	action: 'addMarkers',
-							markers:[
-								{lat:47.2807359, lng:-2.3830308000000286},
-							],
-							marker:{
-								options:{
-									draggable: false
-								}
-							}
-						}
-					);
-				}, 5000);
-			
-			},
-
 			render: function(){
 
 				var self = this;
@@ -786,7 +776,11 @@ define(['jquery',
 				$('div#main').append('<div class="explore-container"></div>');
 
 				yepsCollection.fetch().then(function(){
-					self.populate(yepsCollection.getMapData());
+					mapMarkers = yepsCollection.getMapData();
+					self.populate(mapMarkers);
+
+					// Done loading, kill load boy
+					loaderClose();
 				});
 
 				// Register Socket Events
@@ -794,9 +788,6 @@ define(['jquery',
 
 				// Launch Discovery
 				self.discover();
-
-
-				this.test();
 			},
 
 			populate: function(data){
@@ -804,9 +795,6 @@ define(['jquery',
 				$('#map-canvas').gmap3({
 					marker: marker(data)
 				});
-
-				// Done loading, kill load boy
-				loaderClose();
 			}
 		});
 
