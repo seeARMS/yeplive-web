@@ -49,6 +49,30 @@ define(['jquery', 'underscore', 'backbone', 'lib/user'],
 
 	};
 
+	API.delete = function(route, data, token, cb){
+		var callback = typeof token === "function" ? 
+			token : cb;	
+			
+		$.ajax(
+			{
+				url:'/api'+route,
+				type: "DELETE",
+				beforeSend: function(xhr){
+					if(! (typeof token === 'function')){
+						xhr.setRequestHeader('Authorization', 'Bearer '+token || '');
+					}
+				},
+				data: data,
+				success: function(res){
+					callback(null, res);
+				},
+				error: function(err){
+					callback(err);
+				}
+			})
+
+	};
+
 	return API;
 
 });

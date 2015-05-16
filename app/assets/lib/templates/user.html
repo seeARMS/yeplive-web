@@ -1,5 +1,5 @@
 <div class="container">
-	<div class="row">
+	<div class="row user-view">
 		<div class="col-xs-4">
 			<div class="user-profile-picture text-center">
 				<img class="user-profile-picture" src="<%- picture_path %>" />
@@ -12,28 +12,28 @@
 		</div>
 		<div class="col-xs-4">
 			<div class="user-follow-button text-center">
-				<button class="<%- followButtonClass %>"><%- followButtonContent %></button>
+				<button id="user-follow-button" value="<%- followButtonValue %>" class="<%- followButtonClass %>"><%- followButtonContent %></button>
 			</div>
 		</div>
 	</div>
 	<hr />
 	<div class="row">
-		<div class="col-xs-12 col-md-4">
-			<div class="user-show-yeps">
-				<h3 class="text-center"><%- yeps_count %> Yeps</h3>
-			</div>
+		<div id="user-view-selection-yeps" class="col-xs-12 col-md-4 user-view-selection-button">
+
+			<h3 class="text-center"><%- yeps_count %> Yeps</h3>
+
 		</div>
 		
-		<div class="col-xs-12 col-md-4">
-			<div class="user-show-following">
-				<h3 class="text-center"><%- following_count %> Following</h3>
-			</div>
+		<div id="user-view-selection-following" class="col-xs-12 col-md-4 user-view-selection-button">
+
+			<h3 class="text-center"><%- following_count %> Following</h3>
+
 		</div>
 
-		<div class="col-xs-12 col-md-4">
-			<div class="user-show-followers">
-				<h3 class="text-center"><%- follower_count %> Followers</h3>
-			</div>
+		<div id="user-view-selection-followers" class="col-xs-12 col-md-4 user-view-selection-button">
+
+			<h3 class="text-center"><%- follower_count %> Followers</h3>
+
 		</div>
 	</div>
 	<hr />

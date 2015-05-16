@@ -42,9 +42,33 @@ module.exports = (function(){
 		}
 	}
 
+
+	//Delete request to the api
+	function deleteAPI(route, params, auth, cb) {
+		if(typeof auth == "function"){
+			cb = auth;
+			return request({
+			method: 'DELETE',
+			uri: config.yeplive_api.host +'/api/v1'+ route,
+			form: params
+			}, cb);
+		}
+		else {
+			request({
+				method: 'DELETE',
+				uri: config.yeplive_api.host +'/api/v1'+ route,
+			 	headers: {
+					'Authorization': auth,
+				},
+				form: params
+			}, cb);
+		}
+	}
+
 	return {
 		postAPI: postAPI,
-		getAPI: getAPI	
+		getAPI: getAPI,
+		deleteAPI: deleteAPI	
 	}
 	
 }());

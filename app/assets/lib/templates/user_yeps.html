@@ -1,24 +1,30 @@
 <div class="row">
-	<div class="col-md-4">
-		<img src="<%- image_path %>" />
-		<div class=""><%- video_duration %></div>
+	<div class="col-md-5">
+		<div class="user-yeps-video">
+			<a href="<%- watchYep %>">
+				<img class="user-yeps-image" src="<%- image_path %>" onError="this.onerror=null;this.src='/img/record.png';" />
+				<div class="user-yeps-duration"><%- video_duration %></div>
+			</a>
+		</div>
 	</div>
 	<div class="col-md-4">
 		<div class="row">
 			<div class="col-md-12">
-				<h3><%- title %></h3>
+				<h1><%- title %></h1>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-6">
-				<img src="<%- user.picture_path %>" />
+		<div class="row user-yeps-profile-id">
+			<div class="col-md-4">
+				<img class="user-yeps-profile-picture" src="<%- user.picture_path %>" />
 			</div>
-			<div class="col-md-6">
-				<h3><%- user.display_name %></h3>
+			<div class="col-md-8">
+				<div class="user-profile-display-name">
+					<h3><%- user.display_name %></h3>
+				</div>
 			</div>
 		</div>
 	</div>
-	<div class="col-md-4">
+	<div class="col-md-3">
 		<div class="row">
 			<div class="col-md-12">
 				<h3><i class="fa fa-eye"></i> <%- views %></h3>
@@ -31,3 +37,4 @@
 		</div>
 	</div>
 </div>
+<hr />

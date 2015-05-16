@@ -264,6 +264,35 @@ module.exports = (function(){
 		});
 	});
 
+	router.delete('/users/:userId/following', function(req, res){
+		var token = req.headers["authorization"];
+		var id = req.params.userId;
+		
+		helpers.deleteAPI('/users/' + id + '/following', {}, token, function(err, response, body){
+			console.log(response.statusCode);
+			if(response.statusCode !== 200){
+				if(response.statusCode === 500){ return res.send(body); }
+				return res.status(response.statusCode).json({error: response.statusCode});
+			}
+			var json = JSON.parse(body);
+			res.status(200).json(json);	
+		});
+	});
+
+	router.post('/users/:userId/following', function(req, res){
+		var token = req.headers["authorization"];
+		var id = req.params.userId;
+		
+		helpers.postAPI('/users/' + id + '/following', {}, token, function(err, response, body){
+			if(response.statusCode !== 200){
+				if(response.statusCode === 500){ return res.send(body); }
+				return res.status(response.statusCode).json({error: response.statusCode});
+			}
+			var json = JSON.parse(body);
+			res.status(200).json(json);	
+		});
+	});
+
 	router.post('/follow/:id', function(req, res){
 		var token = req.headers["authorization"];
 		var id = req.params.id;

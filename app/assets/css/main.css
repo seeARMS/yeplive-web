@@ -949,20 +949,75 @@ div.prompt-appstore{
 
 img.user-profile-picture{
 	width:200px;
-	border-radius:50%;
+	border-radius:15px;
 }
 
 div.user-display-name, div.user-follow-button{
 	margin-top:75px;
 }
 
+img.user-yeps-image{
+	width:400px;
+	border-radius:35px;
+}
 
+div.user-yeps-duration{
+	position: absolute;
+	bottom: 18px;
+	right: 93px;
+	font-size: 30px;
+	background-color: black;
+	color: white;
+	padding: 7px 7px 7px 7px;
+	border-radius: 14px;
+	border: solid 2px;
+}
 
+img.user-yeps-profile-picture{
+	width:90px;
+	border-radius:15px;
+}
 
+div.user-yeps-profile-id{
+	margin-top:25px;
+}
 
+div.user-profile-display-name{
+	margin-top:33px;
+}
 
+div.user-yeps-video{
+	cursor:pointer;
+}
 
-/* ------------------------- USER PAGE ---------------------------- */
+img.user-follow-profile-image{
+	min-width: 200px;
+	border-radius: 15px;
+}
+
+div.user-follow-display-name{
+	margin-top: 68px;
+}
+
+div.user-view-selection-button{
+	cursor: pointer;
+}
+
+div.user-view-selection-button:hover{
+	border: solid 1px lightgrey;
+	border-radius: 30px;
+}
+
+div.user-view-contents-selected{
+	border: solid 1px lightgrey;
+	border-radius: 30px;
+}
+
+div.user-view{
+	margin-top: 25px;
+}
+
+/* ------------------------- END OF USER PAGE ---------------------------- */
 
 
 /* Large devices (large desktops, 1200px - 993px) */

@@ -52,6 +52,9 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 				'/auth/facebook',
 				'/auth/google',
 				'/auth/twitter',
+				'/user/',
+				'/',
+				'/watch/'
 			];
 
 			console.log(href);
@@ -98,6 +101,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 			if(! User.authed){
 				return appRouter.navigate("/login", {trigger:true})
 			}
+			navbarView = new NavbarView({el: '#navbar'});
 			currentView = new UserView({el: '#main', userId : userId});
 		});
 
