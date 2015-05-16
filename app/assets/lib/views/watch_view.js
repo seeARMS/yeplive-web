@@ -1,6 +1,7 @@
 define(['jquery',
 		'lib/helper',
 		'asyncJS',
+		'swal',
 		'underscore',
 		'backbone',
 		'text!lib/templates/watch.html',
@@ -15,7 +16,9 @@ define(['jquery',
 		'text!lib/templates/video_overlay.html'
 	],
 
-	function($, helper, async, _, Backbone, watchTpl, Api, vj, vjm, vjh, vjRoomRotate, socket, User, chatMessageTpl, overlayTpl){
+	function($, helper, async, Swal, _, Backbone, watchTpl, Api, vj, vjm, vjh, vjRoomRotate, socket, User, chatMessageTpl, overlayTpl){
+
+		var currentVoteCount;
 
 		var WatchView = Backbone.View.extend({
 
@@ -210,6 +213,14 @@ define(['jquery',
 					addMessage(data);
 				});
 
+				socket.on('yep:vote', function(data){
+					self.updateVoteCount(data.vote_count);
+				});
+
+				socket.on('yep:view', function(data){
+					self.updateViewCount(data.view_count);
+				});
+
 			},
 
 			/*
@@ -256,54 +267,63 @@ define(['jquery',
 				});
 			},
 			*/
+			updateVoteCount: function(voteCount){
+				if(currentVoteCount !== voteCount){
+					$('span.watch-vote-count').html(voteCount);
+					currentVoteCount = voteCount;
+				}
+			},
 
-			addVoteListener: function(options, yep){
+			updateViewCount: function(viewCount){
+				$('span.watch-view-count').html(viewCount);
+			},
+
+			addVoteListener: function(yepId){
 
 				var $voteIcon = $('i#voteIcon');
 
 				if(User.authed){
 
-					var currentVotes = yep.vote_count;
-
 					$('div.watch-vote').on('click', function(){
-						Api.post('/yeps/' + options.yepId + '/votes', {},
+
+						Api.post('/yeps/' + yepId + '/votes', {},
 								window.localStorage.getItem('token'),
 								function(err, res){
+
 									if(err){
-										console.log(err);
-										return;
+										return Swal("Warning", "Something is wrong", "warning");
 									}
-									if(res.vote < 5){
-										currentVotes++;
-										$voteIcon.attr('class', 'fa fa-star fa-2x');
-										$voteIcon.html(' ' + re.vote_count.toString());
+									
+									if(res.success){
+										// Do Something
 									}
 									else{
-										currentVotes--;
-										$voteIcon.attr('class', 'fa fa-thumbs-o-up fa-2x');
-										$voteIcon.html(' ' + re.vote_count.toString());	
+										// Do Something
 									}
 								}
 						);
 					});
 				}
 				else{
-					this.promptLogin();
-					return;
+					return this.promptLogin();
 				}
 			},
 
-			addViewCount: function(options){
-				Api.post('/yeps/' + options.yepId + '/views', {},
-							window.localStorage.getItem('token'),
-							function(err, res){
-								if(err){
-									console.log(err);
-									return;
-								}
-								$('div.watch-view-count').html('<i class="fa fa-eye fa-2x" > ' + res.views + '</i>');
-								return;
-							}
+			addViewCount: function(yepId){
+
+				Api.post('/yeps/' + yepId + '/views', {},
+					window.localStorage.getItem('token'),
+					function(err, res){
+						if(err){
+							return Swal("Warning", "Something is wrong", "warning");
+						}
+						if(res.success){
+							// Do something
+						}
+						else{
+							// Do something
+						}
+					}
 				);
 			},
 
@@ -316,8 +336,8 @@ define(['jquery',
 				this.addMessagingListener(options);
 				this.setupVideo(data);
 				//this.addCommentListener(options);
-				this.addVoteListener(options, data.video.yep);
-				this.addViewCount(options);
+				this.addVoteListener(options.yepId);
+				this.addViewCount(options.yepId);
 				
 			}
 			/*

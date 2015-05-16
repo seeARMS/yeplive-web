@@ -51,19 +51,17 @@
 				<div class="col-xs-7 col-xs-offset-1">
 
 					<h2><%- video.yep.title %></h2>
-					<div class="watch-view-count" ><i class="fa fa-eye fa-2x" > <%- video.yep.views %></i></div>
+
+					<div class="watch-view-count" >
+						<i class="fa fa-eye fa-2x" ></i>
+						<span class="watch-view-count"><%- video.yep.views %></span>
+					</div>
+
 					<p></p>
 
-					<% if(video.yep.voted < 5) { %>
-					<% var title = 'star this video'; %>
-					<% var voteIcon = 'fa fa-star-o fa-2x'; %>
-					<% } else { %>
-					<% var title = 'reach max stars'; %>
-					<% var voteIcon = 'fa fa-star fa-2x'; %>
-					<% } %>
-
-					<div class="watch-vote" data-toggle="tooltip" data-placement="left" title="<%- title %>" >
-						<i id="voteIcon" class="<%- voteIcon %>"> <%- video.yep.vote_count %></i>
+					<div class="watch-vote" data-toggle="tooltip" data-placement="left" title="star this video" >
+						<i id="voteIcon" class="fa fa-star-o fa-2x"></i>
+						<span class="watch-vote-count"><%- video.yep.vote_count %></span>
 					</div>
 
 					<p></p>
@@ -73,7 +71,23 @@
 							#<%- val %>
 
 						<% }) %>
-					</i> 
+					</i>
+					<p></p>
+
+					<div class="watch-share-social row">
+						<div class="col-xs-3">
+							<span>Share to: </span>
+						</div>
+						<div class="col-xs-1">
+							<i class="fa fa-facebook-square fa-2x"></i>
+						</div>
+						<div class="col-xs-1">
+							<i class="fa fa-google-plus-square fa-2x"></i>
+						</div>
+						<div class="col-xs-1">
+							<i class="fa fa-twitter-square fa-2x"></i>
+						</div>
+					</div>
 					
 				</div>
 
