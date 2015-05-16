@@ -48,12 +48,33 @@ define(['jquery'], function($){
         },
         videoDurationConverter : function(seconds){
             if(seconds < 60){
-                return '0:' + seconds.toString();
+                if(seconds < 10){
+                    seconds = '0' + seconds.toString();
+                }
+                else{
+                    seconds = seconds.toString();
+                }
+                return '00:' + seconds
             }
             else if(seconds >= 60){
                 var minutes = Math.floor(seconds / 60);
                 seconds = seconds - ( minutes * 60 );
-                return minutes.toString() + ':' + seconds.toString();
+
+                if(seconds < 10){
+                    seconds = '0' + seconds.toString();
+                }
+                else{
+                    seconds = seconds.toString();
+                }
+
+                if(minutes < 10){
+                    minutes = '0' + minutes.toString();
+                }
+                else{
+                    minutes = minutes.toString();
+                }
+
+                return minutes.toString() + ':' + seconds;
             }
         }
     };

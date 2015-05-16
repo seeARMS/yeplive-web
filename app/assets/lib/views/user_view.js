@@ -26,7 +26,7 @@ define(['jquery',
 							var data = { success : 0 };
 							cb(404, user)
 						}
-						user.followButtonClass = user.is_following ? 'user-to-unfollow btn btn-danger' : 'user-to-follow btn btn-primary';
+						user.followButtonClass = user.is_following ? 'user-to-unfollow btn btn-lg btn-danger' : 'user-to-follow btn btn-lg btn-primary';
 						user.followButtonContent = user.is_following ? 'unfollow' : 'follow';
 						cb(null, user);
 					}

@@ -879,6 +879,26 @@ div.prompt-appstore{
 
 
 
+/* ------------------------- USER PAGE ---------------------------- */
+
+img.user-profile-picture{
+	width:200px;
+	border-radius:50%;
+}
+
+div.user-display-name, div.user-follow-button{
+	margin-top:75px;
+}
+
+
+
+
+
+
+
+/* ------------------------- USER PAGE ---------------------------- */
+
+
 /* Large devices (large desktops, 1200px - 993px) */
 @media (max-width: 1200px){
 
