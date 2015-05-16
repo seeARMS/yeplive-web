@@ -24,6 +24,7 @@ define(['jquery',
 		var mapView;
 		var messageUI = _.template(messageTpl);
 		var discoverUI = _.template(discoverTpl);
+		var mapMarkers;
 
 		var markerClicked = function(marker, event, context){
 			
@@ -380,16 +381,26 @@ define(['jquery',
 
 					var playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';*/
 
+					// If Streaming from Apple Products, always use HLS
+					var ua = navigator.userAgent.toLowerCase();
+					if( navigator.appVersion.indexOf("iPad") != -1 || navigator.appVersion.indexOf("iPhone") != -1 || ua.indexOf("ipod") != -1 ){
+						video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
+						playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
+					}
+					else{
+						if(yep.is_web){
+							video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_hls;
+							playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
+						} else {
+							video_path = (yep.vod_enable) ? yep.vod_path : (yep.stream_url).replace('rtsp', 'rtmp');
+							playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
+						}
+					}
+					
+					
 
 					
-					
-					if(yep.is_web){
-						video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_hls;
-						playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
-					} else {
-						video_path = (yep.vod_enable) ? yep.vod_path : (yep.stream_url).replace('rtsp', 'rtmp');
-						playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
-					}
+
 					
 					/*
 
@@ -724,6 +735,15 @@ define(['jquery',
 					self.decorateMessaging(data);
 				});
 
+				socket.on('yep:new', function(data){
+					var newYep = {
+						latLng : [data.latitude, data.longitude],
+						data : data.id
+					}
+					mapMarkers.push(newYep);
+					self.populate(mapMarkers);
+				});
+
 			},
 
 			discover: function(){
@@ -773,7 +793,11 @@ define(['jquery',
 				$('div#main').append('<div class="explore-container"></div>');
 
 				yepsCollection.fetch().then(function(){
-					self.populate(yepsCollection.getMapData());
+					mapMarkers = yepsCollection.getMapData();
+					self.populate(mapMarkers);
+
+					// Done loading, kill load boy
+					loaderClose();
 				});
 
 				// Register Socket Events
@@ -788,9 +812,6 @@ define(['jquery',
 				$('#map-canvas').gmap3({
 					marker: marker(data)
 				});
-
-				// Done loading, kill load boy
-				loaderClose();
 			}
 		});
 

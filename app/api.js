@@ -200,7 +200,7 @@ module.exports = (function(){
 	router.get('/yeps/:id', function(req, res){
 		var token = req.headers["authorization"];
 		var id = req.params.id;
-		helpers.getAPI('/yeps/'+id,token,function(err, response, body){
+		helpers.getAPI('/yeps/'+ id, token, function(err, response, body){
 			if(response.statusCode !== 200){
 				if(response.statusCode === 500){ return res.send(body); }
 				return res.status(response.statusCode).json({error: response.statusCode});
@@ -210,9 +210,50 @@ module.exports = (function(){
 		});
 	});
 
-	router.get('/users', function(req, res){
-		var name = req.query.name;
-		helpers.getAPI('/users?name='+name, function(err, response, body){
+	router.get('/users/:userId', function(req, res){
+		var token = req.headers["authorization"];
+		var userId = req.params.userId;
+		helpers.getAPI('/users/'+ userId, token, function(err, response, body){
+			if (err || response.statusCode !== 200){
+				if(response.statusCode === 404){
+					return res.status(404).json({error: 'could not find user'});
+				}
+				return res.status(500).json({error:'could not get user'});
+			}
+			res.json(JSON.parse(body));
+		});
+	});
+
+	router.get('/users/:userId/yeps', function(req, res){
+		var userId = req.params.userId;
+		helpers.getAPI('/users/'+ userId + '/yeps', function(err, response, body){
+			if (err || response.statusCode !== 200){
+				if(response.statusCode === 404){
+					return res.status(404).json({error: 'could not find user'});
+				}
+				return res.status(500).json({error:'could not get user'});
+			}
+			res.json(JSON.parse(body));
+		});
+	});
+
+	router.get('/users/:userId/followers', function(req, res){
+		var userId = req.params.userId;
+		helpers.getAPI('/users/'+ userId + '/followers', function(err, response, body){
+			if (err || response.statusCode !== 200){
+				if(response.statusCode === 404){
+					return res.status(404).json({error: 'could not find user'});
+				}
+				return res.status(500).json({error:'could not get user'});
+			}
+			res.json(JSON.parse(body));
+		});
+	});
+
+	router.get('/users/:userId/following', function(req, res){
+		var userId = req.params.userId;
+		helpers.getAPI('/users/'+ userId + '/following', function(err, response, body){
+			console.log(response.statusCode)
 			if (err || response.statusCode !== 200){
 				if(response.statusCode === 404){
 					return res.status(404).json({error: 'could not find user'});
