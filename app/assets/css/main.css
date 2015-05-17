@@ -695,6 +695,11 @@ img.explorer-image{
 	transition: transform 0.4s;
 	-webkit-transition-timing-function: cubic-bezier(0.7,0,0.3,1);
 	transition-timing-function: cubic-bezier(0.7,0,0.3,1);
+
+	webkit-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.75);
+
 }
 
 .explore-container-show{
@@ -765,7 +770,7 @@ img.explorer-image{
 	font-family: 'Roboto';
 	font-weight: 200;
 	font-size: 1.5em;
-	color: #b8b7ad;
+	color: black;
 	width: 25;
 	height: 25;
 	text-align: center;
