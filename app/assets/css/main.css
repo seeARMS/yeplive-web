@@ -43,10 +43,6 @@ body{
 	/*overflow-y:hidden;*/
 }
 
-.js-share{
-	color:white;
-}
-
 .stop-button{
 	margin-top:25px;
 	width:150;
@@ -323,7 +319,7 @@ ul.navbar-button{
 	display:block;
 }
 
-.video-recorder, .watch-chat-grid, .watch-chat-box{
+.watch-chat-grid, .watch-chat-box{
 	margin-top:25px;
 }
 
@@ -336,7 +332,7 @@ ul.navbar-button{
 	top:-10px;
 }
 
-.video-recorder, .watch-chat-input{
+ .watch-chat-input{
 	margin-bottom:25px;
 }
 
@@ -391,6 +387,10 @@ ul.navbar-button{
 	width:92%;
 }
 
+.chat-message p{
+	margin-left:12px;
+}
+
 /*
 .yep-chat-box{
 	position:absolute;
@@ -421,7 +421,7 @@ ul.navbar-button{
 	outline: none;
 }
 
-#description{
+#title{
 	height:50px;
 	border-radius:25px;
 	background-color:rgba(0,0,0,0.5);
@@ -559,12 +559,20 @@ img.loading{
 /* ----- RECORDING VIEW ------ */
 
 .record-controller{
-	margin-top: 25px;
+	margin-top: 10px;
+}
+
+.js-stop{
+	width:50px;
+	height:50px;
+	margin-left:15px;
+	font-size:1.5em;
 }
 
 .record-chat-box{
-	height: 300px;
+	height: 250px;
 	overflow: scroll;
+	overflow-x: hidden;
 }
 
 .record-chat-bottom{
@@ -578,8 +586,6 @@ img.loading{
 }
 
 .recording-chat{
-	background-color: rgb(234, 234, 234);
-	margin-top:25px;
 }
 
 .record-end-stream{
@@ -678,7 +684,7 @@ img.explorer-image{
 	overflow: scroll;
 	z-index: 5;
 	width: 370px;
-	height: 88%;
+	height: 100%;
 	background: #fff;
 	padding: 2em 1.5em 0;
 	padding-left: 20px;
@@ -1043,7 +1049,7 @@ div.user-view{
 	}
 
 	.record-chat-box{
-		height:310px;
+		height:250px;
 	}
 
 	input.record-chat-input{
@@ -1428,6 +1434,16 @@ background-size: cover;
 	left:0px;
 	top:0px;
 	background-color:rgb(200, 23, 37);
+}
+
+.red-bg{
+	position:absolute;
+	width:100%;
+	height:100%;
+	left:0px;
+	top:0px;
+	background-color:#18191a;
+	z-index:-1;
 }
 
 .loader-center-outside{

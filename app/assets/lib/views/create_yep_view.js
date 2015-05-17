@@ -16,18 +16,20 @@ define(['jquery',
 
 	function($, _, Backbone, nope, swal, API, previewTpl, recordingTpl, socket, user, chatMessageTpl, videoOverlayTpl, completeTpl, getAppTpl){
 
+	var recording = false;
 
 	var CreateYepView = Backbone.View.extend({
 		events:{
 			'click .js-start': function(){
 				var self = this;
 				var pos = user.getLocation();
-				var description = $('#description').val();
+				var title = $('#title').val();
 				var latitude = user.user.get('latitude');
 				var longitude = user.user.get('longitude');
 
 				API.post('/yeps',{
-					title: description,
+					staging: 1,
+					title: title,
 					latitude: latitude,
 					longitude: longitude 
 				}, window.localStorage.getItem('token'), function(err, res){
@@ -109,8 +111,9 @@ define(['jquery',
 				API.post('/yeps/'+id+'/complete',{},
 					 window.localStorage.getItem('token'), function(err, body){
 						$('#VideoRecorder')[0].stopVideo();
+						socket.emit('leave_room');
+						window.onbeforeunload = false;
 						window.location.href = '/';	
-						//self.renderComplete(body);
 				});
 			});
 		}
@@ -251,7 +254,7 @@ define(['jquery',
 	var confirmOnPageExit = function (e) {
 	    // If we haven't been passed the event get the window.event
 	    e = e || window.event;
-	    var message = 'Any text will block the navigation and display a prompt';
+	    var message = 'You are currently streaming, are you sure you want to leave?';
 	    // For IE6-8 and Firefox prior to version 4
 	    if (e) 
 	    {

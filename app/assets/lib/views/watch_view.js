@@ -30,6 +30,7 @@ define(['jquery',
 
 					if( err ){
 						var data = { success : 0 };
+						window.location.href='/404';
 						cb(404, data)
 					}
 					
@@ -40,10 +41,10 @@ define(['jquery',
 					console.log(yep);
 					
 					if(yep.is_web){
-						video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_hls;
+						video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
 						playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
 					} else {
-						video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_hls;
+						video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
 						playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
 					}
 
@@ -122,12 +123,43 @@ define(['jquery',
 				vj(videoEl, {}, function(player){
 					//this.play();
 					//console.log(data.video);
-					if(data.video.yep.portrait){
-						this.zoomrotate({
-							rotate: 90,
-							zoom: 1
-						});
+					if(data.video.yep.vod_enable){
+						if(data.video.yep.portrait){
+							console.log('rotatin');
+							this.zoomrotate({
+								rotate: 90,
+								zoom: 1
+							});
+						}
+					this.play();
+					} else {
+						if(data.video.yep.portrait){
+						var width = $('#playVideo_flash_api').css('width');
+						var height = $('#playVideo_flash_api').css('height');
+						$('#playVideo_flash_api').css('width',height);
+						$('#playVideo_flash_api').css('height',width);
+						$('#playVideo_flash_api').css('top','-90px');
+						$('#playVideo_flash_api').css('left','90px');
+						$('#playVideo_flash_api').css(
+ "-moz-transform","rotate(90deg)"
+						).css(
+  "-webkit-transform","rotate(90deg)"
+						).css(
+ "-o-transform","rotate(90deg)"
+						).css(
+ "-ms-transform","rotate(90deg)"
+						).css(
+  "transform","rotate(90deg)"
+						);
+						}
 					}
+					this.on('error', function(){
+						alert('an error occured with the stream');
+						window.location.reload();
+					});
+					this.on('ended', function(){
+						console.log('video ended');
+					});
 					//console.log(overlayTpl);
 //					$('#recorder').append(overlayTpl);
 					//console.log('VideoJS successfully loaded')
@@ -305,7 +337,7 @@ define(['jquery',
 					});
 				}
 				else{
-					return this.promptLogin();
+					//return this.promptLogin();
 				}
 			},
 

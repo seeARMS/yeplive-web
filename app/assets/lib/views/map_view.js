@@ -15,9 +15,10 @@ define(['jquery',
 		'videojsMedia',
 		'videojsHLS',
 		'lib/socket',
+		'lib/models/yep'
 		],
 
-	function($, helper, async, User, _, Backbone, Api, gmap3, mapTpl, discoverTpl, messageTpl, googleMaps, yepsCollection, vj, vjm, vjh, socket){
+	function($, helper, async, User, _, Backbone, Api, gmap3, mapTpl, discoverTpl, messageTpl, googleMaps, yepsCollection, vj, vjm, vjh, socket, Yep){
 
 		var yepsCollection = new yepsCollection();
 
@@ -369,6 +370,8 @@ define(['jquery',
 					var thumbnail_path = yep.image_path;
 					var video_path = '';
 
+					video_path = yep.stream_url;
+
 					/*
 					if(yep.vod_enable){
 						video_path = yep.vod_path;
@@ -389,11 +392,11 @@ define(['jquery',
 					}
 					else{
 						if(yep.is_web){
-							video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_hls;
+							video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
 							playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
 						} else {
-							video_path = (yep.vod_enable) ? yep.vod_path : (yep.stream_url).replace('rtsp', 'rtmp');
-							playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
+							video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
+							playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
 						}
 					}
 					
@@ -446,15 +449,39 @@ define(['jquery',
 			},
 
 			setupVideo: function(data){
+				console.log(data);
 				var videoEl = document.getElementById('playVideo');
 				vj(videoEl, {}, function(){
-					if(data.video.yep.portrait){
-						this.zoomrotate({
-							rotate: 90,
-							zoom: 1
-						});
+					console.log(this);
+					console.log(data);
+//					this.play();
+					if(data.video.yep.vod_enable){
+						if(data.video.yep.portrait){
+							console.log('rotatin');
+							this.zoomrotate({
+								rotate: 90,
+								zoom: 1
+							});
+						}
+					} else {
+						var width = $('#playVideo_flash_api').css('width');
+						var height = $('#playVideo_flash_api').css('height');
+						$('#playVideo_flash_api').css('width',height);
+						$('#playVideo_flash_api').css('height',width);
+						$('#playVideo_flash_api').css('top','-42px');
+						$('#playVideo_flash_api').css('left','42px');
+						$('#playVideo_flash_api').css(
+ "-moz-transform","rotate(90deg)"
+						).css(
+  "-webkit-transform","rotate(90deg)"
+						).css(
+ "-o-transform","rotate(90deg)"
+						).css(
+ "-ms-transform","rotate(90deg)"
+						).css(
+  "transform","rotate(90deg)"
+						);
 					}
-					this.play();
 				});
 			},
 
@@ -742,6 +769,9 @@ define(['jquery',
 					}
 					mapMarkers.push(newYep);
 					self.populate(mapMarkers);
+					console.log(data);
+					var yep = new Yep(data);
+					yepsCollection.add(yep);
 				});
 
 			},
