@@ -15,8 +15,8 @@ define(['jquery','underscore','backbone','lib/models/user'],
         },
 		setLocation: function(cb){
 			var self = this;
-			var latitude = window.localStorage.getItem('latitude');
-			var longitude= window.localStorage.getItem('longitude');
+			var latitude;// = window.localStorage.getItem('latitude');
+			var longitude;//= window.localStorage.getItem('longitude');
 			if(! latitude){
 			window.navigator.geolocation.getCurrentPosition(function(pos){
 				self.user.set('latitude', pos.coords.latitude);

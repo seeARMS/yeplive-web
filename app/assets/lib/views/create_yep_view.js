@@ -69,10 +69,11 @@ define(['jquery',
 		},
 		renderPreview: function(){	
 			this.$el.html(this.previewTpl());
+			$('.js-start').text('waiting...');
+			$('.js-start').attr('disabled',true);
 			user.setLocation(function(err, res){
-				if(res){
+					$('.js-start').html('Go Live!');
 					$('.js-start').attr('disabled',false);
-				}
 			});
 			setupHDFVR('livestream');
 		},
@@ -227,7 +228,7 @@ define(['jquery',
 			$connections.html(data.connection_count);	
 		});
 
-		socket.on('yep:vote', function(){
+		socket.on('yep:vote', function(data){
 			$votes.html(data.vote_count);
 		});
 

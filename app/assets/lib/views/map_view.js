@@ -170,6 +170,8 @@ define(['jquery',
 				var userImage = yep.user.picture_path;
 				var isPortrait = yep.portrait === 1 ? true : false;
 				var timeDiff = (currentTime / 1000) - startTime;
+				var vidTime =  parseInt(yep.end_time) - parseInt(yep.start_time);
+				console.log(vidTime);
 
 				if (imagePath === ''){
 					imagePath = '/img/video-thumbnail.png'
@@ -184,6 +186,11 @@ define(['jquery',
 				}
 
 				content += '<div class="explorer-wrapper"><a class="discover" href="#" id="' + yepId + '">';
+				if(yep.vod_enable){
+				content += '<div class="explorer-time">'+helper.videoDurationConverter(vidTime)+'</div>';
+				} else {
+				content += '<div class="explorer-time">Live!</div>';
+				}
 				if(isPortrait){
 					content += '<img src="' + imagePath + '" class="explorer-image explorer-portrait rotateCW">';
 					content += '<div class="explorer-body explorer-portrait-body">';
@@ -191,12 +198,12 @@ define(['jquery',
 					content += '<img src="' + imagePath + '" class="explorer-image">';
 					content += '<div class="explorer-body">';
 				}
-				content += '<div class="explorer-title">' + helper.truncate(yepTitle,15) + '</div>';
+				content += '<div class="explorer-title text-center">' + helper.truncate(yepTitle,15) + '</div>';
 				content += '<img src="'+userImage+'" class="explorer-user-image img-circle">';
-				content += '<div class="explorer-display-name">' + displayName + '</div>';
-				content += '</div>';
+				content += '<div class="explorer-display-name">' + helper.truncate(displayName,15) + '</div>';
 				content += '<div class="row"><div class="explorer-created-time col-xs-12">' + helper.timeElapsedCalculator(timeDiff) ;
 				content += '<div class="explorer-views">'+views + ' views</div></div>'
+				content += '</div>';
 				content += '</div></a><hr /></div>';
 			}
 

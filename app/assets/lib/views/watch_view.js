@@ -153,10 +153,12 @@ define(['jquery',
 						);
 						}
 					}
+/*
 					this.on('error', function(){
 						alert('an error occured with the stream');
 						window.location.reload();
 					});
+*/
 					this.on('ended', function(){
 						console.log('video ended');
 					});
@@ -235,6 +237,10 @@ define(['jquery',
 
 				socket.on('yep:connection', function(data){
 					console.log(data);
+				});
+
+				socket.on('yep:complete', function(data){
+					$('').html('<h1 style="color:white" class="text-center">Stream Complete</h1>');
 				});
 
 				socket.on('chat:history', function(data){
