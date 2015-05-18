@@ -900,6 +900,10 @@ b.chat-user-name{
 	margin-bottom: 25px;
 }
 
+.watch-share-btn{
+	cursor: pointer;
+}
+
 /* ----- End of WATCH VIEW ------ */
 
 

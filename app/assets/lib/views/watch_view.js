@@ -361,6 +361,21 @@ define(['jquery',
 				);
 			},
 
+			initFacebookShareSdk: function(yepId){
+				FB.init({
+					appId: '1577314819194083',
+					version: 'v2.3'
+				});
+
+				$('#share-fb').on('click',function(){
+					FB.ui({
+						method: 'share',
+						href: 'http://dev-web-client-r52hvx6ydd.elasticbeanstalk.com/watch/' + yepId,
+						}, function(response){}
+					);
+				});
+			},
+
 			render: function(data, options){
 
 				this.$el.html(this.tpl(data));
@@ -372,24 +387,10 @@ define(['jquery',
 				//this.addCommentListener(options);
 				this.addVoteListener(options.yepId);
 				this.addViewCount(options.yepId);
-
-
-				FB.init({
-					appId: '1577314819194083',
-					version: 'v2.3'
-				});
+				this.initFacebookShareSdk(options.yepId);
 
 				/*
-				setTimeout(function(){
-					console.log('bang');
-					FB.ui({
-						method: 'share_open_graph',
-						action_type: 'og.likes',
-						action_properties: JSON.stringify({
-							object:'http://app.yeplive.com/watch/434',
-						})
-					}, function(response){});
-				}, 3000);
+				
 				*/
 			}
 			/*
