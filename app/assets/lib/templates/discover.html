@@ -47,20 +47,20 @@
 					X
 				</div>
 			<div class="row watch-video-info">
-
 				<div class="col-xs-3">
-					<img class="watch-author-picture" src="<%- video.yep.user.picture_path %>" />
+					<img class="watch-author-picture" src="<%- video.yep.user.picture_path %>" style="margin-left:10px" />
+					<h5 style="margin-top:10px;margin-left:15px;text-align:center;"><%- video.yep.user.display_name %></h5>
 				</div>
 
 				<div class="col-xs-6 text-center">
-					<h4><%- video.yep.user.display_name %></h4>
+					<h3 style="margin-top:0px"><%- video.yep.title %></h3>
 					<p>5 hours ago</p>
-					<h4><%- video.yep.title %></h4>
+					<h5>yplv.tv/<%- video.yep.url_hash %></h5>
 				</div>
 				<div class="col-xs-3">
-					<div class="watch-view-count" ><%- video.yep.views %> views</div>
-
-					<h5><%- video.yep.vote_count %> stars</h5>
+					<div class="watch-view-count" ><h5><%- video.yep.views %> views</h5></div>
+					<h5><span class="discover-vote-count"><%- video.yep.vote_count %></span> stars</h5>
+					<h5><span class="connection-count">0</span> viewing</h5>
 
 				</div>
 

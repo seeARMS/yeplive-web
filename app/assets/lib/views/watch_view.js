@@ -225,6 +225,7 @@ define(['jquery',
 					picture_path: picturePath ? picturePath : 'no picture path'
 				});
 
+
 				socket.on('server:error', function(data){
 					console.log(data);
 				});
