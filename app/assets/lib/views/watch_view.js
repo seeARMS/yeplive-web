@@ -349,7 +349,6 @@ define(['jquery',
 					window.localStorage.getItem('token'),
 					function(err, res){
 						if(err){
-							console.log(err);
 							return Swal("Warning", "Something is wrong", "warning");
 						}
 						if(res.success){
