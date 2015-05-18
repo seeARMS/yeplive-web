@@ -134,23 +134,17 @@ define(['jquery',
 					this.play();
 					} else {
 						if(data.video.yep.portrait){
-						var width = $('#playVideo_flash_api').css('width');
-						var height = $('#playVideo_flash_api').css('height');
-						$('#playVideo_flash_api').css('width',height);
-						$('#playVideo_flash_api').css('height',width);
-						$('#playVideo_flash_api').css('top','-90px');
-						$('#playVideo_flash_api').css('left','90px');
-						$('#playVideo_flash_api').css(
- "-moz-transform","rotate(90deg)"
-						).css(
-  "-webkit-transform","rotate(90deg)"
-						).css(
- "-o-transform","rotate(90deg)"
-						).css(
- "-ms-transform","rotate(90deg)"
-						).css(
-  "transform","rotate(90deg)"
-						);
+							var width = $('#playVideo_flash_api').css('width');
+							var height = $('#playVideo_flash_api').css('height');
+							$('#playVideo_flash_api').css('width',height);
+							$('#playVideo_flash_api').css('height',width);
+							$('#playVideo_flash_api').css('top','-90px');
+							$('#playVideo_flash_api').css('left','90px');
+							$('#playVideo_flash_api').css("-moz-transform","rotate(90deg)"
+							).css("-webkit-transform","rotate(90deg)"
+							).css("-o-transform","rotate(90deg)"
+							).css("-ms-transform","rotate(90deg)"
+							).css("transform","rotate(90deg)");
 						}
 					}
 /*
