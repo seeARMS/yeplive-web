@@ -37,6 +37,7 @@ define(['jquery',
 
 			var yepId = context.data;
 			
+
 			async.parallel({
 				one: mapView.getYepInfo.bind(null, yepId),
 				two: mapView.getCommentInfo.bind(null, yepId) 
@@ -172,7 +173,7 @@ define(['jquery',
 				var isPortrait = yep.portrait === 1 ? true : false;
 				var timeDiff = (currentTime / 1000) - startTime;
 				var vidTime =  parseInt(yep.end_time) - parseInt(yep.start_time);
-				console.log(vidTime);
+				var stars = yep.vote_count;
 
 				if (imagePath === ''){
 					imagePath = '/img/video-thumbnail.png'
@@ -186,7 +187,7 @@ define(['jquery',
 					displayName = 'Andrew'
 				}
 
-				content += '<div class="explorer-wrapper"><a class="discover" href="#" id="' + yepId + '">';
+				content += '<div class="explorer-wrapper"><hr class="yep-hr" /><a class="discover" href="#" id="' + yepId + '">';
 				if(yep.vod_enable){
 				content += '<div class="explorer-time">'+helper.videoDurationConverter(vidTime)+'</div>';
 				} else {
@@ -199,13 +200,14 @@ define(['jquery',
 					content += '<img src="' + imagePath + '" class="explorer-image">';
 					content += '<div class="explorer-body">';
 				}
-				content += '<div class="explorer-title text-center">' + helper.truncate(yepTitle,15) + '</div>';
+				content += '<div class="explorer-title">' + helper.truncate(yepTitle,15) + '</div>';
 				content += '<img src="'+userImage+'" class="explorer-user-image img-circle">';
 				content += '<div class="explorer-display-name">' + helper.truncate(displayName,15) + '</div>';
 				content += '<div class="row"><div class="explorer-created-time col-xs-12">' + helper.timeElapsedCalculator(timeDiff) ;
-				content += '<div class="explorer-views">'+views + ' views</div></div>'
+				content += '<br /><div class="explorer-views">'+views + ' views</div>'
+				content += '<div class="explorer-stars">'+stars+ ' stars</div></div>'
 				content += '</div>';
-				content += '</div></a><hr /></div>';
+				content += '</div></a></div>';
 			}
 
 			var closeButton = '<div id="explorer-close" class="close">x</div>';
@@ -246,6 +248,7 @@ define(['jquery',
 			var user = data.user;
 			var yep = data.video.yep;
 
+				console.log("joined room");
 			socket.emit('join_room', {
 				user_id: user.user_id,
 				display_name: user.display_name,
@@ -282,17 +285,29 @@ define(['jquery',
 					0: {
 						content: "<div class='cluster cluster-3'>CLUSTER_COUNT</div>",
 						width: 53,
-						height: 52
+						height: 52,
+						offset:{
+							y: -72,
+							x:-26 
+						}
 					},
 					20: {
 						content: "<div class='cluster cluster-3'>CLUSTER_COUNT</div>",
 						width: 56,
-						height: 55
+						height: 55,
+						offset:{
+							y: -72,
+							x:-26 
+						}
 					},
 					50: {
 						content: "<div class='cluster cluster-3'>CLUSTER_COUNT</div>",
 						width: 66,
-						height: 65
+						height: 65,
+						offset:{
+							y: -82,
+							x:-26 
+						}
 					}
 				}
 			}
@@ -758,8 +773,7 @@ define(['jquery',
 				});
 
 				socket.on('yep:connection', function(data){
-					console.log('Connection');
-					console.log(data);
+					$('.connection-count').html(data.connection_count);
 				});
 
 				socket.on('chat:history', function(data){
@@ -768,6 +782,11 @@ define(['jquery',
 
 				socket.on('chat:message', function(data){
 					self.decorateMessaging(data);
+				});
+		
+				socket.on('yep:vote', function(data){
+					console.log(data);
+					$('.discover-vote-count').text(data.vote_count);
 				});
 
 				socket.on('yep:new', function(data){
@@ -811,9 +830,11 @@ define(['jquery',
 							success : 1
 						}
 
+						console.log('joining the socket');
 						self.renderDiscover(data);
 
 						// Join a socket room
+						console.log('joining the socket');
 						socketJoinRoom(data);
 					});
 
@@ -828,7 +849,7 @@ define(['jquery',
 				var self = this;
 
 				self.$el.html(this.tpl());
-				$('div#main').append('<div class="explore-container"></div>');
+				$('div#map-container').append('<div class="explore-container"></div>');
 
 				yepsCollection.fetch().then(function(){
 					mapMarkers = yepsCollection.getMapData();
