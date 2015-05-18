@@ -14,10 +14,11 @@ define(['jquery',
 		'lib/user',
 		'text!lib/templates/chat_message.html',
 		'text!lib/templates/video_overlay.html',
-		'facebook'
+		'facebook',
+		'twitter'
 	],
 
-	function($, helper, async, Swal, _, Backbone, watchTpl, Api, vj, vjm, vjh, vjRoomRotate, socket, User, chatMessageTpl, overlayTpl, FB){
+	function($, helper, async, Swal, _, Backbone, watchTpl, Api, vj, vjm, vjh, vjRoomRotate, socket, User, chatMessageTpl, overlayTpl, FB, Twitter){
 
 		var currentVoteCount;
 
@@ -361,7 +362,8 @@ define(['jquery',
 				);
 			},
 
-			initFacebookShareSdk: function(yepId){
+			initFacebookShare: function(yepId){
+
 				FB.init({
 					appId: '1577314819194083',
 					version: 'v2.3'
@@ -376,6 +378,19 @@ define(['jquery',
 				});
 			},
 
+			initTwitterShare: function(yepId, yep){
+
+				$('#share-twitter').on('click',function(){
+
+					var url = 'http://dev-web-client-r52hvx6ydd.elasticbeanstalk.com/watch/' + yepId;
+					var text = yep.user.display_name + ' is live streaming "' + yep.title + '"';
+					var via = 'yeplive';
+					var related = 'yeplive';
+					window.open('https://twitter.com/intent/tweet?url=' + url + '&text=' + text +'&via=' + via + '&related=' + related, '_blank', 'location=yes,height=280,width=520,scrollbars=yes,status=yes');
+				});
+
+			},
+
 			render: function(data, options){
 
 				this.$el.html(this.tpl(data));
@@ -387,8 +402,8 @@ define(['jquery',
 				//this.addCommentListener(options);
 				this.addVoteListener(options.yepId);
 				this.addViewCount(options.yepId);
-				this.initFacebookShareSdk(options.yepId);
-
+				this.initFacebookShare(options.yepId);
+				this.initTwitterShare(options.yepId, data.video.yep);
 				/*
 				
 				*/

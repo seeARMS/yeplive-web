@@ -18,6 +18,7 @@ requirejs.config({
 		socketio: 'vendor/socket.io-client/socket.io',
 		swal: 'vendor/sweetalert/lib/sweet-alert.min',
 		facebook: '//connect.facebook.net/en_US/sdk',
+		twitter: 'vendor/twitter-share/twitter-share'
 	},
 	shim:{
 		backbone: {
