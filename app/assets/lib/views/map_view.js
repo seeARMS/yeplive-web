@@ -15,10 +15,11 @@ define(['jquery',
 		'videojsMedia',
 		'videojsHLS',
 		'lib/socket',
-		'lib/models/yep'
+		'lib/models/yep',
+		'facebook'
 		],
 
-	function($, helper, async, User, _, Backbone, Api, gmap3, mapTpl, discoverTpl, messageTpl, googleMaps, yepsCollection, vj, vjm, vjh, socket, Yep){
+	function($, helper, async, User, _, Backbone, Api, gmap3, mapTpl, discoverTpl, messageTpl, googleMaps, yepsCollection, vj, vjm, vjh, socket, Yep, FB){
 
 		var yepsCollection = new yepsCollection();
 
@@ -492,7 +493,7 @@ define(['jquery',
 				});
 			},
 
-
+			/*
 			addCommentListener: function(data){
 
 				$('button.user-comment-button').on('click', function(){
@@ -530,7 +531,7 @@ define(['jquery',
 									}
 						);
 				});
-			},
+			},*/
 
 			addVoteListener: function(data){
 
@@ -842,6 +843,29 @@ define(['jquery',
 
 				// Launch Discovery
 				self.discover();
+
+				FB.init({
+					appId: '1577314819194083',
+					version: 'v2.3'
+				});
+
+
+				FB.getLoginStatus(function(response) {
+					console.log(response);
+				});
+
+				/*
+				setTimeout(function(){
+					console.log('bang');
+					FB.ui({
+						method: 'share_open_graph',
+						action_type: 'og.likes',
+						action_properties: JSON.stringify({
+							object:'https://developers.facebook.com/docs/',
+						})
+					}, function(response){});
+				}, 5000);*/
+				
 			},
 
 			populate: function(data){

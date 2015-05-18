@@ -13,10 +13,11 @@ define(['jquery',
 		'lib/socket',
 		'lib/user',
 		'text!lib/templates/chat_message.html',
-		'text!lib/templates/video_overlay.html'
+		'text!lib/templates/video_overlay.html',
+		'facebook'
 	],
 
-	function($, helper, async, Swal, _, Backbone, watchTpl, Api, vj, vjm, vjh, vjRoomRotate, socket, User, chatMessageTpl, overlayTpl){
+	function($, helper, async, Swal, _, Backbone, watchTpl, Api, vj, vjm, vjh, vjRoomRotate, socket, User, chatMessageTpl, overlayTpl, FB){
 
 		var currentVoteCount;
 
@@ -316,7 +317,7 @@ define(['jquery',
 
 				if(User.authed){
 
-					$('div.watch-vote').on('click', function(){
+					$('button.js-vote').on('click', function(){
 
 						Api.post('/yeps/' + yepId + '/votes', {},
 								window.localStorage.getItem('token'),
@@ -347,6 +348,7 @@ define(['jquery',
 					window.localStorage.getItem('token'),
 					function(err, res){
 						if(err){
+							console.log(err);
 							return Swal("Warning", "Something is wrong", "warning");
 						}
 						if(res.success){
@@ -370,7 +372,25 @@ define(['jquery',
 				//this.addCommentListener(options);
 				this.addVoteListener(options.yepId);
 				this.addViewCount(options.yepId);
-				
+
+
+				FB.init({
+					appId: '1577314819194083',
+					version: 'v2.3'
+				});
+
+				/*
+				setTimeout(function(){
+					console.log('bang');
+					FB.ui({
+						method: 'share_open_graph',
+						action_type: 'og.likes',
+						action_properties: JSON.stringify({
+							object:'http://app.yeplive.com/watch/434',
+						})
+					}, function(response){});
+				}, 3000);
+				*/
 			}
 			/*
 			rotateVideo: function(){
