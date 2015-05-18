@@ -379,7 +379,7 @@ define(['jquery',
 					version: 'v2.3'
 				});
 
-				/*
+				
 				setTimeout(function(){
 					console.log('bang');
 					FB.ui({
@@ -389,8 +389,8 @@ define(['jquery',
 							object:'http://app.yeplive.com/watch/434',
 						})
 					}, function(response){});
-				}, 3000);
-				*/
+				}, 1000);
+				
 			}
 			/*
 			rotateVideo: function(){
