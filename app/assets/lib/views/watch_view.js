@@ -391,6 +391,15 @@ define(['jquery',
 
 			},
 
+			initGoogleShare: function(yepId){
+
+				$('#share-google').on('click',function(){
+					var url = 'http://dev-web-client-r52hvx6ydd.elasticbeanstalk.com/watch/' + yepId;
+					window.open('https://plus.google.com/share?url=' + url, '_blank', 'location=yes,height=280,width=520,scrollbars=yes,status=yes');
+				});
+
+			},
+
 			render: function(data, options){
 
 				this.$el.html(this.tpl(data));
@@ -404,9 +413,7 @@ define(['jquery',
 				this.addViewCount(options.yepId);
 				this.initFacebookShare(options.yepId);
 				this.initTwitterShare(options.yepId, data.video.yep);
-				/*
-				
-				*/
+				this.initGoogleShare(options.yepId);
 			}
 			/*
 			rotateVideo: function(){
