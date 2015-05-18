@@ -50,7 +50,7 @@ app.use('/api', require('./api'));
 require('./auth')(app);
 
 //Match all strings
-app.get(/^[^.]*$/,auth.connect(basic), function(req, res){
+app.get(/^[^.]*$/, function(req, res){
 	var url = req.url.split('/');
 	var id;
 	if(url[1] === 'watch'){
