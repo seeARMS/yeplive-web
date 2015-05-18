@@ -330,10 +330,11 @@ define(['jquery',
 									}
 									
 									if(res.success){
+										console.log(res);
 										// Do Something
 									}
 									else{
-										// Do Something
+										return Swal("", "You have already given 5 stars to this yep", "warning");
 									}
 								}
 						);
