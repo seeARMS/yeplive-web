@@ -168,7 +168,7 @@ define(['jquery',
 			}
 
 			cluster.sort(videoSort);
-			
+
 			var content = '';
 
 			for(var i = 0; i < cluster.length; i++){
@@ -201,27 +201,55 @@ define(['jquery',
 					displayName = 'Andrew'
 				}
 
-				content += '<div class="explorer-wrapper"><hr class="yep-hr" /><a class="discover" href="#" id="' + yepId + '">';
+				content += '<div class="explorer-wrapper row"><a class="discover" href="#" id="' + yepId + '">';
+
 				if(yep.vod_enable){
-				content += '<div class="explorer-time">'+helper.videoDurationConverter(vidTime)+'</div>';
-				} else {
-				content += '<div class="explorer-time">Live!</div>';
+					content += '<div class="explorer-time">'+helper.videoDurationConverter(vidTime)+'</div>';
+					} else {
+					content += '<div class="explorer-time">Live</div>';
 				}
+
+				// Col 5
+				content += '<div class="col-xs-5 explorer-body-col">';
+
 				if(isPortrait){
 					content += '<img src="' + imagePath + '" class="explorer-image explorer-portrait rotateCW">';
-					content += '<div class="explorer-body explorer-portrait-body">';
-				} else {
-					content += '<img src="' + imagePath + '" class="explorer-image">';
-					content += '<div class="explorer-body">';
+				} 
+				else {
+					content += '<img src="' + imagePath + '" class="explorer-image explorer-landscape">';
 				}
+
+				// End of Col 5
+				content += '</div>';
+
+				// Col 7
+				content += '<div class="col-xs-7 explorer-body-col">';
+
+				content += '<div class="explorer-body">';
+
 				content += '<div class="explorer-title">' + helper.truncate(yepTitle,15) + '</div>';
+
+				content += '<div class="row explorer-video-author-info" >';
+				content += '<div class="col-xs-2" >';
 				content += '<img src="'+userImage+'" class="explorer-user-image img-circle">';
+				content += '</div>';
+				content += '<div class="col-xs-10" >';
 				content += '<div class="explorer-display-name">' + helper.truncate(displayName,15) + '</div>';
+				content += '</div>';
+
+				content += '</div>';
+
 				content += '<div class="row"><div class="explorer-created-time col-xs-12">' + helper.timeElapsedCalculator(timeDiff) ;
 				content += '<br /><div class="explorer-views">'+views + ' views</div>'
-				content += '<div class="explorer-stars">'+stars+ ' stars</div></div>'
+				content += '<div class="explorer-stars">' + stars + ' <i class="fa fa-star" ></i></div></div>'
 				content += '</div>';
-				content += '</div></a></div>';
+				content += '</div>';
+
+				// End of Col 5
+				content += '</div>';
+
+				content += '</a></div><hr class="yep-hr" />';
+				
 			}
 
 			var closeButton = '<div id="explorer-close" class="close">x</div>';

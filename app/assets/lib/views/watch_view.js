@@ -319,6 +319,8 @@ define(['jquery',
 
 				if(User.authed){
 
+					var starCount = 1;
+
 					$('button.js-vote').on('click', function(){
 
 						Api.post('/yeps/' + yepId + '/votes', {},
@@ -330,8 +332,9 @@ define(['jquery',
 									}
 									
 									if(res.success){
-										console.log(res);
-										// Do Something
+										//console.log(res);
+										$('.star-' + starCount).css('-webkit-animation-name', 'spin');
+										starCount++;
 									}
 									else{
 										return Swal("", "You have already given 5 stars to this yep", "warning");
