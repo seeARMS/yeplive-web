@@ -161,7 +161,7 @@ define(['jquery',
 			for(var i = 0; i < cluster.length; i++){
 
 				var yep = cluster[i].attributes;
-
+				
 				var yepId = yep.id;
 				var yepTitle = yep.title;
 				var imagePath = yep.image_path;
@@ -801,13 +801,16 @@ define(['jquery',
 				});
 
 				socket.on('yep:new', function(data){
+					if(!data.hasOwnProperty('user')){
+						return;
+					}
 					var newYep = {
 						latLng : [data.latitude, data.longitude],
 						data : data.id
 					}
 					mapMarkers.push(newYep);
 					self.populate(mapMarkers);
-					console.log(data);
+
 					var yep = new Yep(data);
 					yepsCollection.add(yep);
 				});
