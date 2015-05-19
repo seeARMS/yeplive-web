@@ -1,6 +1,7 @@
 define(['jquery',
 		'lib/helper',
 		'asyncJS',
+		'swal',
 		'lib/user',
 		'underscore',
 		'backbone', 
@@ -19,7 +20,7 @@ define(['jquery',
 		'facebook'
 		],
 
-	function($, helper, async, User, _, Backbone, Api, gmap3, mapTpl, discoverTpl, messageTpl, googleMaps, yepsCollection, vj, vjm, vjh, socket, Yep, FB){
+	function($, helper, async, Swal, User, _, Backbone, Api, gmap3, mapTpl, discoverTpl, messageTpl, googleMaps, yepsCollection, vj, vjm, vjh, socket, Yep, FB){
 
 		var yepsCollection = new yepsCollection();
 
@@ -39,8 +40,8 @@ define(['jquery',
 			
 
 			async.parallel({
-				one: mapView.getYepInfo.bind(null, yepId),
-				two: mapView.getCommentInfo.bind(null, yepId) 
+				one: mapView.getYepInfo.bind(null, yepId)
+				//two: mapView.getCommentInfo.bind(null, yepId) 
 			}, function(err, results){
 				/*if(err){
 					console.log('error');
@@ -48,7 +49,7 @@ define(['jquery',
 				}*/
 				var data = {
 					video : results['one'],
-					comments : results['two'],
+					//comments : results['two'],
 					user : User.user.attributes,
 					success : 1
 				}
@@ -447,7 +448,7 @@ define(['jquery',
 				});
 			},
 
-
+			/*
 			getCommentInfo: function(yepId, cb){
 
 				Api.get('/comments/' + yepId, function(err, results){
@@ -469,7 +470,7 @@ define(['jquery',
 					cb(null, data);
 
 				});
-			},
+			},*/
 
 			setupVideo: function(data){
 				console.log(data);
@@ -546,11 +547,9 @@ define(['jquery',
 									}
 						);
 				});
-			},*/
+			},
 
 			addVoteListener: function(data){
-
-				var currentVotes = data.video.yep.vote_count;
 
 				$('i.watch-vote').on('click', function(){
 					Api.post('/yeps/' + data.video.yep.id + '/votes', {},
@@ -561,20 +560,16 @@ define(['jquery',
 									console.log(err);
 									return;
 								}
-								if(res.vote){
-									$('i.watch-vote').attr('class', 'fa fa-thumbs-up fa-2x watch-vote');
-									$('i.watch-vote').html(' ' + (res.vote + currentVotes).toString());
-									currentVotes++;
+								if(res.success){
+									console.log(res);
 								}
 								else{
-									$('i.watch-vote').attr('class', 'fa fa-thumbs-o-up fa-2x watch-vote');
-									$('i.watch-vote').html(' ' + (currentVotes - 1).toString());
-									currentVotes--;
+									console.log(res);
 								}
 							}
 					);
 				});
-			},
+			},*/
 
 			addViewCount: function(data){
 
@@ -593,7 +588,13 @@ define(['jquery',
 			},
 
 			renderDiscover: function(data){
+
 				console.log(data);
+
+				var currentTime = (new Date).getTime()/1000;
+				var timeDiff = currentTime - data.video.yep.start_time;
+
+				data.timeElapsed = helper.timeElapsedCalculator(timeDiff);
 
 				$('div.discover-body').append(discoverUI(data));
 				/*
@@ -663,12 +664,16 @@ define(['jquery',
 				$('div.discover-body').append(messagingUI);
 				*/
 
-				this.messagingListener(data);
-				
+				$('[data-toggle="tooltip"]').tooltip();
 
-				this.addVoteListener(data);
+				this.messagingListener(data);
+
+				//this.addVoteListener(data);
 				this.addViewCount(data);
 
+				this.initFacebookShare(data.video.yep.id);
+				this.initTwitterShare(data.video.yep.id, data.video.yep);
+				this.initGoogleShare(data.video.yep.id);
 
 				// Setting up VideoJS
 				this.setupVideo(data);
@@ -699,9 +704,15 @@ define(['jquery',
 
 				$('.js-vote').click(function(e){
 					Api.post('/yeps/'+data.video.yep.id+'/votes',{}, window.localStorage.getItem('token'),
-						 function(err, res){
-						console.log(res);
-					});
+						function(err, res){
+							if(res.success){
+								// Do something
+							}
+							else{
+								return Swal("", "You have already given 5 stars to this yep", "warning");
+							}
+						}
+					);
 				});
 
 
@@ -817,7 +828,7 @@ define(['jquery',
 					
 					async.parallel({
 						one: self.getYepInfo.bind(null, yepId),
-						two: self.getCommentInfo.bind(null, yepId) 
+						//two: self.getCommentInfo.bind(null, yepId) 
 					}, function(err, results){
 						/*if(err){
 							console.log('error');
@@ -825,16 +836,14 @@ define(['jquery',
 						}*/
 						var data = {
 							video : results['one'],
-							comments : results['two'],
+							//comments : results['two'],
 							user : User.user.attributes,
 							success : 1
 						}
 
-						console.log('joining the socket');
 						self.renderDiscover(data);
 
 						// Join a socket room
-						console.log('joining the socket');
 						socketJoinRoom(data);
 					});
 
@@ -887,6 +896,44 @@ define(['jquery',
 					}, function(response){});
 				}, 5000);*/
 				
+			},
+
+			initFacebookShare: function(yepId){
+
+				FB.init({
+					appId: '1577314819194083',
+					version: 'v2.3'
+				});
+
+				$('#share-fb').on('click',function(){
+					FB.ui({
+						method: 'share',
+						href: 'http://dev-web-client-r52hvx6ydd.elasticbeanstalk.com/watch/' + yepId,
+						}, function(response){}
+					);
+				});
+			},
+
+			initTwitterShare: function(yepId, yep){
+
+				$('#share-twitter').on('click',function(){
+
+					var url = 'http://dev-web-client-r52hvx6ydd.elasticbeanstalk.com/watch/' + yepId;
+					var text = yep.user.display_name + ' is live streaming "' + yep.title + '"';
+					var via = 'yeplive';
+					var related = 'yeplive';
+					window.open('https://twitter.com/intent/tweet?url=' + url + '&text=' + text +'&via=' + via + '&related=' + related, '_blank', 'location=yes,height=280,width=520,scrollbars=yes,status=yes');
+				});
+
+			},
+
+			initGoogleShare: function(yepId){
+
+				$('#share-google').on('click',function(){
+					var url = 'http://dev-web-client-r52hvx6ydd.elasticbeanstalk.com/watch/' + yepId;
+					window.open('https://plus.google.com/share?url=' + url, '_blank', 'location=yes,height=280,width=520,scrollbars=yes,status=yes');
+				});
+
 			},
 
 			populate: function(data){

@@ -87,7 +87,6 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 			$('div#load-boy').append('<img class="loading" src="/img/loading.gif" />');
 		};
 
-
 		appRouter.on('route:login', function(actions){
 			cleanView();
 			if(navbarView){

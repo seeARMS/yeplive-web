@@ -673,7 +673,7 @@ img.discover-comment-user-img{
 }
 
 .explorer-wrapper a{
-	color: #b8b7ad;
+	color: black;
 }
 
 
@@ -1479,7 +1479,7 @@ background-size: cover;
 	height:100%;
 	left:0px;
 	top:0px;
-	background-color:#18191a;
+	background-color:#ECECEC;
 	z-index:-1;
 }
 

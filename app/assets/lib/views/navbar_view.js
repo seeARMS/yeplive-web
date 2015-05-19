@@ -20,6 +20,7 @@ define(['jquery',
 					User: User.authed ? User.user : ""
 				};
 				this.$el.html(this.tpl(data));
+				$('[data-toggle="tooltip"]').tooltip();
 			}
 		});
 
