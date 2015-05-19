@@ -31,7 +31,7 @@
 	<snd>22</snd>
 	<sndSilencelevel>0</sndSilencelevel>
 	
-	<vcodec>sorenson</vcodec>
+	<vcodec>h264_w_t</vcodec>
 		<!--
 		Flash Player 6  (released in 2002) and above supports encoding video with the Sorenson Spark codec.
 		Flash Player 11 (released in 2011) and above supports encoding video with both Sorenson Spark and H.264 .

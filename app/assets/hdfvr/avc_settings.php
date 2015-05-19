@@ -3,7 +3,7 @@
 //connectionstring:String
 //desc: the rtmp connection string to the hdfvr application on your media server
 //values: 'rtmp://localhost/hdfvr/_definst_', 'rtmp://myfmsserver.com/hdfvr/_definst_', etc...
-$config['connectionstring']='rtmp://52.24.223.236:1935/cf/_definst_';
+$config['connectionstring']='';
 
 //This variable is sent to videorecorder.swf via flash vars and sent to this Php script via GET/query string. 
 //To edit it's value look in the VideoRecorder.html file for "&recorderId=123", 123 is it's default value.
@@ -28,7 +28,7 @@ $config['qualityurl']='';
 //desc: the maximum recording time in seconds
 //values: any number greater than 0;
 //default:120
-$config['maxRecordingTime']=120;
+$config['maxRecordingTime']=86400;
 
 //userId: String
 //desc: the id of the user logged into the website, not mandatory, this var is passed back to the save_video_to_db.php file via GET when the [SAVE] button in the recorder is pressed, this variable can also be passed via flash vars like this: videorecorder.swf?userId=XXX, but the value in this file, if not empty, takes precedence. If $config["useUserId"]="true", the value of this variable is also used in the stream name.
@@ -40,7 +40,7 @@ $config['userId']='';
 //desc: Specifies how long the buffer for the outgoing audio/video data can grow before Flash Player starts dropping frames. On a high-speed connection, buffer time will not affect anything because data is sent almost as quickly as it is captured and there is no need to buffer it. On a slow connection, however, there might be a significant difference between how fast Flash Player can capture audio and video data data and how fast it can be sent to the client, thus the surplus needs to be buffered. HDFVR will increase the value specified here as much as possible (if the buffer fills more than 90% of the available buffer, we double the available buffer) to prevent Flash Player from dumping the data in the buffer when it's full.
 //values: 30,60,etc...
 //default:60
-$config['outgoingBuffer']=60;
+$config['outgoingBuffer']=0;
 
 //playbackBuffer: Number
 //desc: Specifies how much video time to buffer when (after recording a movie) you play it back
