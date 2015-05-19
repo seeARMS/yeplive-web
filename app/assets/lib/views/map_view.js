@@ -742,12 +742,14 @@ define(['jquery',
 
 				});
 
-
+				var starCount = 1;
+				
 				$('.js-vote').click(function(e){
 					Api.post('/yeps/'+data.video.yep.id+'/votes',{}, window.localStorage.getItem('token'),
 						function(err, res){
 							if(res.success){
-								// Do something
+								$('.star-' + starCount).css('-webkit-animation-name', 'spin');
+								starCount++;
 							}
 							else{
 								return Swal("", "You have already given 5 stars to this yep", "warning");

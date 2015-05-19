@@ -920,6 +920,9 @@ b.chat-user-name{
 .star-animation{
 	opacity: 0;
 	position: absolute;
+	left:33px;
+	bottom:51px;
+	z-index:1;
 
 	-webkit-animation-name: ;
 	-webkit-animation-duration: 800ms;
@@ -1277,6 +1280,12 @@ div.user-view{
 		padding:11px;
 	}
 
+	.close-discover{
+		top:-618px;
+		font-size:2em;
+		font-weight:100;
+	}
+
 	input.record-chat-input{
 		width:95%;
 		height: 42px;
@@ -1420,12 +1429,12 @@ div.user-view{
 @media (max-width: 430px){
 
 
-#map-canvas{
-	margin-top:0px;
-	position:absolute;
-	width:100%;
-	height:100%;
-}
+	#map-canvas{
+		margin-top:0px;
+		position:absolute;
+		width:100%;
+		height:100%;
+	}
 	img.discover-user-picture{
 		margin-right:0px;
 	}
@@ -1517,13 +1526,16 @@ div.user-view{
 	.dropdown-menu{
 		min-width:130px;
 	}
-	/*
-	.record-button{
-		margin-top:12px;
-		width:60%;
-		height:60%;
+	
+	.discover-body{
+		padding-top:0px;
 	}
-	*/	
+
+	.close-discover{
+		top:-618px;
+		font-size:2em;
+		font-weight:100;
+	}
 }
 
 
