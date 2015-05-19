@@ -715,12 +715,12 @@ img.explorer-landscape{
 
 .explore-container{
 	opacity: 1;
-	margin-top:85px;
+	margin-top:80px;
 	position: absolute;
 	overflow: scroll;
 	z-index: 5;
 	width: 370px;
-	height: 100%;
+	height: 93%;
 	background: #fff;
 	padding: 0em 1.5em 0;
 	padding-left: 0px;
@@ -1155,8 +1155,13 @@ div.user-view{
 	}
 
 	div.explore-container{
-		width:275px;
+		width:340px;
 		margin-top:66px;
+	}
+
+	.explorer-time{
+		left:65px;
+		top:124px;
 	}
 
 	div.explorer-body{
@@ -1278,9 +1283,17 @@ div.user-view{
 		margin-bottom: 10px;
 	}
 
+	img.explorer-image{
+		width:112px;
+	}
 
 	div.explore-container{
 		width:312px;
+		margin-top: 64px;
+	}
+
+	.explorer-time{
+		left:57px;
 	}
 
 	div.message-box{
@@ -1345,6 +1358,7 @@ div.user-view{
 
 	div.explore-container{
 		width:300px;
+		margin-top:58px;
 	}
 
 	img.explorer-image{
@@ -1353,6 +1367,12 @@ div.user-view{
 
 	div.explorer-body{
 		margin-top:13px;
+	}
+
+	.explorer-time{
+		top:135px;
+		padding: 0px 0px 0px 5px;
+		width:50px;
 	}
 
 	.img-user{
@@ -1443,7 +1463,16 @@ div.user-view{
 	}
 
 	div.explore-container{
-		width:300px;
+		width:240px;
+		margin-top:53px;
+	}
+
+	.explorer-wrapper{
+		width:260px;
+	}
+
+	img.explorer-image{
+		width:100px;
 	}
 
 	div.explorer-body{
