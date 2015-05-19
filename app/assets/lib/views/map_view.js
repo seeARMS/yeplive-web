@@ -141,6 +141,17 @@ define(['jquery',
 			}
 		};
 
+		var videoSort = function(a,b) {
+			if (a.attributes.start_time < b.attributes.start_time){
+				return 1;
+			}
+			if (a.attributes.start_time > b.attributes.start_time){
+				return -1;
+			}
+			return 0;
+		};
+
+
 		var clusterClick = function(cluster, event, context){
 
 			$('#map-canvas').gmap3('get').panTo(context.data.latLng);
@@ -156,6 +167,8 @@ define(['jquery',
 				cluster.push(yep);
 			}
 
+			cluster.sort(videoSort);
+			
 			var content = '';
 
 			for(var i = 0; i < cluster.length; i++){
