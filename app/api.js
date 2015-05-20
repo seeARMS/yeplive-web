@@ -152,10 +152,15 @@ module.exports = (function(){
 		var token = req.headers["authorization"];
 		var latitude = req.body.latitude;
 		var longitude = req.body.longitude;
+		var title = req.body.title;
+		var staging = req.body.staging;
+
 		helpers.postAPI('/yeps',{
 			latitude: latitude,
 			longitude: longitude,
-			is_web: 1
+			is_web: 1,
+			staging: staging,
+			title: title
 		}, token , function(err, response, body){
 			console.log(err);
 			console.log(response.statusCode);
