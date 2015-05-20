@@ -1119,6 +1119,21 @@ div.prompt-appstore{
 
 
 
+div.login-prompt-appstore{
+	margin-top:10px;
+	padding-left:20px;
+	padding-right:20px;
+}
+
+span.login-modal-title{
+	font-size:1.3em;
+}
+
+div.login-continue-webapp{
+	color:rgb(124, 124, 124);
+	cursor:pointer;
+}
+
 
 
 /* ------------------------- USER PAGE ---------------------------- */

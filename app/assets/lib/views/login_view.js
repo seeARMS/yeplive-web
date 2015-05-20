@@ -15,6 +15,9 @@ define(['jquery',
 		},
 		render: function(){
 			this.$el.html(this.tpl());
+			if(true){
+				$('#login-appstore-prompt').modal('show');
+			}
 		}
 	});
 
