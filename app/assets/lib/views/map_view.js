@@ -1,6 +1,7 @@
 define(['jquery',
 		'lib/helper',
 		'asyncJS',
+		'swal',
 		'lib/user',
 		'underscore',
 		'backbone', 
@@ -15,10 +16,11 @@ define(['jquery',
 		'videojsMedia',
 		'videojsHLS',
 		'lib/socket',
-		'lib/models/yep'
+		'lib/models/yep',
+		'facebook'
 		],
 
-	function($, helper, async, User, _, Backbone, Api, gmap3, mapTpl, discoverTpl, messageTpl, googleMaps, yepsCollection, vj, vjm, vjh, socket, Yep){
+	function($, helper, async, Swal, User, _, Backbone, Api, gmap3, mapTpl, discoverTpl, messageTpl, googleMaps, yepsCollection, vj, vjm, vjh, socket, Yep, FB){
 
 		var yepsCollection = new yepsCollection();
 
@@ -38,8 +40,8 @@ define(['jquery',
 			
 
 			async.parallel({
-				one: mapView.getYepInfo.bind(null, yepId),
-				two: mapView.getCommentInfo.bind(null, yepId) 
+				one: mapView.getYepInfo.bind(null, yepId)
+				//two: mapView.getCommentInfo.bind(null, yepId) 
 			}, function(err, results){
 				/*if(err){
 					console.log('error');
@@ -47,7 +49,7 @@ define(['jquery',
 				}*/
 				var data = {
 					video : results['one'],
-					comments : results['two'],
+					//comments : results['two'],
 					user : User.user.attributes,
 					success : 1
 				}
@@ -139,6 +141,17 @@ define(['jquery',
 			}
 		};
 
+		var videoSort = function(a,b) {
+			if (a.attributes.start_time < b.attributes.start_time){
+				return 1;
+			}
+			if (a.attributes.start_time > b.attributes.start_time){
+				return -1;
+			}
+			return 0;
+		};
+
+
 		var clusterClick = function(cluster, event, context){
 
 			$('#map-canvas').gmap3('get').panTo(context.data.latLng);
@@ -154,12 +167,14 @@ define(['jquery',
 				cluster.push(yep);
 			}
 
+			cluster.sort(videoSort);
+
 			var content = '';
 
 			for(var i = 0; i < cluster.length; i++){
 
 				var yep = cluster[i].attributes;
-
+				
 				var yepId = yep.id;
 				var yepTitle = yep.title;
 				var imagePath = yep.image_path;
@@ -186,27 +201,55 @@ define(['jquery',
 					displayName = 'Andrew'
 				}
 
-				content += '<div class="explorer-wrapper"><hr class="yep-hr" /><a class="discover" href="#" id="' + yepId + '">';
+				content += '<div class="explorer-wrapper row"><a class="discover" href="#" id="' + yepId + '">';
+
 				if(yep.vod_enable){
-				content += '<div class="explorer-time">'+helper.videoDurationConverter(vidTime)+'</div>';
-				} else {
-				content += '<div class="explorer-time">Live!</div>';
+					content += '<div class="explorer-time">'+helper.videoDurationConverter(vidTime)+'</div>';
+					} else {
+					content += '<div class="explorer-time">Live</div>';
 				}
+
+				// Col 5
+				content += '<div class="col-xs-5 explorer-body-col">';
+
 				if(isPortrait){
 					content += '<img src="' + imagePath + '" class="explorer-image explorer-portrait rotateCW">';
-					content += '<div class="explorer-body explorer-portrait-body">';
-				} else {
-					content += '<img src="' + imagePath + '" class="explorer-image">';
-					content += '<div class="explorer-body">';
+				} 
+				else {
+					content += '<img src="' + imagePath + '" class="explorer-image explorer-landscape">';
 				}
+
+				// End of Col 5
+				content += '</div>';
+
+				// Col 7
+				content += '<div class="col-xs-7 explorer-body-col">';
+
+				content += '<div class="explorer-body">';
+
 				content += '<div class="explorer-title">' + helper.truncate(yepTitle,15) + '</div>';
+
+				content += '<div class="row explorer-video-author-info" >';
+				content += '<div class="col-xs-2" >';
 				content += '<img src="'+userImage+'" class="explorer-user-image img-circle">';
+				content += '</div>';
+				content += '<div class="col-xs-10" >';
 				content += '<div class="explorer-display-name">' + helper.truncate(displayName,15) + '</div>';
+				content += '</div>';
+
+				content += '</div>';
+
 				content += '<div class="row"><div class="explorer-created-time col-xs-12">' + helper.timeElapsedCalculator(timeDiff) ;
 				content += '<br /><div class="explorer-views">'+views + ' views</div>'
-				content += '<div class="explorer-stars">'+stars+ ' stars</div></div>'
+				content += '<div class="explorer-stars">' + stars + ' <i class="fa fa-star" ></i></div></div>'
 				content += '</div>';
-				content += '</div></a></div>';
+				content += '</div>';
+
+				// End of Col 5
+				content += '</div>';
+
+				content += '</a></div><hr class="yep-hr" />';
+				
 			}
 
 			var closeButton = '<div id="explorer-close" class="close">x</div>';
@@ -312,17 +355,23 @@ define(['jquery',
 			}
 		};
 
+		var closeDiscoverView = function(){
+
+			$('div.discover-body').remove();
+
+			$('div#map-canvas').css('opacity', '1');
+			$('div.explore-container').css('opacity', '1');
+
+			socket.emit('client:leave', {});
+			socket.emit('disconnect', socket);
+
+		};
+
 		var addCloseDiscoverListener = function(){
 
 			$('#main').on('click', '.close-discover', function(){
 
-				$('div.discover-body').remove();
-
-				$('div#map-canvas').css('opacity', '1');
-				$('div.explore-container').css('opacity', '1');
-
-				socket.emit('client:leave', {});
-				socket.emit('disconnect', socket);
+				closeDiscoverView();
 
 			});
 		};
@@ -446,7 +495,7 @@ define(['jquery',
 				});
 			},
 
-
+			/*
 			getCommentInfo: function(yepId, cb){
 
 				Api.get('/comments/' + yepId, function(err, results){
@@ -468,7 +517,7 @@ define(['jquery',
 					cb(null, data);
 
 				});
-			},
+			},*/
 
 			setupVideo: function(data){
 				console.log(data);
@@ -507,7 +556,7 @@ define(['jquery',
 				});
 			},
 
-
+			/*
 			addCommentListener: function(data){
 
 				$('button.user-comment-button').on('click', function(){
@@ -549,8 +598,6 @@ define(['jquery',
 
 			addVoteListener: function(data){
 
-				var currentVotes = data.video.yep.vote_count;
-
 				$('i.watch-vote').on('click', function(){
 					Api.post('/yeps/' + data.video.yep.id + '/votes', {},
 							window.localStorage.getItem('token'),
@@ -560,20 +607,16 @@ define(['jquery',
 									console.log(err);
 									return;
 								}
-								if(res.vote){
-									$('i.watch-vote').attr('class', 'fa fa-thumbs-up fa-2x watch-vote');
-									$('i.watch-vote').html(' ' + (res.vote + currentVotes).toString());
-									currentVotes++;
+								if(res.success){
+									console.log(res);
 								}
 								else{
-									$('i.watch-vote').attr('class', 'fa fa-thumbs-o-up fa-2x watch-vote');
-									$('i.watch-vote').html(' ' + (currentVotes - 1).toString());
-									currentVotes--;
+									console.log(res);
 								}
 							}
 					);
 				});
-			},
+			},*/
 
 			addViewCount: function(data){
 
@@ -592,7 +635,13 @@ define(['jquery',
 			},
 
 			renderDiscover: function(data){
+
 				console.log(data);
+
+				var currentTime = (new Date).getTime()/1000;
+				var timeDiff = currentTime - data.video.yep.start_time;
+
+				data.timeElapsed = helper.timeElapsedCalculator(timeDiff);
 
 				$('div.discover-body').append(discoverUI(data));
 				/*
@@ -662,12 +711,16 @@ define(['jquery',
 				$('div.discover-body').append(messagingUI);
 				*/
 
-				this.messagingListener(data);
-				
+				$('[data-toggle="tooltip"]').tooltip();
 
-				this.addVoteListener(data);
+				this.messagingListener(data);
+
+				//this.addVoteListener(data);
 				this.addViewCount(data);
 
+				this.initFacebookShare(data.video.yep.id);
+				this.initTwitterShare(data.video.yep.id, data.video.yep);
+				this.initGoogleShare(data.video.yep.id);
 
 				// Setting up VideoJS
 				this.setupVideo(data);
@@ -695,12 +748,20 @@ define(['jquery',
 
 				});
 
+				var starCount = 1;
 
 				$('.js-vote').click(function(e){
 					Api.post('/yeps/'+data.video.yep.id+'/votes',{}, window.localStorage.getItem('token'),
-						 function(err, res){
-						console.log(res);
-					});
+						function(err, res){
+							if(res.success){
+								$('.star-' + starCount).css('-webkit-animation-name', 'spin');
+								starCount++;
+							}
+							else{
+								return Swal("", "You have already given 5 stars to this yep", "warning");
+							}
+						}
+					);
 				});
 
 
@@ -789,13 +850,16 @@ define(['jquery',
 				});
 
 				socket.on('yep:new', function(data){
+					if(!data.hasOwnProperty('user')){
+						return;
+					}
 					var newYep = {
 						latLng : [data.latitude, data.longitude],
 						data : data.id
 					}
 					mapMarkers.push(newYep);
 					self.populate(mapMarkers);
-					console.log(data);
+
 					var yep = new Yep(data);
 					yepsCollection.add(yep);
 				});
@@ -816,7 +880,7 @@ define(['jquery',
 					
 					async.parallel({
 						one: self.getYepInfo.bind(null, yepId),
-						two: self.getCommentInfo.bind(null, yepId) 
+						//two: self.getCommentInfo.bind(null, yepId) 
 					}, function(err, results){
 						/*if(err){
 							console.log('error');
@@ -824,16 +888,14 @@ define(['jquery',
 						}*/
 						var data = {
 							video : results['one'],
-							comments : results['two'],
+							//comments : results['two'],
 							user : User.user.attributes,
 							success : 1
 						}
 
-						console.log('joining the socket');
 						self.renderDiscover(data);
 
 						// Join a socket room
-						console.log('joining the socket');
 						socketJoinRoom(data);
 					});
 
@@ -863,6 +925,53 @@ define(['jquery',
 
 				// Launch Discovery
 				self.discover();
+
+				// Make clicking outside of discover view close the discover view
+				$('#main').on('click', '.discover-body', function() {
+					closeDiscoverView();
+				});
+				$('#main').on('click', '.yep-overlay', function(event){
+					event.stopPropagation();
+				});
+			
+			},
+
+			initFacebookShare: function(yepId){
+
+				FB.init({
+					appId: '1577314819194083',
+					version: 'v2.3'
+				});
+
+				$('#share-fb').on('click',function(){
+					FB.ui({
+						method: 'share',
+						href: 'http://dev-web-client-r52hvx6ydd.elasticbeanstalk.com/watch/' + yepId,
+						}, function(response){}
+					);
+				});
+			},
+
+			initTwitterShare: function(yepId, yep){
+
+				$('#share-twitter').on('click',function(){
+
+					var url = 'http://dev-web-client-r52hvx6ydd.elasticbeanstalk.com/watch/' + yepId;
+					var text = yep.user.display_name + ' is live streaming "' + yep.title + '"';
+					var via = 'yeplive';
+					var related = 'yeplive';
+					window.open('https://twitter.com/intent/tweet?url=' + url + '&text=' + text +'&via=' + via + '&related=' + related, '_blank', 'location=yes,height=280,width=520,scrollbars=yes,status=yes');
+				});
+
+			},
+
+			initGoogleShare: function(yepId){
+
+				$('#share-google').on('click',function(){
+					var url = 'http://dev-web-client-r52hvx6ydd.elasticbeanstalk.com/watch/' + yepId;
+					window.open('https://plus.google.com/share?url=' + url, '_blank', 'location=yes,height=280,width=520,scrollbars=yes,status=yes');
+				});
+
 			},
 
 			populate: function(data){

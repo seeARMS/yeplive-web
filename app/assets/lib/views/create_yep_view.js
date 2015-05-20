@@ -36,6 +36,7 @@ define(['jquery',
 					if(err){
 						return swal("Warning", "Something is wrong", "warning");
 					}
+					res.title = title;
 					self.renderRecorder(res);	
 					setTimeout(function(){
 						API.post('/thumbnail/'+res.id,{},window.localStorage.getItem('token'), function(err, tres){
@@ -78,19 +79,29 @@ define(['jquery',
 			setupHDFVR('livestream');
 		},
 		renderRecorder: function(res){
+
 			var self = this;
 			this.$el.html(this.recordingTpl(res));
 			window.onRecordingStarted = function(){
 				
-				console.log(res.share_url);
+				//console.log(res.share_url);
 				
 			};
 			window.onCamAccess = function(allowed, id){
 				// If user clicked allowed, and also the templates have not been appended
 				// Because user may click allow and click disallow again
 				if(allowed && $('.recording-chat').is(':empty')){
+
 					showOverlay();
-					setupShare(res);
+
+					$('[data-toggle="tooltip"]').tooltip();
+
+					$('.js-title').html(res.title);
+
+					initFacebookShare(res.id);
+					initTwitterShare(res);
+					initGoogleShare(res.id);
+
 					setupSocket(res);	
 					self.setupStop(res);
 				}
@@ -263,6 +274,45 @@ define(['jquery',
 	    }
 	    // For Chrome, Safari, IE8+ and Opera 12+
 	    return message;
+	};
+
+
+	var initFacebookShare = function(yepId){
+
+		FB.init({
+			appId: '1577314819194083',
+			version: 'v2.3'
+		});
+
+		$('#share-fb').on('click',function(){
+			FB.ui({
+				method: 'share',
+				href: 'http://dev-web-client-r52hvx6ydd.elasticbeanstalk.com/watch/' + yepId,
+				}, function(response){}
+			);
+		});
+	};
+
+	var initTwitterShare = function(yep){
+
+		$('#share-twitter').on('click',function(){
+
+			var url = 'http://dev-web-client-r52hvx6ydd.elasticbeanstalk.com/watch/' + yep.id;
+			var text = user.user.get('display_name') + ' is live streaming "' + yep.title + '"';
+			var via = 'yeplive';
+			var related = 'yeplive';
+			window.open('https://twitter.com/intent/tweet?url=' + url + '&text=' + text +'&via=' + via + '&related=' + related, '_blank', 'location=yes,height=280,width=520,scrollbars=yes,status=yes');
+		});
+
+	};
+
+	var initGoogleShare = function(yepId){
+
+		$('#share-google').on('click',function(){
+			var url = 'http://dev-web-client-r52hvx6ydd.elasticbeanstalk.com/watch/' + yepId;
+			window.open('https://plus.google.com/share?url=' + url, '_blank', 'location=yes,height=280,width=520,scrollbars=yes,status=yes');
+		});
+
 	};
 
 	function setupShare(res){

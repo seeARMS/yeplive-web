@@ -16,7 +16,9 @@ requirejs.config({
 		videojsHLS: 'vendor/videojs-contrib-hls/dist/videojs.hls.min',
 		videojsZoomRotate: 'vendor/videojs-zoomrotate/videojs.zoomrotate',
 		socketio: 'vendor/socket.io-client/socket.io',
-		swal: 'vendor/sweetalert/lib/sweet-alert.min'
+		swal: 'vendor/sweetalert/lib/sweet-alert.min',
+		facebook: '//connect.facebook.net/en_US/sdk',
+		twitter: 'vendor/twitter-share/twitter-share'
 	},
 	shim:{
 		backbone: {
@@ -37,6 +39,9 @@ requirejs.config({
 		},
 		gmap3:{
 			deps: ['jquery']
+		},
+		facebook: {
+			exports: 'FB'
 		}
 	}
 });
