@@ -185,6 +185,7 @@ define(['jquery',
 				var currentTime = (new Date).getTime();
 				var userImage = yep.user.picture_path;
 				var isPortrait = yep.portrait === 1 ? true : false;
+				var isFrontFacing = yep.front_facing === 1 ? true : false;
 				var timeDiff = (currentTime / 1000) - startTime;
 				var vidTime =  parseInt(yep.end_time) - parseInt(yep.start_time);
 				var stars = yep.vote_count;
@@ -212,10 +213,13 @@ define(['jquery',
 				// Col 5
 				content += '<div class="col-xs-5 explorer-body-col">';
 
-				if(isPortrait){
+				if(isPortrait && ! isFrontFacing){
 					content += '<img src="' + imagePath + '" class="explorer-image explorer-portrait rotateCW">';
-				} 
-				else {
+				} else if (isPortrait && isFrontFacing){
+					content += '<img src="' + imagePath + '" class="explorer-image explorer-portrait rotate-front-facing">';
+				} else if (! isPortrait && ! isFrontFacing){
+					content += '<img src="' + imagePath + '" class="explorer-image explorer-landscape">';
+				} else {
 					content += '<img src="' + imagePath + '" class="explorer-image explorer-landscape">';
 				}
 

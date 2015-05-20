@@ -1849,3 +1849,11 @@ background-size: cover;
     transform: rotate(360deg);
   }
 }
+
+.rotate-front-facing{
+	 -webkit-transform: rotate(270deg);
+	-moz-transform: rotate(270deg);
+	-o-transform: rotate(270deg);
+	-ms-transform: rotate(270deg);
+	transform: rotate(270deg);
+}
