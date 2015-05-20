@@ -41,7 +41,7 @@ html, body{
 	position:relative;
 	/*top:20px;
 	left:10px;*/
-	width:100%;
+	width:120%;
 	border-top:4px solid #eee;
 	margin-top:0px !important;
 	margin-bottom: 0px !important;
@@ -716,7 +716,6 @@ img.discover-comment-user-img{
 
 .explorer-wrapper:hover{
 	background-color:rgb(242, 242, 242);
-	border-radius:30px;
 }
 
 .explorer-video-author-info{
@@ -759,7 +758,8 @@ img.explorer-landscape{
 	opacity: 1;
 	margin-top:80px;
 	position: absolute;
-	overflow: scroll;
+	overflow-y: scroll;
+	overflow-x: hidden;
 	z-index: 5;
 	width: 370px;
 	height: 93%;
