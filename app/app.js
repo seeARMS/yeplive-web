@@ -67,6 +67,9 @@ app.get(/^[^.]*$/,auth.connect(basic), function(req, res){
 			}
 			var yep = JSON.parse(body);
 			console.log(yep);
+			if(yep.staging === 1){
+			return res.redirect('/404');	
+			}
 			var data = {
 				yep: yep
 			};

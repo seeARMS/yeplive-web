@@ -2,6 +2,23 @@ html, body{
 	width:100%;
 }
 
+.explore-image-container{
+  width: 180px;
+  height: 125px;
+  background-position: center center;
+	background-size:cover;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.explore-image-container.rotateCW{
+	height:180px;
+	width:125px;
+	margin-left:30px;
+	margin-top:-20px;
+	margin-bottom:-20px;
+}
+
 #watch-view-container{
 	margin-top:125px
 }
@@ -25,6 +42,7 @@ position:relative;
 top:20px;
 left:10px;
 width:100%;
+border-top:4px solid #eee;
 
 }
 
@@ -168,6 +186,19 @@ body{
 	*/
 	width:200px;
 	margin-top:2%;
+}
+
+.user-picture-container{	
+	background-size: cover;
+	border-radius:50%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+	cursor:pointer;
+	margin-top:0.5em;
+	margin-right:1em;
+	height:60px;
+	width:60px;
 }
 
 .img-user{
@@ -708,8 +739,8 @@ img.explorer-landscape{
 	width:60px;
 	color:white;
 	position:relative;
-	left:84px;
-	top:117px;
+	left:144px;
+	top:92px;
 	z-index:100;
 }
 
@@ -1171,8 +1202,8 @@ div.user-view{
 	}
 
 	.explorer-time{
-		left:65px;
-		top:124px;
+		left:123px;
+		top:134px;
 	}
 
 	div.explorer-body{
@@ -1193,6 +1224,13 @@ div.user-view{
 	input.record-chat-input{
 		font-size:16px;
 	}
+
+
+	.user-picture-container{
+		margin-top:0.5em;
+		margin-right:0.5em;
+		height:55px;
+		width:55px;
 
 	.img-user{
 		margin-top:0.5em;
@@ -1284,6 +1322,14 @@ div.user-view{
 /* Medium devices (desktops, 992px - 769px) */
 @media (max-width: 992px){
 
+.explore-image-container{
+	width:150px;
+	}
+
+.explore-image-container.rotateCW{
+	height:150px;
+	margin-left:10px;
+}
 	.record-end-stream{
 		padding:11px;
 	}
@@ -1365,6 +1411,12 @@ div.user-view{
 /* Small devices (tablets, 768px - 431px) */
 @media (max-width: 768px){
 
+.explore-image-container{
+	width:130px;
+}
+.explore-image-container.rotateCW{
+	height:130px;
+}
 	#watch-view-container{
 		margin-top:125px;
 	}
@@ -1390,7 +1442,7 @@ div.user-view{
 	}
 
 	.explorer-time{
-		top:135px;
+		top:115px;
 		padding: 0px 0px 0px 5px;
 		width:50px;
 	}
@@ -1439,6 +1491,10 @@ div.user-view{
 /* Mini devices (tablets, 430 and below) */
 @media (max-width: 430px){
 
+.explore-image-container.rotateCW{
+	margin-top:0px;
+	margin-bottom:0px;
+}
 
 	#watch-view-container{
 		margin-top:25px;
@@ -1861,3 +1917,4 @@ background-size: cover;
 	-ms-transform: rotate(270deg);
 	transform: rotate(270deg);
 }
+

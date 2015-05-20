@@ -211,23 +211,29 @@ define(['jquery',
 				}
 
 				// Col 5
-				content += '<div class="col-xs-5 explorer-body-col">';
+//					content += '<div class="explore-image-bg" style="background-image:url(\''+imagePath+'\');">';
+//					content += '</div>';
+				content += '<div class="col-xs-7 explorer-body-col">';
 
 				if(isPortrait && ! isFrontFacing){
-					content += '<img src="' + imagePath + '" class="explorer-image explorer-portrait rotateCW">';
+					content += '<div class="explore-image-container rotateCW" style="background-image:url(\''+imagePath+'\');">';
+					content += '</div>';
 				} else if (isPortrait && isFrontFacing){
-					content += '<img src="' + imagePath + '" class="explorer-image explorer-portrait rotate-front-facing">';
+					content += '<div class="explore-image-container rotate-front-facing" style="background-image:url(\''+imagePath+'\');">';
+					content += '</div>';
 				} else if (! isPortrait && ! isFrontFacing){
-					content += '<img src="' + imagePath + '" class="explorer-image explorer-landscape">';
+					content += '<div class="explore-image-container" style="background-image:url(\''+imagePath+'\');">';
+					content += '</div>';
 				} else {
-					content += '<img src="' + imagePath + '" class="explorer-image explorer-landscape">';
+					content += '<div class="explore-image-container" style="background-image:url(\''+imagePath+'\');">';
+					content += '</div>';
 				}
 
 				// End of Col 5
 				content += '</div>';
 
 				// Col 7
-				content += '<div class="col-xs-7 explorer-body-col">';
+				content += '<div class="col-xs-5 explorer-body-col">';
 
 				content += '<div class="explorer-body">';
 
@@ -237,7 +243,7 @@ define(['jquery',
 				content += '<div class="col-xs-2" >';
 				content += '<img src="'+userImage+'" class="explorer-user-image img-circle">';
 				content += '</div>';
-				content += '<div class="col-xs-10" >';
+				content += '<div class="col-xs-8" >';
 				content += '<div class="explorer-display-name">' + helper.truncate(displayName,15) + '</div>';
 				content += '</div>';
 
