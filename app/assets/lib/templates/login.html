@@ -1,14 +1,17 @@
-<video autoplay="" loop="" poster="/img/preview_good.jpg" id="bgvid">
-	<source src="/vid/vid_good.webm" type="video/webm">
-	<source src="/vid/vid_good.mp4" type="video/mp4">
-</video>
+<% if(!iphone){ %>
 
-<div class="overlay">
+	<video autoplay="" loop="" poster="/img/preview_good.jpg" id="bgvid">
+		<source src="/vid/vid_good.webm" type="video/webm">
+		<source src="/vid/vid_good.mp4" type="video/mp4">
+	</video>
 
-</div>
-	<div class="card card-container col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4  col-xs-12">
+<% } %>
 
-	<img src="/img/yeplive-text.png" style="display:block;margin:0 auto;width:100%;">
+<div class="overlay"></div>
+
+<div class="card card-container col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4  col-xs-12">
+
+	<img src="/img/yeplive-text.png" style="display:block;margin:0 auto;width:100%;" />
 	<div>
 		<h1 class="text-center" style="color:white;">Login</h1>
 		<a href="/auth/facebook"><button class="btn btn-block btn-facebook">Facebook</button></a>
@@ -17,3 +20,49 @@
 		<a href="/auth/twitter"><button class="btn btn-block btn-twitter">Twitter</button></a>
 		<a href="/auth/google"><button class="btn btn-block btn-google">Google</button></a>
 	</div>
+
+</div>
+
+<!-- Modal if user on Mobil -->
+<div class="modal fade" id="login-appstore-prompt" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<div class="text-center">
+						<img width="40px" height="40px" src="/img/yeplive-big-button.png" />
+						<span class="login-modal-title">Want to stream on mobile?</span>
+				</div>
+			</div>
+			<div class="modal-body">
+
+				<div class="login-prompt-appstore">
+					<div class="row">
+						<h5 class="text-left">Download the Yeplive™ app for extra features and better streaming experience!</h5>
+						<br>
+						<div class="row">
+							<a href="#">
+							<img alt="Get it on Google Play"
+									 src="https://developer.android.com/images/brand/en_generic_rgb_wo_60.png" style="margin:0 auto;display:block;" />
+							</a>
+						</div>
+						<div>
+							<img alt="Coming soon to the App Store"
+								 src="/img/ios.png" style="height:60px;margin: 25px auto; display:block;" />
+						</div>
+						<div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<div class="text-center">
+					<div class="login-continue-webapp" data-dismiss="modal">Or continue to the web app <i class="fa fa-angle-double-right"></i></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
