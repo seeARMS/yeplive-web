@@ -537,10 +537,27 @@ define(['jquery',
 					console.log(data);
 //					this.play();
 					if(data.video.yep.vod_enable){
-						if(data.video.yep.portrait){
-							console.log('rotatin');
+						if(! data.video.yep.portrait){
+							if($(window).width() < 600){
+								$('#playVideo_html5_api').css('left','0px');
+								$('#playVideo_html5_api').css('top','0px');
+							}
+						}
+						if(data.video.yep.portrait && ! data.video.yep.front_facing){
 							this.zoomrotate({
 								rotate: 90,
+								zoom: 1
+							});
+						if($(window).width() < 600){
+							var width = $('#playVideo_html5_api').css('width');
+							var height = $('#playVideo_html5_api').css('height');
+							$('#playVideo_html5_api').css('width',height);
+							$('#playVideo_html5_api').css('height',width);
+						}
+
+						} else if (data.video.yep.portrait && data.video.yep.front_facing) {
+							this.zoomrotate({
+								rotate: 270,
 								zoom: 1
 							});
 						if($(window).width() < 600){
@@ -572,6 +589,26 @@ define(['jquery',
   "transform","rotate(90deg)"
 						);
 					} else {
+						console.log('ccw bby');
+						var width = $('#playVideo_html5_api').css('width');
+						var height = $('#playVideo_html5_api').css('height');
+						$('#playVideo_html5_api').css('width',height);
+						$('#playVideo_html5_api').css('height',width);
+						$('#playVideo_html5_api').css('top','-42px');
+						$('#playVideo_html5_api').css('left','42px');
+						$('#playVideo_html5_api').css(
+ "-moz-transform","rotate(270deg)"
+						).css(
+  "-webkit-transform","rotate(270deg)"
+						).css(
+ "-o-transform","rotate(270deg)"
+						).css(
+ "-ms-transform","rotate(270deg)"
+						).css(
+  "transform","rotate(270deg)"
+						);
+
+
 						var width = $('#playVideo_flash_api').css('width');
 						var height = $('#playVideo_flash_api').css('height');
 						$('#playVideo_flash_api').css('width',height);

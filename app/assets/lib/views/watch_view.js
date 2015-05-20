@@ -126,14 +126,32 @@ define(['jquery',
 					//this.play();
 					//console.log(data.video);
 					if(data.video.yep.vod_enable){
-						if(data.video.yep.portrait){
+						if(! data.video.yep.portrait && ! data.video.yep.front_facing){
+						if($(window).width() < 600){
+							$('#playVideo_html5_api').css('left','0px');
+							$('#playVideo_html5_api').css('top','0px');
+						}
+
+						}
+						
+						if(data.video.yep.portrait && ! data.video.yep.front_facing){
 							console.log('rotatin');
 							this.zoomrotate({
 								rotate: 90,
 								zoom: 1
 							});
 						if($(window).width() < 600){
-
+							var width = $('#playVideo_html5_api').css('width');
+							var height = $('#playVideo_html5_api').css('height');
+							$('#playVideo_html5_api').css('width',height);
+							$('#playVideo_html5_api').css('height',width);
+						}
+						} else if (data.video.yep.portrait && data.video.yep.front_facing) {
+							this.zoomrotate({
+								rotate: 270,
+								zoom: 1
+							});
+						if($(window).width() < 600){
 							var width = $('#playVideo_html5_api').css('width');
 							var height = $('#playVideo_html5_api').css('height');
 							$('#playVideo_html5_api').css('width',height);

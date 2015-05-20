@@ -2,6 +2,9 @@ html, body{
 	width:100%;
 }
 
+.preview-overlay{
+}
+
 .explore-image-container{
   width: 180px;
   height: 125px;
@@ -106,7 +109,6 @@ body{
 	width:150px;
 	height:50px;
 	font-size:25px;
-	margin-top:200px;
 	
 }
 
@@ -501,7 +503,7 @@ ul.navbar-button{
 
 .video-overlay{
 	width:640px;
-	height:480px;
+	height:0px;
 	margin-left:auto;
 	margin-right:auto;
 	position:relative;
