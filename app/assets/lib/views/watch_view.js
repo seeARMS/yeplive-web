@@ -252,7 +252,7 @@ define(['jquery',
 				});
 
 				socket.on('yep:connection', function(data){
-					console.log(data);
+					$('.connection-count').text(data.connection_count);
 				});
 
 				socket.on('yep:complete', function(data){

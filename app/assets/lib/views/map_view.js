@@ -542,6 +542,7 @@ define(['jquery',
 
 						}
 					} else {
+						if(data.video.yep.portrait){
 						var width = $('#playVideo_flash_api').css('width');
 						var height = $('#playVideo_flash_api').css('height');
 						$('#playVideo_flash_api').css('width',height);
@@ -559,6 +560,7 @@ define(['jquery',
 						).css(
   "transform","rotate(90deg)"
 						);
+						}
 					}
 				});
 			},
