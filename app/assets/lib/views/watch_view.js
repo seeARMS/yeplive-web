@@ -395,7 +395,7 @@ define(['jquery',
 				$('#share-fb').on('click',function(){
 					FB.ui({
 						method: 'share',
-						href: 'http://dev-web-client-r52hvx6ydd.elasticbeanstalk.com/watch/' + yepId,
+						href: 'http://app.yeplive.com/watch/' + yepId,
 						}, function(response){}
 					);
 				});
@@ -405,7 +405,7 @@ define(['jquery',
 
 				$('#share-twitter').on('click',function(){
 
-					var url = 'http://dev-web-client-r52hvx6ydd.elasticbeanstalk.com/watch/' + yepId;
+					var url = 'http://app.yeplive.com/watch/' + yepId;
 					var text = yep.user.display_name + ' is live streaming "' + yep.title + '"';
 					var via = 'yeplive';
 					var related = 'yeplive';
@@ -417,7 +417,7 @@ define(['jquery',
 			initGoogleShare: function(yepId){
 
 				$('#share-google').on('click',function(){
-					var url = 'http://dev-web-client-r52hvx6ydd.elasticbeanstalk.com/watch/' + yepId;
+					var url = 'http://app.yeplive.com/watch/' + yepId;
 					window.open('https://plus.google.com/share?url=' + url, '_blank', 'location=yes,height=280,width=520,scrollbars=yes,status=yes');
 				});
 

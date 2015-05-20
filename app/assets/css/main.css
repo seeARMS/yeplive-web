@@ -921,6 +921,10 @@ b.chat-user-name{
 	cursor: pointer;
 }
 
+.share-watch-view{
+	margin-left:10px;
+}
+
 .star-animation{
 	opacity: 0;
 	position: absolute;
