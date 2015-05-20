@@ -355,17 +355,23 @@ define(['jquery',
 			}
 		};
 
+		var closeDiscoverView = function(){
+
+			$('div.discover-body').remove();
+
+			$('div#map-canvas').css('opacity', '1');
+			$('div.explore-container').css('opacity', '1');
+
+			socket.emit('client:leave', {});
+			socket.emit('disconnect', socket);
+
+		};
+
 		var addCloseDiscoverListener = function(){
 
 			$('#main').on('click', '.close-discover', function(){
 
-				$('div.discover-body').remove();
-
-				$('div#map-canvas').css('opacity', '1');
-				$('div.explore-container').css('opacity', '1');
-
-				socket.emit('client:leave', {});
-				socket.emit('disconnect', socket);
+				closeDiscoverView();
 
 			});
 		};
@@ -743,7 +749,7 @@ define(['jquery',
 				});
 
 				var starCount = 1;
-				
+
 				$('.js-vote').click(function(e){
 					Api.post('/yeps/'+data.video.yep.id+'/votes',{}, window.localStorage.getItem('token'),
 						function(err, res){
@@ -920,28 +926,14 @@ define(['jquery',
 				// Launch Discovery
 				self.discover();
 
-				FB.init({
-					appId: '1577314819194083',
-					version: 'v2.3'
+				// Make clicking outside of discover view close the discover view
+				$('#main').on('click', '.discover-body', function() {
+					closeDiscoverView();
 				});
-
-
-				FB.getLoginStatus(function(response) {
-					console.log(response);
+				$('#main').on('click', '.yep-overlay', function(event){
+					event.stopPropagation();
 				});
-
-				/*
-				setTimeout(function(){
-					console.log('bang');
-					FB.ui({
-						method: 'share_open_graph',
-						action_type: 'og.likes',
-						action_properties: JSON.stringify({
-							object:'https://developers.facebook.com/docs/',
-						})
-					}, function(response){});
-				}, 5000);*/
-				
+			
 			},
 
 			initFacebookShare: function(yepId){
