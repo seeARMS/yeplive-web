@@ -913,7 +913,7 @@ img.watch-author-picture{
 
 
 div.watch-chat-box{
-	height: 280px;
+	height: 250px;
 	overflow-y: scroll;
 	overflow-x:hidden;
 }

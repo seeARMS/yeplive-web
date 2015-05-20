@@ -553,6 +553,7 @@ define(['jquery',
 						}
 					} else {
 						if(data.video.yep.portrait){
+						if(! data.video.yep.front_facing){
 						var width = $('#playVideo_flash_api').css('width');
 						var height = $('#playVideo_flash_api').css('height');
 						$('#playVideo_flash_api').css('width',height);
@@ -570,8 +571,28 @@ define(['jquery',
 						).css(
   "transform","rotate(90deg)"
 						);
-						}
+					} else {
+						var width = $('#playVideo_flash_api').css('width');
+						var height = $('#playVideo_flash_api').css('height');
+						$('#playVideo_flash_api').css('width',height);
+						$('#playVideo_flash_api').css('height',width);
+						$('#playVideo_flash_api').css('top','-42px');
+						$('#playVideo_flash_api').css('left','42px');
+						$('#playVideo_flash_api').css(
+ "-moz-transform","rotate(270deg)"
+						).css(
+  "-webkit-transform","rotate(270deg)"
+						).css(
+ "-o-transform","rotate(270deg)"
+						).css(
+ "-ms-transform","rotate(270deg)"
+						).css(
+  "transform","rotate(270deg)"
+						);
+
 					}
+					}
+						}
 				});
 			},
 
