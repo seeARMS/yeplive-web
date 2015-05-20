@@ -533,6 +533,13 @@ define(['jquery',
 								rotate: 90,
 								zoom: 1
 							});
+						if($(window).width() < 600){
+							var width = $('#playVideo_html5_api').css('width');
+							var height = $('#playVideo_html5_api').css('height');
+							$('#playVideo_html5_api').css('width',height);
+							$('#playVideo_html5_api').css('height',width);
+						}
+
 						}
 					} else {
 						var width = $('#playVideo_flash_api').css('width');

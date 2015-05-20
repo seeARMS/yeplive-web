@@ -1,6 +1,13 @@
 define(['jquery'], function($){
 
     helper = {
+				isMobile: function(){
+					var ua = navigator.userAgent.toLowerCase();
+					if(navigator.appVersion.indexOf("iPad") != -1 || navigator.appVersion.indexOf("iPhone") != -1 || ua.indexOf("android") != -1 || ua.indexOf("ipod") != -1 || ua.indexOf("windows ce") != -1 || ua.indexOf("windows phone") != -1){
+						return true;
+					}
+					return false;
+				},
         timeElapsedCalculator : function(diff){
             if (diff < 60){
                 return 'Just Now';

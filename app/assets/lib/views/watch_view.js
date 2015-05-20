@@ -132,8 +132,27 @@ define(['jquery',
 								rotate: 90,
 								zoom: 1
 							});
+						if($(window).width() < 600){
+
+							var width = $('#playVideo_html5_api').css('width');
+							var height = $('#playVideo_html5_api').css('height');
+							$('#playVideo_html5_api').css('width',height);
+							$('#playVideo_html5_api').css('height',width);
 						}
-					this.play();
+						/*
+							var width = $('#playVideo_flash_api').css('width');
+							var height = $('#playVideo_flash_api').css('height');
+							$('#playVideo_flash_api').css('width',height);
+							$('#playVideo_flash_api').css('height',width);
+							var width = $('#playVideo_html5_api').css('width');
+							var height = $('#playVideo_html5_api').css('height');
+							$('#playVideo_html5_api').css('width',height);
+							$('#playVideo_html5_api').css('height',width);
+							$('#playVideo_html5_api').css('top','124px');
+							$('#playVideo_html5_api').css('left','-140px');
+						*/
+						}
+//					this.play();
 					} else {
 						if(data.video.yep.portrait){
 							var width = $('#playVideo_flash_api').css('width');
