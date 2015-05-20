@@ -56,8 +56,11 @@ define(['jquery',
 					var thumbnail_path = yep.image_path;
 //					var video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
 //					var playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
+					var currentTime = (new Date).getTime()/1000;
+					var timeDiff = currentTime - yep.start_time;
 
 					var data = {
+						timeElapsed: helper.timeElapsedCalculator(timeDiff),
 						el : '#main',
 						video_path : video_path,
 						thumbnail_path : thumbnail_path,
