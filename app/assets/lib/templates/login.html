@@ -1,7 +1,11 @@
-<video autoplay="" loop="" poster="/img/preview_good.jpg" id="bgvid">
-	<source src="/vid/vid_good.webm" type="video/webm">
-	<source src="/vid/vid_good.mp4" type="video/mp4">
-</video>
+<% if(!iphone){ %>
+
+	<video autoplay="" loop="" poster="/img/preview_good.jpg" id="bgvid">
+		<source src="/vid/vid_good.webm" type="video/webm">
+		<source src="/vid/vid_good.mp4" type="video/mp4">
+	</video>
+
+<% } %>
 
 <div class="overlay"></div>
 
