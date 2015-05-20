@@ -27,8 +27,10 @@ define(['jquery',
 				var latitude = user.user.get('latitude');
 				var longitude = user.user.get('longitude');
 
+				console.log(title);
+
 				API.post('/yeps',{
-					staging: 1,
+					staging: 0,
 					title: title,
 					latitude: latitude,
 					longitude: longitude 
@@ -50,6 +52,8 @@ define(['jquery',
 		recordingTpl: _.template(recordingTpl),
 		completeTpl: _.template(completeTpl),
 		getAppTpl: _.template(getAppTpl),
+		chatTpl: _.template(videoOverlayTpl),
+
 		initialize: function(){
 			if(this.isMobile()){
 				this.$el.html(this.getAppTpl());
@@ -78,9 +82,27 @@ define(['jquery',
 			});
 			setupHDFVR('livestream');
 		},
+
+		showOverlay: function(res){
+
+			$('div.recording-chat').append(this.chatTpl(res));
+			
+			$(".record-chat-input").bind("keypress", function(event) {
+				if(event.which == 13) {
+					event.preventDefault();
+					socket.emit('message',{
+						message: $('.record-chat-input').val(),
+						user_id: user.user.get('user_id')
+					});
+					$('.record-chat-input').val('');
+			    }
+			});
+		},
+
 		renderRecorder: function(res){
 
 			var self = this;
+
 			this.$el.html(this.recordingTpl(res));
 			window.onRecordingStarted = function(){
 				
@@ -92,7 +114,7 @@ define(['jquery',
 				// Because user may click allow and click disallow again
 				if(allowed && $('.recording-chat').is(':empty')){
 
-					showOverlay();
+					self.showOverlay(res);
 
 					$('[data-toggle="tooltip"]').tooltip();
 
@@ -114,7 +136,7 @@ define(['jquery',
 			setupHDFVR(res.stream_name);
 		},
 		renderComplete: function(res){
-			this.$el.html(this.completeTpl(res));
+			this.$el.html(this.chatTpl(res));
 		},
 		setupStop: function(res){
 			var id = res.id;
@@ -248,20 +270,6 @@ define(['jquery',
 		});
 	};
 
-	function showOverlay(){
-		$('div.recording-chat').append(videoOverlayTpl);
-		
-		$(".record-chat-input").bind("keypress", function(event) {
-			if(event.which == 13) {
-					event.preventDefault();
-					socket.emit('message',{
-						message: $('.record-chat-input').val(),
-						user_id: user.user.get('user_id')
-					});
-					$('.record-chat-input').val('');
-		    }
-		});
-	}
 
 	var confirmOnPageExit = function (e) {
 	    // If we haven't been passed the event get the window.event
@@ -287,7 +295,7 @@ define(['jquery',
 		$('#share-fb').on('click',function(){
 			FB.ui({
 				method: 'share',
-				href: 'http://dev-web-client-r52hvx6ydd.elasticbeanstalk.com/watch/' + yepId,
+				href: 'http://app.yeplive.com/watch/' + yepId,
 				}, function(response){}
 			);
 		});
@@ -297,7 +305,7 @@ define(['jquery',
 
 		$('#share-twitter').on('click',function(){
 
-			var url = 'http://dev-web-client-r52hvx6ydd.elasticbeanstalk.com/watch/' + yep.id;
+			var url = 'http://app.yeplive.com/watch/' + yep.id;
 			var text = user.user.get('display_name') + ' is live streaming "' + yep.title + '"';
 			var via = 'yeplive';
 			var related = 'yeplive';
@@ -309,7 +317,7 @@ define(['jquery',
 	var initGoogleShare = function(yepId){
 
 		$('#share-google').on('click',function(){
-			var url = 'http://dev-web-client-r52hvx6ydd.elasticbeanstalk.com/watch/' + yepId;
+			var url = 'http://app.yeplive.com/watch/' + yepId;
 			window.open('https://plus.google.com/share?url=' + url, '_blank', 'location=yes,height=280,width=520,scrollbars=yes,status=yes');
 		});
 
