@@ -38,12 +38,13 @@ html, body{
 }
 
 .yep-hr{
-position:relative;
-top:20px;
-left:10px;
-width:100%;
-border-top:4px solid #eee;
-
+	position:relative;
+	/*top:20px;
+	left:10px;*/
+	width:100%;
+	border-top:4px solid #eee;
+	margin-top:0px !important;
+	margin-bottom: 0px !important;
 }
 
 .rotateCW{
@@ -705,12 +706,17 @@ img.discover-comment-user-img{
 }
 
 .explorer-wrapper {
-	height:150px;
+	height:185px;
 	margin-left:10px;
 }
 
 .explorer-wrapper a{
 	color: black;
+}
+
+.explorer-wrapper:hover{
+	background-color:rgb(242, 242, 242);
+	border-radius:30px;
 }
 
 .explorer-video-author-info{
