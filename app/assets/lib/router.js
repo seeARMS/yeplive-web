@@ -57,12 +57,14 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 				'/watch/'
 			];
 
-			console.log(href);
 
 			for(var i = 0; i< passThrough.length; i++){
-				if(href === '/auth/facebook') break;
-				if(href.search(passThrough[i])){
-					href = href.slice(0, passThrough[i].length-1);
+
+				var currentPassThrough = passThrough[i];
+				console.log(currentPassThrough);
+				console.log(href);
+				if(href.search(currentPassThrough) >= 0){
+					href = href.slice(0, currentPassThrough.length);
 					break;
 				}
 			}
@@ -77,7 +79,8 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 				appRouter.navigate(url, { trigger: true })
 
 				return false
-			} else {
+			}
+			else {
 		
 			}
 		});

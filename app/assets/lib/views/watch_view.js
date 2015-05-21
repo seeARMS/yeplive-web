@@ -252,8 +252,7 @@ define(['jquery',
 					if(event.which == 13) {
 
 						if(!User.authed){
-							self.promptLogin();
-							return;
+							return self.promptLogin();
 						}
 
 						event.preventDefault();
@@ -368,37 +367,37 @@ define(['jquery',
 
 			addVoteListener: function(yepId){
 
+				var self = this;
+
 				var $voteIcon = $('i#voteIcon');
 
-				if(User.authed){
+				var starCount = 1;
 
-					var starCount = 1;
+				$('button.js-vote').on('click', function(){
 
-					$('button.js-vote').on('click', function(){
+					if(!User.authed){
+						return self.promptLogin();
+					}
 
-						Api.post('/yeps/' + yepId + '/votes', {},
-								window.localStorage.getItem('token'),
-								function(err, res){
+					Api.post('/yeps/' + yepId + '/votes', {},
+							window.localStorage.getItem('token'),
+							function(err, res){
 
-									if(err){
-										return Swal("Warning", "Something is wrong", "warning");
-									}
-									
-									if(res.success){
-										//console.log(res);
-										$('.star-' + starCount).css('-webkit-animation-name', 'spin');
-										starCount++;
-									}
-									else{
-										return Swal("", "You have already given 5 stars to this yep", "warning");
-									}
+								if(err){
+									return Swal("Warning", "Something is wrong", "warning");
 								}
-						);
-					});
-				}
-				else{
-					//return this.promptLogin();
-				}
+								
+								if(res.success){
+									//console.log(res);
+									$('.star-' + starCount).css('-webkit-animation-name', 'spin');
+									starCount++;
+								}
+								else{
+									return Swal("", "You have already given 5 stars to this yep", "warning");
+								}
+							}
+					);
+				});
 			},
 
 			addViewCount: function(yepId){
