@@ -1,3 +1,5 @@
+require('newrelic');
+
 var config = require('../config');
 var morgan = require('morgan');
 var request = require('request');
@@ -100,6 +102,8 @@ app.get('/token', function(req, res){
 	res.json(req.session);
 });
 */
+
+
 
 app.listen(process.env.PORT || config.PORT, function(){
 	console.log('Yeplive web client now running on port 3000');
