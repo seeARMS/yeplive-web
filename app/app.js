@@ -1,3 +1,5 @@
+require('newrelic');
+
 var config = require('../config');
 var morgan = require('morgan');
 var request = require('request');
