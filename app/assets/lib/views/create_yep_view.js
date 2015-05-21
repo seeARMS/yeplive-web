@@ -27,8 +27,6 @@ define(['jquery',
 				var latitude = user.user.get('latitude');
 				var longitude = user.user.get('longitude');
 
-				console.log(title);
-
 				API.post('/yeps',{
 					staging: 0,
 					title: title,
@@ -42,7 +40,6 @@ define(['jquery',
 					self.renderRecorder(res);	
 					setTimeout(function(){
 						API.post('/thumbnail/'+res.id,{},window.localStorage.getItem('token'), function(err, tres){
-							console.log(tres);
 						});
 					},5000);
 				});
@@ -106,8 +103,6 @@ define(['jquery',
 			this.$el.html(this.recordingTpl(res));
 			window.onRecordingStarted = function(){
 				
-				//console.log(res.share_url);
-				
 			};
 			window.onCamAccess = function(allowed, id){
 				// If user clicked allowed, and also the templates have not been appended
@@ -131,7 +126,6 @@ define(['jquery',
 			window.onFlashReady = function(id){
 				window.onbeforeunload = confirmOnPageExit;
 				document.getElementById('VideoRecorder').record();
-				console.log('nice');
 			};
 			setupHDFVR(res.stream_name);
 		},
@@ -243,14 +237,10 @@ define(['jquery',
 			display_name: user.user.get('display_name'),
 			picture_path: user.user.get('picture_path')
 		};
-
-		console.log(room);
-
 		
 		socket.emit('join_room', room);
 
 		socket.on('chat:history', function(messages){
-			console.log(messages);
 		});
 
 		socket.on('chat:message', function(message){;

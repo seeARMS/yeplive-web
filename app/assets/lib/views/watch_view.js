@@ -38,9 +38,6 @@ define(['jquery',
 					
 					var video_path;
 					var playback_type;
-
-					console.log("YEP:");
-					console.log(yep);
 					
 					if(yep.is_web){
 						video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
@@ -56,8 +53,11 @@ define(['jquery',
 					var thumbnail_path = yep.image_path;
 //					var video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
 //					var playback_type = (yep.vod_enable) ? 'video/mp4' : 'rtmp/mp4';
+					var currentTime = (new Date).getTime()/1000;
+					var timeDiff = currentTime - yep.start_time;
 
 					var data = {
+						timeElapsed: helper.timeElapsedCalculator(timeDiff),
 						el : '#main',
 						video_path : video_path,
 						thumbnail_path : thumbnail_path,
@@ -123,8 +123,6 @@ define(['jquery',
 				var videoEl = document.getElementById('playVideo');
 				var self = this;
 				vj(videoEl, {}, function(player){
-					//this.play();
-					//console.log(data.video);
 					if(data.video.yep.vod_enable){
 						if(! data.video.yep.portrait && ! data.video.yep.front_facing){
 						if($(window).width() < 600){
@@ -134,7 +132,6 @@ define(['jquery',
 						} else if(! data.video.yep.portrait && data.video.yep.front_facing){
 						
 						if(data.video.yep.portrait && ! data.video.yep.front_facing){
-							console.log('rotatin');
 							this.zoomrotate({
 								rotate: 90,
 								zoom: 1
@@ -205,7 +202,6 @@ define(['jquery',
 					});
 */
 					this.on('ended', function(){
-						console.log('video ended');
 					});
 					//console.log(overlayTpl);
 //					$('#recorder').append(overlayTpl);
@@ -248,8 +244,7 @@ define(['jquery',
 					if(event.which == 13) {
 
 						if(!User.authed){
-							self.promptLogin();
-							return;
+							return self.promptLogin();
 						}
 
 						event.preventDefault();
@@ -278,7 +273,6 @@ define(['jquery',
 
 
 				socket.on('server:error', function(data){
-					console.log(data);
 				});
 
 				socket.on('yep:connection', function(data){
@@ -364,37 +358,36 @@ define(['jquery',
 
 			addVoteListener: function(yepId){
 
+				var self = this;
+
 				var $voteIcon = $('i#voteIcon');
 
-				if(User.authed){
+				var starCount = 1;
 
-					var starCount = 1;
+				$('button.js-vote').on('click', function(){
 
-					$('button.js-vote').on('click', function(){
+					if(!User.authed){
+						return self.promptLogin();
+					}
 
-						Api.post('/yeps/' + yepId + '/votes', {},
-								window.localStorage.getItem('token'),
-								function(err, res){
+					Api.post('/yeps/' + yepId + '/votes', {},
+							window.localStorage.getItem('token'),
+							function(err, res){
 
-									if(err){
-										return Swal("Warning", "Something is wrong", "warning");
-									}
-									
-									if(res.success){
-										//console.log(res);
-										$('.star-' + starCount).css('-webkit-animation-name', 'spin');
-										starCount++;
-									}
-									else{
-										return Swal("", "You have already given 5 stars to this yep", "warning");
-									}
+								if(err){
+									return Swal("Warning", "Something is wrong", "warning");
 								}
-						);
-					});
-				}
-				else{
-					//return this.promptLogin();
-				}
+								
+								if(res.success){
+									$('.star-' + starCount).css('-webkit-animation-name', 'spin');
+									starCount++;
+								}
+								else{
+									return Swal("", "You have already given 5 stars to this yep", "warning");
+								}
+							}
+					);
+				});
 			},
 
 			addViewCount: function(yepId){
