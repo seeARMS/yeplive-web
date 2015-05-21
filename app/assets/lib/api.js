@@ -4,7 +4,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/user'],
 	var API = {};
 
 	API.get = function(route, token, cb){
-		var callback = typeof token === "function" ? 
+		var callback = typeof token === 'function' ? 
 			token : cb;	
 
 		$.ajax(
@@ -50,7 +50,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/user'],
 	};
 
 	API.delete = function(route, data, token, cb){
-		var callback = typeof token === "function" ? 
+		var callback = typeof token === 'function' ? 
 			token : cb;	
 			
 		$.ajax(

@@ -724,6 +724,12 @@ img.discover-comment-user-img{
 	margin-top:10px;
 }
 
+.explorer-delete-video{
+	position: relative;
+	cursor:pointer;
+	top: 55px;
+	left: 114px;
+}
 
 img.cluster-Image{
 	width:25%;
@@ -836,7 +842,9 @@ img.explorer-landscape{
 	float:left;
 	font-style:italic;
 	font-size: 0.8em;
-	margin-top: 12px
+	margin-top: 12px;
+	margin-left: 10px;
+	color:rgb(137, 137, 137);
 }
 
 #explorer-close{
@@ -1339,8 +1347,8 @@ div.user-view{
 		margin-left: 134px;
 	}*/
 
-	.video-js{
-/*		width:530px !important; */
+	.explorer-delete-video{
+		left: 94px;
 	}
 }
 
@@ -1516,10 +1524,10 @@ div.user-view{
 /* Mini devices (tablets, 430 and below) */
 @media (max-width: 430px){
 
-.explore-image-container.rotateCW{
-	margin-top:0px;
-	margin-bottom:0px;
-}
+	.explore-image-container.rotateCW{
+		margin-top:0px;
+		margin-bottom:0px;
+	}
 
 	#watch-view-container{
 		margin-top:25px;
@@ -1597,6 +1605,7 @@ div.user-view{
 
 	div.explorer-created-time{
 		font-size:0.8em;
+		margin-left:0px;
 	}
 
 	.img-user{
@@ -1637,6 +1646,10 @@ div.user-view{
 		top:-618px;
 		font-size:2em;
 		font-weight:100;
+	}
+
+	.explorer-delete-video{
+		left: 35px;
 	}
 }
 
