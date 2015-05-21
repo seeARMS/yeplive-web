@@ -29,9 +29,5 @@ define(['jquery', 'underscore', 'backbone',
 		}
 		return instance;
 	}
-
-	console.log(Socket.getInstance());
-
 	return Socket.getInstance();
-
 });

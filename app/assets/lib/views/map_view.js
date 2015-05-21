@@ -300,7 +300,6 @@ define(['jquery',
 			var user = data.user;
 			var yep = data.video.yep;
 
-				console.log("joined room");
 			socket.emit('join_room', {
 				user_id: user.user_id,
 				display_name: user.display_name,
@@ -530,12 +529,9 @@ define(['jquery',
 			},*/
 
 			setupVideo: function(data){
-				console.log(data);
+
 				var videoEl = document.getElementById('playVideo');
 				vj(videoEl, {}, function(){
-					console.log(this);
-					console.log(data);
-//					this.play();
 					if(data.video.yep.vod_enable){
 						if(! data.video.yep.portrait){
 							if($(window).width() < 600){
@@ -589,7 +585,6 @@ define(['jquery',
   "transform","rotate(90deg)"
 						);
 					} else {
-						console.log('ccw bby');
 						var width = $('#playVideo_html5_api').css('width');
 						var height = $('#playVideo_html5_api').css('height');
 						$('#playVideo_html5_api').css('width',height);
@@ -712,8 +707,6 @@ define(['jquery',
 			},
 
 			renderDiscover: function(data){
-
-				console.log(data);
 
 				var currentTime = (new Date).getTime()/1000;
 				var timeDiff = currentTime - data.video.yep.start_time;
@@ -906,7 +899,6 @@ define(['jquery',
 
 				socket.on('server:error', function(data){
 					console.log('Error');
-					console.log(data);
 				});
 
 				socket.on('yep:connection', function(data){
@@ -922,7 +914,6 @@ define(['jquery',
 				});
 		
 				socket.on('yep:vote', function(data){
-					console.log(data);
 					$('.discover-vote-count').text(data.vote_count);
 				});
 

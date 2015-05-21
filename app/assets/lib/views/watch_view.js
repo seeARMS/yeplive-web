@@ -38,9 +38,6 @@ define(['jquery',
 					
 					var video_path;
 					var playback_type;
-
-					console.log("YEP:");
-					console.log(yep);
 					
 					if(yep.is_web){
 						video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
@@ -126,8 +123,6 @@ define(['jquery',
 				var videoEl = document.getElementById('playVideo');
 				var self = this;
 				vj(videoEl, {}, function(player){
-					//this.play();
-					//console.log(data.video);
 					if(data.video.yep.vod_enable){
 						if(! data.video.yep.portrait && ! data.video.yep.front_facing){
 						if($(window).width() < 600){
@@ -138,7 +133,6 @@ define(['jquery',
 						}
 						
 						if(data.video.yep.portrait && ! data.video.yep.front_facing){
-							console.log('rotatin');
 							this.zoomrotate({
 								rotate: 90,
 								zoom: 1
@@ -209,7 +203,6 @@ define(['jquery',
 					});
 */
 					this.on('ended', function(){
-						console.log('video ended');
 					});
 					//console.log(overlayTpl);
 //					$('#recorder').append(overlayTpl);
@@ -281,7 +274,6 @@ define(['jquery',
 
 
 				socket.on('server:error', function(data){
-					console.log(data);
 				});
 
 				socket.on('yep:connection', function(data){
@@ -388,7 +380,6 @@ define(['jquery',
 								}
 								
 								if(res.success){
-									//console.log(res);
 									$('.star-' + starCount).css('-webkit-animation-name', 'spin');
 									starCount++;
 								}
