@@ -189,6 +189,7 @@ define(['jquery',
 				var timeDiff = (currentTime / 1000) - startTime;
 				var vidTime =  parseInt(yep.end_time) - parseInt(yep.start_time);
 				var stars = yep.vote_count;
+				var deletable;
 
 				if (imagePath === ''){
 					imagePath = '/img/video-thumbnail.png'
@@ -202,7 +203,10 @@ define(['jquery',
 					displayName = 'Andrew'
 				}
 
-				content += '<div class="explorer-wrapper row"><a class="discover" href="#" id="' + yepId + '">';
+				deletable = yep.user.user_id == User.user.attributes.user_id ? true : false
+
+
+				content += '<div id="explorer-' + yepId + '" class="explorer-wrapper row"><a class="discover" href="#" id="' + yepId + '">';
 
 				if(yep.vod_enable){
 					content += '<div class="explorer-time">'+helper.videoDurationConverter(vidTime)+'</div>';
@@ -237,7 +241,9 @@ define(['jquery',
 
 				content += '<div class="explorer-body">';
 
-				content += '<div class="explorer-title">' + helper.truncate(yepTitle,15) + '</div>';
+				content += '<div class="explorer-title">';
+
+				content += helper.truncate(yepTitle,15) + '</div>';
 
 				content += '<div class="row explorer-video-author-info" >';
 				content += '<div class="col-xs-2" >';
@@ -251,14 +257,26 @@ define(['jquery',
 
 				content += '<div class="row"><div class="explorer-created-time col-xs-12">' + helper.timeElapsedCalculator(timeDiff) ;
 				content += '<br /><div class="explorer-views">'+views + ' views</div>'
-				content += '<div class="explorer-stars">' + stars + ' <i class="fa fa-star" ></i></div></div>'
+				content += '<div class="explorer-stars">' + stars + ' <i class="fa fa-star" ></i>';
+
+				
+
+				content += '</div>';
+
+				content += '</div>';
 				content += '</div>';
 				content += '</div>';
 
 				// End of Col 5
 				content += '</div>';
 
-				content += '</a></div><hr class="yep-hr" />';
+				content += '</a>';
+
+				if(deletable){
+					content += '<i value="' + yepId + '" class="fa fa-trash-o fa-lg js-delete-video explorer-delete-video" data-toggle="tooltip" data-placement="left" title="Remove this video"></i>';
+				}
+
+				content += '</div><hr class="yep-hr" />';
 				
 			}
 
@@ -271,6 +289,51 @@ define(['jquery',
 			$('div#explorer-close').on('click', function(){
 				$('div.explore-container').removeClass('explore-container-show');
 			});
+
+			$('[data-toggle="tooltip"]').tooltip();
+
+			$('.js-delete-video').on('click', function(){
+				var self = $(this);
+				deleteYep(parseInt(self.attr('value')));
+			});
+		};
+
+
+		var deleteYep = function(yepId){
+			Swal({
+				title: "Do you want to remove this video?",
+				text: "You will not be able to recover once you remove it!",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "Yes, delete it!",
+				closeOnConfirm: false
+				},function(){
+					Api.delete('/yeps/' + yepId, {},
+						window.localStorage.getItem('token'),
+						function(err, res){
+							if(err){
+								return Swal("", "Oops something went wrong", "warning");;
+							}
+							if(res.success){
+								return Swal("", "Your video has been deleted.", "success");
+								updateExplorer('delete', yepId);
+							}
+							else{
+								console.log(res);
+								return Swal("", "Sorry, you are not allowed to delete this video", "error");
+							}
+						}
+					);
+					
+				}
+			);
+		};
+
+		var updateExplorer = function(action, yepId){
+			if( action === 'delete' ){
+				$('#explorer-' + yepId).remove();
+			}
 		};
 
 		var options = {
