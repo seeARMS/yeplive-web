@@ -174,7 +174,7 @@ define(['jquery',
 			for(var i = 0; i < cluster.length; i++){
 
 				var yep = cluster[i].attributes;
-				
+				console.log(yep);
 				var yepId = yep.id;
 				var yepTitle = yep.title;
 				var imagePath = yep.image_path;
@@ -707,6 +707,8 @@ define(['jquery',
 			},
 
 			renderDiscover: function(data){
+
+				console.log(data);
 
 				var currentTime = (new Date).getTime()/1000;
 				var timeDiff = currentTime - data.video.yep.start_time;

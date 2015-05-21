@@ -3,7 +3,7 @@ define(['jquery', 'underscore', 'backbone',
 ],
 	function($, _, Backbone, io){
 	
-	var url = 'http://52.11.161.208:80';
+	var url = 'http://52.24.59.90:80';
 
 	var instance = null;
 
