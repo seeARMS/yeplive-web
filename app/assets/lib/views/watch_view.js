@@ -131,8 +131,7 @@ define(['jquery',
 							$('#playVideo_html5_api').css('left','0px');
 							$('#playVideo_html5_api').css('top','0px');
 						}
-
-						}
+						} else if(! data.video.yep.portrait && data.video.yep.front_facing){
 						
 						if(data.video.yep.portrait && ! data.video.yep.front_facing){
 							console.log('rotatin');
