@@ -2,6 +2,10 @@ html, body{
 	width:100%;
 }
 
+.nav-record-link{
+	display: block;
+}
+
 .preview-overlay{
 }
 
@@ -116,6 +120,16 @@ body{
 	width: 90%;
 	padding-left: 5%;
 	word-wrap: break-word;
+}
+
+.login-social-anchor{
+	display:inline-block;
+}
+
+.login-social-icon{
+	border-radius:15px;
+	margin-top:30px;
+	width: 80%;
 }
 
 
@@ -1444,12 +1458,19 @@ div.user-view{
 /* Small devices (tablets, 768px - 431px) */
 @media (max-width: 768px){
 
-.explore-image-container{
-	width:130px;
-}
-.explore-image-container.rotateCW{
-	height:130px;
-}
+	.explore-image-container{
+		width:130px;
+	}
+	.explore-image-container.rotateCW{
+		height:130px;
+	}
+
+	.login-social-icon{
+		width: 300px;
+		border-radius: 10px;
+		margin-top: 13px;
+	}
+
 	#watch-view-container{
 		margin-top:125px;
 	}
