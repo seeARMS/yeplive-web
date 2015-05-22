@@ -71,13 +71,28 @@ app.get(/^[^.]*$/, function(req, res){
 				return res.render('index', {yep:''});
 			}
 			var yep = JSON.parse(body);
-			console.log(yep);
+
 			if(yep.staging === 1){
-			return res.redirect('/404');	
+				return res.redirect('/404');	
 			}
+
+			var video_path;
+			var playback_type;
+			
+			if(yep.is_web){
+				video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
+				playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
+			} else {
+				video_path = (yep.vod_enable) ? yep.vod_path : yep.stream_url;
+				playback_type = (yep.vod_enable) ? 'video/mp4' : 'application/x-mpegURL';
+			}
+
 			var data = {
-				yep: yep
+				yep : yep,
+				video_path : video_path,
+				playback_type : playback_type
 			};
+
 			res.render('index', data);
 		});
 	} else {
