@@ -10,6 +10,9 @@ var hdfvrconfig = require('./hdfvrconfig');
 var favicon = require('serve-favicon');
 var auth = require('http-auth');
 var app = express();
+var bugsnag = require('bugsnag');
+
+bugsnag.register("c7e5fc6a8317cdaecab5d65b4286c825");
 
 var basic = auth.basic({
     realm: 'Restricted',
