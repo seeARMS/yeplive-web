@@ -3,7 +3,7 @@ html, body{
 }
 
 .nav-record-link{
-	display: inline;
+	display: block;
 }
 
 .preview-overlay{
