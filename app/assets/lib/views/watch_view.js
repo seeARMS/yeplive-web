@@ -427,9 +427,7 @@ define(['jquery',
 				$('#share-fb').on('click',function(){
 					FB.ui({
 						method: 'share',
-						href: 'http://app.yeplive.com/watch/' + yepId,
-						source: 'http://dwvjlx2oulfs.cloudfront.net/1270-1432312265.mp4',
-						type: 'video'
+						href: 'http://app.yeplive.com/watch/' + yepId
 						}, function(response){}
 					);
 				});
