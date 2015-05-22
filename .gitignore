@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 npm-debug.log
+newrelic_agent.log
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

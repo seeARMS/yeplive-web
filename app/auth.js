@@ -3,8 +3,8 @@ module.exports = function(app){
   var config = require('../config');
   console.log(config.host+"/auth/twitter/callback");
   var colors = require('colors');
-  var GOOGLE_CONSUMER_KEY="757029635679-3t8dr78cejogedbv3neac7gjckeb2ilb";
-  var GOOGLE_CONSUMER_SECRET="i0HLYf0gzCmfztR1nOm9h-WP";
+  var GOOGLE_CONSUMER_KEY="1014160866669-r4jabm2qeofksehv3c5epfirpjl9dop3";
+  var GOOGLE_CONSUMER_SECRET="UaYmjJkY5IX5xIF84rZXvO-2";
   var FACEBOOK_APP_ID = '1577314819194083';
   var FACEBOOK_APP_SECRET = '5c6167095ce3987081efad0612ad9003';
   var TWITTER_CONSUMER_KEY = 'bbvlvahg8Yy4QkIHmFeqwlrVu';
