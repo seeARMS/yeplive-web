@@ -215,9 +215,9 @@ module.exports = (function(){
 		});
 	});
 
-	router.delete('/yeps/:id', function(req, res){
+	router.delete('/yeps/:yepId', function(req, res){
 		var token = req.headers["authorization"];
-		var id = req.params.userId;
+		var id = req.params.yepId;
 		
 		helpers.deleteAPI('/yeps/' + id, {}, token, function(err, response, body){
 			console.log(response.statusCode);
