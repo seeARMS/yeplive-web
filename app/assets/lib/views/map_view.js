@@ -316,8 +316,8 @@ define(['jquery',
 								return Swal("", "Oops something went wrong", "warning");;
 							}
 							if(res.success){
-								return Swal("", "Your video has been deleted.", "success");
-								updateExplorer('delete', yepId);
+								Swal("", "Your video has been deleted.", "success");
+								return updateExplorer('delete', yepId);
 							}
 							else{
 								console.log(res);
@@ -332,8 +332,26 @@ define(['jquery',
 
 		var updateExplorer = function(action, yepId){
 			if( action === 'delete' ){
+				// Remove UI
 				$('#explorer-' + yepId).remove();
+				// Revmoe from collection OBJ
+				yepsCollection.remove({ id: yepId });
+				// Re-populate map view
+				for(var i = 0; i < mapMarkers.length; i++){
+					if(mapMarkers[i].data === yepId){
+						mapMarkers.splice(i, 1);
+						break;
+					}
+				}
+				populateMapView(mapMarkers);
 			}
+		};
+
+		var populateMapView = function(data){
+			$('#map-canvas').gmap3('clear', 'markers');
+			$('#map-canvas').gmap3({
+				marker: marker(data)
+			});
 		};
 
 		var options = {
@@ -991,7 +1009,7 @@ define(['jquery',
 						data : data.id
 					}
 					mapMarkers.push(newYep);
-					self.populate(mapMarkers);
+					populateMapView(mapMarkers);
 
 					var yep = new Yep(data);
 					yepsCollection.add(yep);
@@ -1047,7 +1065,7 @@ define(['jquery',
 
 				yepsCollection.fetch().then(function(){
 					mapMarkers = yepsCollection.getMapData();
-					self.populate(mapMarkers);
+					populateMapView(mapMarkers);
 
 					// Done loading, kill load boy
 					loaderClose();
