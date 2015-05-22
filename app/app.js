@@ -89,7 +89,7 @@ app.get(/^[^.]*$/, function(req, res){
 
 			var data = {
 				yep : yep,
-				video_path : video_path,
+				video_path : video_path.replace('http', 'https'),
 				playback_type : playback_type
 			};
 
