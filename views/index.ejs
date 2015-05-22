@@ -9,8 +9,14 @@
 			<meta property="og:title" content="Yeplive™" />
 			<meta property="og:url" content="http://app.yeplive.com/watch/<%= yep.id %>" />
 			<meta property="og:image" content="<%= yep.image_path %>" />
-			<meta property="og:description" content="<%= yep.user.display_name %> on yeplive! Click here to watch the video!" />
-			<meta property="og:type" content="article" />
+			<meta property="og:description" content="<%= yep.user.display_name %> is on yeplive! Click here to watch the video!" />
+
+			<meta property="og:type" content="video" />
+				<meta property="og:video:url" content="<%= video_path %>">
+				<meta property="og:video:type" content="video/mp4">
+				<meta property="og:video:width" content="480">
+				<meta property="og:video:height" content="360">
+
 		<% } %>
 
 
