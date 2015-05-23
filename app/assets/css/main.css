@@ -1472,14 +1472,11 @@ div.user-view{
 /* Medium devices (desktops, 992px - 769px) */
 @media (max-width: 992px){
 
-.explore-image-container{
-	width:150px;
+	.explore-image-container{
+		width:150px;
 	}
 
-.explore-image-container.rotateCW{
-	height:150px;
-	margin-left:10px;
-}
+
 	.record-end-stream{
 		padding:11px;
 	}
@@ -1564,9 +1561,6 @@ div.user-view{
 	.explore-image-container{
 		width:130px;
 	}
-	.explore-image-container.rotateCW{
-		height:130px;
-	}
 
 	.login-social-icon{
 		width: 300px;
@@ -1648,9 +1642,13 @@ div.user-view{
 /* Mini devices (tablets, 430 and below) */
 @media (max-width: 430px){
 
-	.explore-image-container.rotateCW{
-		margin-top:0px;
-		margin-bottom:0px;
+	.explorer-image-frame{
+		width:130px;
+	}
+
+	.explorer-body-col{
+		width: 140px;
+		margin-left: -10px;
 	}
 
 	#watch-view-container{
