@@ -49,13 +49,13 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 			if(!href) return;
 
 			var passThrough = [
+				'https://play.google.com',
 				'/auth/facebook',
 				'/auth/google',
 				'/auth/twitter',
 				'/user/',
 				'/',
-				'/watch/',
-				'https://play.google.com'
+				'/watch/'
 			];
 
 
