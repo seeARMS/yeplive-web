@@ -48,7 +48,9 @@
 			<div class="row watch-video-info">
 				<div class="col-xs-3">
 					<img class="watch-author-picture" src="<%- video.yep.user.picture_path %>" style="margin-left:10px" />
-					<h5 style="margin-top:10px;margin-left:15px;text-align:center;"><%- video.yep.user.display_name %></h5>
+					<a href="/user/<%- video.yep.user.user_id %>" >
+						<h5 style="margin-top:10px;margin-left:15px;text-align:center;"><%- video.yep.user.display_name %></h5>
+					</a>
 				</div>
 
 				<div class="col-xs-6 text-center">

@@ -10,12 +10,12 @@ html, body{
 }
 
 .explore-image-container{
-  width: 180px;
-  height: 125px;
-  background-position: center center;
+	width: 180px;
+	height: 125px;
+	background-position: center center;
 	background-size:cover;
-  background-repeat: no-repeat;
-  overflow: hidden;
+	background-repeat: no-repeat;
+	overflow: hidden;
 }
 
 .explore-image-container.rotateCW{
@@ -55,7 +55,7 @@ html, body{
 }
 
 .rotateCW{
-	 -webkit-transform: rotate(90deg);
+	-webkit-transform: rotate(90deg);
 	-moz-transform: rotate(90deg);
 	-o-transform: rotate(90deg);
 	-ms-transform: rotate(90deg);
@@ -208,9 +208,9 @@ body{
 .user-picture-container{	
 	background-size: cover;
 	border-radius:50%;
-  background-position: center center;
-  background-repeat: no-repeat;
-  overflow: hidden;
+	background-position: center center;
+	background-repeat: no-repeat;
+	overflow: hidden;
 	cursor:pointer;
 	margin-top:0.5em;
 	margin-right:1em;
@@ -224,6 +224,11 @@ body{
 	margin-right:1em;
 	height:60px;
 	width:60px;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	border: 2px solid #ddd;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 	
 }
 
@@ -1162,18 +1167,37 @@ div.login-continue-webapp{
 
 /* ------------------------- USER PAGE ---------------------------- */
 
-img.user-profile-picture{
-	width:200px;
-	border-radius:15px;
+.user-profile-picture{
+	width: 200px;
+	height: 200px;
+	background-size: cover;
+	margin:0 auto;
+	background-position: center center;
+	background-repeat: no-repeat;
+	padding: 15px 15px 0;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	border: 2px solid #ddd;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 }
 
 div.user-display-name, div.user-follow-button{
 	margin-top:75px;
 }
 
-img.user-yeps-image{
+.user-yeps-image{
+	height:230px;
 	width:400px;
-	border-radius:35px;
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+	padding: 15px 15px 0;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: 2px solid #ddd;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 }
 
 div.user-yeps-duration{
@@ -1188,9 +1212,19 @@ div.user-yeps-duration{
 	border: solid 2px;
 }
 
-img.user-yeps-profile-picture{
-	width:90px;
-	border-radius:15px;
+.user-yeps-profile-picture{
+	width: 100px;
+	height: 100px;
+	background-size: cover;
+	margin:0 auto;
+	background-position: center center;
+	background-repeat: no-repeat;
+	padding: 15px 15px 0;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	border: 2px solid #ddd;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 }
 
 div.user-yeps-profile-id{
@@ -1205,9 +1239,19 @@ div.user-yeps-video{
 	cursor:pointer;
 }
 
-img.user-follow-profile-image{
-	min-width: 200px;
-	border-radius: 15px;
+.user-follow-profile-image{
+	width: 100px;
+	height: 100px;
+	background-size: cover;
+	margin:0 auto;
+	background-position: center center;
+	background-repeat: no-repeat;
+	padding: 15px 15px 0;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	border: 2px solid #ddd;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 }
 
 div.user-follow-display-name{
@@ -1220,12 +1264,12 @@ div.user-view-selection-button{
 
 div.user-view-selection-button:hover{
 	border: solid 1px lightgrey;
-	border-radius: 30px;
+	border-radius: 7px;
 }
 
 div.user-view-contents-selected{
 	border: solid 1px lightgrey;
-	border-radius: 30px;
+	border-radius: 7px;
 }
 
 div.user-view{

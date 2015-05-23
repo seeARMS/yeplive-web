@@ -54,13 +54,13 @@ app.use('/api', require('./api'));
 
 require('./auth')(app);
 
-//Match all strings
+// Match all strings
 app.get(/^[^.]*$/, function(req, res){
 	var url = req.url.split('/');
 	var id;
 	if(url[1] === 'watch'){
 		id = url[2];
-	}	
+	}
 
 	if(id){
 		console.log(id);

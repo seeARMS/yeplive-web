@@ -2,6 +2,7 @@ define(['jquery',
 		'underscore',
 		'asyncJS',
 		'swal',
+		'lib/user',
 		'lib/helper',
 		'backbone',
 		'text!lib/templates/user.html',
@@ -10,7 +11,7 @@ define(['jquery',
 		'text!lib/templates/user_no_data.html',
 		'lib/api'
 	],
-	function($, _, Async, Swal, Helper, Backbone, userTpl, yepsTpl, followTpl, noDataTpl, API){
+	function($, _, Async, Swal, User, Helper, Backbone, userTpl, yepsTpl, followTpl, noDataTpl, API){
 
 		var UserView = Backbone.View.extend({
 
@@ -24,13 +25,22 @@ define(['jquery',
 				API.get('/users/' + userId,
 					window.localStorage.getItem('token'),
 					function(err, user){
+
 						if ( err ){
 							var data = { success : 0 };
 							cb(404, user)
 						}
+
 						user.followButtonClass = user.is_following ? 'btn btn-lg btn-danger' : 'btn btn-lg btn-primary';
 						user.followButtonValue = user.is_following ? 'unfollow' : 'follow';
 						user.followButtonContent = user.is_following ? 'unfollow' : 'follow';
+
+						var logedInUserId = User.user.get('user_id');
+
+						if(User.authed){
+							user.followButtonClass += logedInUserId == userId ? ' disabled' : '';
+						}
+						console.log(user);
 						cb(null, user);
 					}
 				);
@@ -259,6 +269,9 @@ define(['jquery',
 			render: function(data, userId){
 
 				var self = this;
+
+				
+
 				this.$el.html(this.tpl(data.user));
 				var $userContents = $('div.user-contents');
 

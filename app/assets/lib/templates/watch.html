@@ -48,9 +48,11 @@
 
 			<div class="row watch-video-info">
 
-				<div class="col-xs-3">
+				<div class="col-xs-3 text-center">
 					<img class="watch-author-picture" src="<%- video.yep.user.picture_path %>" style="margin-left:10px" />
-					<h5 style="margin-top:10px;margin-left:15px;text-align:center;"><%- video.yep.user.display_name %></h5>
+					<a href="/user/<%- video.yep.user.user_id %>" >
+						<h5 style="margin-top:10px;margin-left:15px;text-align:center;"><%- video.yep.user.display_name %></h5>
+					</a>
 				</div>
 
 				<div class="col-xs-6 text-center">
@@ -67,7 +69,6 @@
 					<div class="watch-view-count" ><h5><span class="watch-view-count"><%- video.yep.views %></span> views</h5></div>
 					<h5><span class="watch-vote-count"><%- video.yep.vote_count %></span> stars</h5>
 					<h5><span class="connection-count">0</span> viewing</h5>
-
 				</div>
 
 			</div>

@@ -1,16 +1,14 @@
 <div class="container">
 	<div class="row user-view">
-		<div class="col-xs-4">
-			<div class="user-profile-picture text-center">
-				<img class="user-profile-picture" src="<%- picture_path %>" />
-			</div>
+		<div class="col-sm-4">
+			<div class="user-profile-picture" style="background-image: url('<%- picture_path %>');"></div>
 		</div>
-		<div class="col-xs-4">
+		<div class="col-sm-4">
 			<div class="user-display-name">
 				<h1 class="text-center"><%- display_name %></h1>
 			</div>
 		</div>
-		<div class="col-xs-4">
+		<div class="col-sm-4">
 			<div class="user-follow-button text-center">
 				<button id="user-follow-button" value="<%- followButtonValue %>" class="<%- followButtonClass %>"><%- followButtonContent %></button>
 			</div>
