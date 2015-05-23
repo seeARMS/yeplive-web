@@ -54,7 +54,8 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 				'/auth/twitter',
 				'/user/',
 				'/',
-				'/watch/'
+				'/watch/',
+				'https://play.google.com'
 			];
 
 
