@@ -270,9 +270,10 @@ define(['jquery',
 
 				var self = this;
 
-				
+				var starCount = 0;
 
 				this.$el.html(this.tpl(data.user));
+
 				var $userContents = $('div.user-contents');
 
 				if(data.yeps.yeps.length === 0){
@@ -289,14 +290,18 @@ define(['jquery',
 
 					yep.watchYep = '/watch/' + yep.id;
 
+					starCount += yep.vote_count;
+
 					if(yep.portrait){
 						//Rotate the image
 					}
 
 					$userContents.append(self.displayYeps(yep));
 				});
-
-
+				
+				$('.user-stars h2').prepend(starCount);
+				
+				
 				this.toggleContentsView('yeps');
 				this.registerShowYeps(userId);
 				this.registerShowFollowing(userId);
