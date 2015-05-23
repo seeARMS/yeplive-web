@@ -2,9 +2,14 @@
 	<div class="col-md-5">
 		<div class="user-yeps-video">
 			<a href="<%- watchYep %>">
-				<div class="user-yeps-image" style="background-image: url('<%- image_path %>');"></div>
-				<!-- <img class="user-yeps-image" src="<%- image_path %>" onError="this.onerror=null;this.src='/img/record.png';" />-->
-				<div class="user-yeps-duration"><%- video_duration %></div>
+				<div class="user-yeps-image-frame">
+					<div class="user-yeps-image <%- yepPositionClass %>" style="background-image: url('<%- image_path %>');">
+						<div class="user-yep-overlay <%- yepOverlayClass %>">
+							<i class="fa fa-play fa-4x user-yep-overlay-play"></i>
+						</div>
+					</div>
+					<div class="user-yeps-duration"><%- video_duration %></div>
+				</div>
 			</a>
 		</div>
 	</div>

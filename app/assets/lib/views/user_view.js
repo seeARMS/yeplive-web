@@ -194,8 +194,20 @@ define(['jquery',
 
 							yep.watchYep = '/watch/' + yep.id;
 
-							if(yep.portrait){
-								//Rotate the image
+
+							var isPortrait = yep.portrait === 1 ? true : false;
+							var isFrontFacing = yep.front_facing === 1 ? true : false;
+							if(isPortrait && ! isFrontFacing){
+								yep.yepPositionClass = 'rotateCW';
+								yep.yepOverlayClass = 'overlay-portrait';
+							} 
+							else if (isPortrait && isFrontFacing){
+								yep.yepPositionClass = 'rotate-front-facing';
+								yep.yepOverlayClass = 'overlay-portrait-front-facing';
+							}
+							else {
+								yep.yepPositionClass = '';
+								yep.yepOverlayClass = 'overlay-landscape';
 							}
 
 							$userContents.append(self.displayYeps(yep));
@@ -292,8 +304,19 @@ define(['jquery',
 
 					starCount += yep.vote_count;
 
-					if(yep.portrait){
-						//Rotate the image
+					var isPortrait = yep.portrait === 1 ? true : false;
+					var isFrontFacing = yep.front_facing === 1 ? true : false;
+					if(isPortrait && ! isFrontFacing){
+						yep.yepPositionClass = 'rotateCW';
+						yep.yepOverlayClass = 'overlay-portrait';
+					} 
+					else if (isPortrait && isFrontFacing){
+						yep.yepPositionClass = 'rotate-front-facing';
+						yep.yepOverlayClass = 'overlay-portrait-front-facing';
+					}
+					else {
+						yep.yepPositionClass = '';
+						yep.yepOverlayClass = 'overlay-landscape';
 					}
 
 					$userContents.append(self.displayYeps(yep));
