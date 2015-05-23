@@ -126,6 +126,7 @@ define(['jquery',
 
 					if(data.video.yep.vod_enable){
 
+
 						if(! data.video.yep.portrait && ! data.video.yep.front_facing){
 
 							if($(window).width() < 600){
@@ -134,9 +135,9 @@ define(['jquery',
 							}
 
 						}
-						else if(! data.video.yep.portrait && data.video.yep.front_facing){
+						else if(! data.video.yep.portrait && data.video.yep.front_facing){}
 						
-								if(data.video.yep.portrait && ! data.video.yep.front_facing){
+						if(data.video.yep.portrait && ! data.video.yep.front_facing){
 									this.zoomrotate({
 										rotate: 90,
 										zoom: 1
@@ -201,7 +202,6 @@ define(['jquery',
 								).css("-ms-transform","rotate(270deg)"
 								).css("transform","rotate(270deg)");
 
-							}
 						}
 					}
 /*
@@ -427,7 +427,7 @@ define(['jquery',
 				$('#share-fb').on('click',function(){
 					FB.ui({
 						method: 'share',
-						href: 'http://app.yeplive.com/watch/' + yepId,
+						href: 'http://app.yeplive.com/watch/' + yepId
 						}, function(response){}
 					);
 				});
@@ -438,7 +438,7 @@ define(['jquery',
 				$('#share-twitter').on('click',function(){
 
 					var url = 'http://app.yeplive.com/watch/' + yepId;
-					var text = yep.user.display_name + ' is live streaming "' + yep.title + '"';
+					var text = yep.user.display_name + ' is on yeplive "' + yep.title + '".';
 					var via = 'yeplive';
 					var related = 'yeplive';
 					window.open('https://twitter.com/intent/tweet?url=' + url + '&text=' + text +'&via=' + via + '&related=' + related, '_blank', 'location=yes,height=280,width=520,scrollbars=yes,status=yes');

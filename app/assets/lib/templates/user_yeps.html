@@ -2,8 +2,14 @@
 	<div class="col-md-5">
 		<div class="user-yeps-video">
 			<a href="<%- watchYep %>">
-				<img class="user-yeps-image" src="<%- image_path %>" onError="this.onerror=null;this.src='/img/record.png';" />
-				<div class="user-yeps-duration"><%- video_duration %></div>
+				<div class="user-yeps-image-frame">
+					<div class="user-yeps-image <%- yepPositionClass %>" style="background-image: url('<%- image_path %>');">
+						<div class="user-yep-overlay <%- yepOverlayClass %>">
+							<i class="fa fa-play fa-4x user-yep-overlay-play"></i>
+						</div>
+					</div>
+					<div class="user-yeps-duration"><%- video_duration %></div>
+				</div>
 			</a>
 		</div>
 	</div>
@@ -15,11 +21,13 @@
 		</div>
 		<div class="row user-yeps-profile-id">
 			<div class="col-md-4">
-				<img class="user-yeps-profile-picture" src="<%- user.picture_path %>" />
+				<div class="user-yeps-profile-picture" style="background-image: url('<%- user.picture_path %>');"></div>
 			</div>
 			<div class="col-md-8">
 				<div class="user-profile-display-name">
-					<h3><%- user.display_name %></h3>
+					<a href="/user/<%- user.user_id %>">
+						<h3><%- user.display_name %></h3>
+					</a>
 				</div>
 			</div>
 		</div>

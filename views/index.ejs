@@ -1,16 +1,34 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="UTF-8">
 		<title>Yeplive</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 
 		<% if(yep) { %>
-			<meta property="og:title" content="Yeplive™" />
+			
+			<meta property="og:title" content="<%= yep.title %>" />
 			<meta property="og:url" content="http://app.yeplive.com/watch/<%= yep.id %>" />
-			<meta property="og:image" content="http://app.yeplive.com/img/yeplive.png" />
-			<meta property="og:description" content="<%= yep.user.display_name %> is now streaming live! Click here to watch!" />
-			<meta property="og:type" content="article" />
+			<meta property="og:image" content="<%= yep.image_path %>" />
+
+			<% if(yep.vod_enable) { %>
+
+				<meta property="og:description" content="<%= yep.user.display_name %> is on Yeplive™! Or watch here: http://app.yeplive.com/watch/<%= yep.id %>" />
+				<meta property="og:type" content="video" />
+				<meta property="og:video:url" content="<%= video_path %>">
+				<meta property="og:video:type" content="<%= playback_type %>">
+				<meta property="og:video:width" content="480">
+				<meta property="og:video:height" content="360">
+
+			<% } else { %>
+
+				<meta property="og:type" content="article" />
+				<meta property="og:description" content="<%= yep.user.display_name %> is live streaming right now! Click to watch: http://app.yeplive.com/watch/<%= yep.id %>" />
+
+			<% } %>
+
+
 		<% } %>
 
 

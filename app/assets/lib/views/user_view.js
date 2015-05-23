@@ -2,6 +2,7 @@ define(['jquery',
 		'underscore',
 		'asyncJS',
 		'swal',
+		'lib/user',
 		'lib/helper',
 		'backbone',
 		'text!lib/templates/user.html',
@@ -10,7 +11,7 @@ define(['jquery',
 		'text!lib/templates/user_no_data.html',
 		'lib/api'
 	],
-	function($, _, Async, Swal, Helper, Backbone, userTpl, yepsTpl, followTpl, noDataTpl, API){
+	function($, _, Async, Swal, User, Helper, Backbone, userTpl, yepsTpl, followTpl, noDataTpl, API){
 
 		var UserView = Backbone.View.extend({
 
@@ -24,13 +25,22 @@ define(['jquery',
 				API.get('/users/' + userId,
 					window.localStorage.getItem('token'),
 					function(err, user){
+
 						if ( err ){
 							var data = { success : 0 };
 							cb(404, user)
 						}
+
 						user.followButtonClass = user.is_following ? 'btn btn-lg btn-danger' : 'btn btn-lg btn-primary';
 						user.followButtonValue = user.is_following ? 'unfollow' : 'follow';
 						user.followButtonContent = user.is_following ? 'unfollow' : 'follow';
+
+						var logedInUserId = User.user.get('user_id');
+
+						if(User.authed){
+							user.followButtonClass += logedInUserId == userId ? ' disabled' : '';
+						}
+						console.log(user);
 						cb(null, user);
 					}
 				);
@@ -184,8 +194,20 @@ define(['jquery',
 
 							yep.watchYep = '/watch/' + yep.id;
 
-							if(yep.portrait){
-								//Rotate the image
+
+							var isPortrait = yep.portrait === 1 ? true : false;
+							var isFrontFacing = yep.front_facing === 1 ? true : false;
+							if(isPortrait && ! isFrontFacing){
+								yep.yepPositionClass = 'rotateCW';
+								yep.yepOverlayClass = 'overlay-portrait';
+							} 
+							else if (isPortrait && isFrontFacing){
+								yep.yepPositionClass = 'rotate-front-facing';
+								yep.yepOverlayClass = 'overlay-portrait-front-facing';
+							}
+							else {
+								yep.yepPositionClass = '';
+								yep.yepOverlayClass = 'overlay-landscape';
 							}
 
 							$userContents.append(self.displayYeps(yep));
@@ -259,7 +281,11 @@ define(['jquery',
 			render: function(data, userId){
 
 				var self = this;
+
+				var starCount = 0;
+
 				this.$el.html(this.tpl(data.user));
+
 				var $userContents = $('div.user-contents');
 
 				if(data.yeps.yeps.length === 0){
@@ -276,14 +302,29 @@ define(['jquery',
 
 					yep.watchYep = '/watch/' + yep.id;
 
-					if(yep.portrait){
-						//Rotate the image
+					starCount += yep.vote_count;
+
+					var isPortrait = yep.portrait === 1 ? true : false;
+					var isFrontFacing = yep.front_facing === 1 ? true : false;
+					if(isPortrait && ! isFrontFacing){
+						yep.yepPositionClass = 'rotateCW';
+						yep.yepOverlayClass = 'overlay-portrait';
+					} 
+					else if (isPortrait && isFrontFacing){
+						yep.yepPositionClass = 'rotate-front-facing';
+						yep.yepOverlayClass = 'overlay-portrait-front-facing';
+					}
+					else {
+						yep.yepPositionClass = '';
+						yep.yepOverlayClass = 'overlay-landscape';
 					}
 
 					$userContents.append(self.displayYeps(yep));
 				});
-
-
+				
+				$('.user-stars h2').prepend(starCount);
+				
+				
 				this.toggleContentsView('yeps');
 				this.registerShowYeps(userId);
 				this.registerShowFollowing(userId);
