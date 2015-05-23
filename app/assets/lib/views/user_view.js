@@ -294,7 +294,9 @@ define(['jquery',
 
 				var currentTime = (new Date).getTime();
 				
-				data.yeps.yeps.forEach(function(yep, index){
+				for(var i = data.yeps.yeps.length-1; i >= 0; i--){
+
+					var yep = data.yeps.yeps[i];
 
 					yep.video_timeElapsed = Helper.timeElapsedCalculator((currentTime / 1000) - yep.start_time);
 
@@ -320,7 +322,7 @@ define(['jquery',
 					}
 
 					$userContents.append(self.displayYeps(yep));
-				});
+				}
 				
 				$('.user-stars h2').prepend(starCount);
 				
