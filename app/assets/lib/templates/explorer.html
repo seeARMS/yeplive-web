@@ -1,0 +1,41 @@
+<div id="explorer-<%- yepId %>" class="explorer-wrapper row">
+	<a class="discover" href="#" id="<%- yepId %>">
+		<div class="explorer-time"><%- yepDuration %></div>
+		<div class="col-xs-7 explorer-body-col">
+			<div class="explore-image-container <%- yepPositionClass %>" style="background-image:url(<%- yepImagePath %>);"></div>
+		</div>
+		<div class="col-xs-5 explorer-body-col">
+			<div class="explorer-body">
+				<div class="explorer-title">
+					<%- yepTitle %>
+				</div>
+				<div class="row explorer-video-author-info" >
+					<div class="col-xs-2" >
+						<img src="<%- yepOwnerPicture %>" class="explorer-user-image img-circle" />
+					</div>
+					<div class="col-xs-8" >
+						<div class="explorer-display-name">
+							<%- yepOwnerName %>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="explorer-created-time col-xs-12">
+						<%- yepTimeElapsed %>
+						<br />
+						<div class="explorer-views">
+							<%- yepViews %> views
+						</div>
+						<div class="explorer-stars">
+							<%- yepStars %> <i class="fa fa-star" ></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</a>
+	<% if(yepDeletable) { %>
+		<i value="<%- yepId %>" class="fa fa-trash-o fa-lg js-delete-video explorer-delete-video" data-toggle="tooltip" data-placement="left" title="Remove this video"></i>
+	<% } %>
+</div>
+<hr class="yep-hr" />

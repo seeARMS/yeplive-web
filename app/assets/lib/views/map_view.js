@@ -10,6 +10,7 @@ define(['jquery',
 		'text!lib/templates/map.html',
 		'text!lib/templates/discover.html',
 		'text!lib/templates/chat_message.html',
+		'text!lib/templates/explorer.html',
 		'lib/map',
 		'lib/collections/yeps',
 		'videojs',
@@ -20,13 +21,14 @@ define(['jquery',
 		'facebook'
 		],
 
-	function($, helper, async, Swal, User, _, Backbone, Api, gmap3, mapTpl, discoverTpl, messageTpl, googleMaps, yepsCollection, vj, vjm, vjh, socket, Yep, FB){
+	function($, helper, async, Swal, User, _, Backbone, Api, gmap3, mapTpl, discoverTpl, messageTpl, explorerTpl, googleMaps, yepsCollection, vj, vjm, vjh, socket, Yep, FB){
 
 		var yepsCollection = new yepsCollection();
 
 		var mapView;
 		var messageUI = _.template(messageTpl);
 		var discoverUI = _.template(discoverTpl);
+		var explorerUI = _.template(explorerTpl);
 		var mapMarkers;
 
 		var markerClicked = function(marker, event, context){
@@ -169,122 +171,52 @@ define(['jquery',
 
 			cluster.sort(videoSort);
 
-			var content = '';
+			var $explorer = $('div.explore-container');
+			$explorer.append('<div id="explorer-close" class="close">x</div>');
 
 			for(var i = 0; i < cluster.length; i++){
 
 				var yep = cluster[i].attributes;
-				console.log(yep);
-				var yepId = yep.id;
-				var yepTitle = yep.title;
-				var imagePath = yep.image_path;
-				var displayName = yep.user.display_name;
-				var views = yep.views;
-				var vodEnable = yep.vod_enable;
-				var startTime = yep.start_time;
-				var currentTime = (new Date).getTime();
-				var userImage = yep.user.picture_path;
+
 				var isPortrait = yep.portrait === 1 ? true : false;
 				var isFrontFacing = yep.front_facing === 1 ? true : false;
-				var timeDiff = (currentTime / 1000) - startTime;
-				var vidTime =  parseInt(yep.end_time) - parseInt(yep.start_time);
-				var stars = yep.vote_count;
-				var deletable;
-
-				if (imagePath === ''){
-					imagePath = '/img/video-thumbnail.png'
-				}
-
-				if (yepTitle === ''){
-					yepTitle = 'Title'
-				}
-
-				if (displayName === ''){
-					displayName = 'Andrew'
-				}
-
-				deletable = yep.user.user_id == User.user.attributes.user_id ? true : false
-
-
-				content += '<div id="explorer-' + yepId + '" class="explorer-wrapper row"><a class="discover" href="#" id="' + yepId + '">';
-
-				if(yep.vod_enable){
-					content += '<div class="explorer-time">'+helper.videoDurationConverter(vidTime)+'</div>';
-					} else {
-					content += '<div class="explorer-time">Live</div>';
-				}
-
-				// Col 5
-//					content += '<div class="explore-image-bg" style="background-image:url(\''+imagePath+'\');">';
-//					content += '</div>';
-				content += '<div class="col-xs-7 explorer-body-col">';
-
+				var yepPositionClass;
 				if(isPortrait && ! isFrontFacing){
-					content += '<div class="explore-image-container rotateCW" style="background-image:url(\''+imagePath+'\');">';
-					content += '</div>';
-				} else if (isPortrait && isFrontFacing){
-					content += '<div class="explore-image-container rotate-front-facing" style="background-image:url(\''+imagePath+'\');">';
-					content += '</div>';
-				} else if (! isPortrait && ! isFrontFacing){
-					content += '<div class="explore-image-container" style="background-image:url(\''+imagePath+'\');">';
-					content += '</div>';
-				} else {
-					content += '<div class="explore-image-container" style="background-image:url(\''+imagePath+'\');">';
-					content += '</div>';
+					yepPositionClass = 'rotateCW';
+				} 
+				else if (isPortrait && isFrontFacing){
+					yepPositionClass = 'rotate-front-facing';
+				}
+				else {
+					yepPositionClass = '';
 				}
 
-				// End of Col 5
-				content += '</div>';
+				var yepImagePath = yep.image_path === '' ? '/img/video-thumbnail.png' : yep.image_path
+				var yepTimeElapsed = helper.timeElapsedCalculator(((new Date).getTime() / 1000) - yep.start_time);
+				var yepDuration = yep.vod_enable ? helper.videoDurationConverter(parseInt(yep.end_time) - parseInt(yep.start_time)) : 'Live';
+				var yepTitle = helper.truncate(yep.title, 15);
+				var yepOwnerName = helper.truncate(yep.user.display_name, 15);
+				var yepDeletable = yep.user.user_id == User.user.attributes.user_id ? true : false
 
-				// Col 7
-				content += '<div class="col-xs-5 explorer-body-col">';
-
-				content += '<div class="explorer-body">';
-
-				content += '<div class="explorer-title">';
-
-				content += helper.truncate(yepTitle,15) + '</div>';
-
-				content += '<div class="row explorer-video-author-info" >';
-				content += '<div class="col-xs-2" >';
-				content += '<img src="'+userImage+'" class="explorer-user-image img-circle">';
-				content += '</div>';
-				content += '<div class="col-xs-8" >';
-				content += '<div class="explorer-display-name">' + helper.truncate(displayName,15) + '</div>';
-				content += '</div>';
-
-				content += '</div>';
-
-				content += '<div class="row"><div class="explorer-created-time col-xs-12">' + helper.timeElapsedCalculator(timeDiff) ;
-				content += '<br /><div class="explorer-views">'+views + ' views</div>'
-				content += '<div class="explorer-stars">' + stars + ' <i class="fa fa-star" ></i>';
-
-				
-
-				content += '</div>';
-
-				content += '</div>';
-				content += '</div>';
-				content += '</div>';
-
-				// End of Col 5
-				content += '</div>';
-
-				content += '</a>';
-
-				if(deletable){
-					content += '<i value="' + yepId + '" class="fa fa-trash-o fa-lg js-delete-video explorer-delete-video" data-toggle="tooltip" data-placement="left" title="Remove this video"></i>';
+				var explorerData = {
+					yepId : yep.id,
+					yepTitle : yepTitle,
+					yepDuration : yepDuration,
+					yepPositionClass : yepPositionClass,
+					yepImagePath : yepImagePath,
+					yepOwnerPicture : yep.user.picture_path,
+					yepOwnerName : yepOwnerName,
+					yepTimeElapsed : yepTimeElapsed,
+					yepViews : yep.views,
+					yepStars : yep.vote_count,
+					yepDeletable : yepDeletable,
 				}
 
-				content += '</div><hr class="yep-hr" />';
-				
+				$explorer.append(explorerUI(explorerData));
 			}
 
-			var closeButton = '<div id="explorer-close" class="close">x</div>';
 
-			$('div.explore-container').append(closeButton);
-			$('div.explore-container').append(content);
-			$('div.explore-container').addClass('explore-container-show');
+			$explorer.addClass('explore-container-show');
 			
 			$('div#explorer-close').on('click', function(){
 				$('div.explore-container').removeClass('explore-container-show');
