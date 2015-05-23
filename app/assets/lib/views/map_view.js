@@ -181,14 +181,18 @@ define(['jquery',
 				var isPortrait = yep.portrait === 1 ? true : false;
 				var isFrontFacing = yep.front_facing === 1 ? true : false;
 				var yepPositionClass;
+				var yepOverlayClass;
 				if(isPortrait && ! isFrontFacing){
 					yepPositionClass = 'rotateCW';
+					yepOverlayClass = 'overlay-portrait';
 				} 
 				else if (isPortrait && isFrontFacing){
 					yepPositionClass = 'rotate-front-facing';
+					yepOverlayClass = 'overlay-portrait-front-facing';
 				}
 				else {
 					yepPositionClass = '';
+					yepOverlayClass = 'overlay-landscape';
 				}
 
 				var yepImagePath = yep.image_path === '' ? '/img/video-thumbnail.png' : yep.image_path
@@ -205,11 +209,13 @@ define(['jquery',
 					yepPositionClass : yepPositionClass,
 					yepImagePath : yepImagePath,
 					yepOwnerPicture : yep.user.picture_path,
+					yepOwnerId : yep.user.user_id,
 					yepOwnerName : yepOwnerName,
 					yepTimeElapsed : yepTimeElapsed,
 					yepViews : yep.views,
 					yepStars : yep.vote_count,
 					yepDeletable : yepDeletable,
+					yepOverlayClass : yepOverlayClass
 				}
 
 				$explorer.append(explorerUI(explorerData));
@@ -954,7 +960,7 @@ define(['jquery',
 				var self = this;
 
 				// Discover is clicked
-				$('#main').on('click', 'a.discover', function(){
+				$('#main').on('click', 'a.explorer-link-discover', function(){
 
 					// Lock the view
 					viewLocker();

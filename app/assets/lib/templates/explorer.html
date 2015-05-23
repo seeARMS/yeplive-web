@@ -1,8 +1,16 @@
 <div id="explorer-<%- yepId %>" class="explorer-wrapper row">
-	<a class="discover" href="#" id="<%- yepId %>">
+	
 		<div class="explorer-time"><%- yepDuration %></div>
 		<div class="col-xs-7 explorer-body-col">
-			<div class="explore-image-container <%- yepPositionClass %>" style="background-image:url(<%- yepImagePath %>);"></div>
+			<a class="explorer-link-discover" href="#" id="<%- yepId %>">
+			<div class="explorer-image-frame">
+				<div class="explore-image-container <%- yepPositionClass %>" style="background-image:url(<%- yepImagePath %>);">
+					<div class="explorer-yep-overlay <%- yepOverlayClass %>">
+						<i class="fa fa-play fa-2x explorer-yep-overlay-play"></i>
+					</div>
+				</div>
+			</div>
+			</a>
 		</div>
 		<div class="col-xs-5 explorer-body-col">
 			<div class="explorer-body">
@@ -14,9 +22,11 @@
 						<img src="<%- yepOwnerPicture %>" class="explorer-user-image img-circle" />
 					</div>
 					<div class="col-xs-8" >
-						<div class="explorer-display-name">
-							<%- yepOwnerName %>
-						</div>
+						<a href="/user/<%- yepOwnerId %>">
+							<div class="explorer-display-name">
+								<%- yepOwnerName %>
+							</div>
+						</a>
 					</div>
 				</div>
 				<div class="row">
