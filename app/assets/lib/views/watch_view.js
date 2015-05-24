@@ -419,7 +419,6 @@ define(['jquery',
 
 			initFacebookShare: function(yep){
 
-				console.log(data);
 				FB.init({
 					appId: '1577314819194083',
 					version: 'v2.3'
@@ -438,7 +437,7 @@ define(['jquery',
 
 				$('#share-twitter').on('click',function(){
 
-					var url = 'yplv.tv/' + yep.url_hash;
+					var url = 'http://yplv.tv/' + yep.url_hash;
 					var text = yep.user.display_name + ' is on yeplive "' + yep.title + '".';
 					var via = 'yeplive';
 					var related = 'yeplive';

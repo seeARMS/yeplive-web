@@ -810,9 +810,9 @@ define(['jquery',
 				//this.addVoteListener(data);
 				this.addViewCount(data);
 
-				this.initFacebookShare(data.video.yep.id);
-				this.initTwitterShare(data.video.yep.id, data.video.yep);
-				this.initGoogleShare(data.video.yep.id);
+				this.initFacebookShare(data.video.yep);
+				this.initTwitterShare(data.video.yep);
+				this.initGoogleShare(data.video.yep);
 
 				// Setting up VideoJS
 				this.setupVideo(data);
@@ -1026,7 +1026,7 @@ define(['jquery',
 			
 			},
 
-			initFacebookShare: function(yepId){
+			initFacebookShare: function(yep){
 
 				FB.init({
 					appId: '1577314819194083',
@@ -1036,17 +1036,17 @@ define(['jquery',
 				$('#share-fb').on('click',function(){
 					FB.ui({
 						method: 'share',
-						href: 'http://app.yeplive.com/watch/' + yepId,
+						href: 'yplv.tv/' + yep.url_hash
 						}, function(response){}
 					);
 				});
 			},
 
-			initTwitterShare: function(yepId, yep){
+			initTwitterShare: function(yep){
 
 				$('#share-twitter').on('click',function(){
 
-					var url = 'http://app.yeplive.com/watch/' + yepId;
+					var url = 'http://yplv.tv/' + yep.url_hash;
 					var text = yep.user.display_name + ' is on yeplive "' + yep.title + '".';
 					var via = 'yeplive';
 					var related = 'yeplive';
@@ -1055,10 +1055,10 @@ define(['jquery',
 
 			},
 
-			initGoogleShare: function(yepId){
+			initGoogleShare: function(yep){
 
 				$('#share-google').on('click',function(){
-					var url = 'http://app.yeplive.com/watch/' + yepId;
+					var url = 'yplv.tv/' + yep.url_hash;
 					window.open('https://plus.google.com/share?url=' + url, '_blank', 'location=yes,height=280,width=520,scrollbars=yes,status=yes');
 				});
 
