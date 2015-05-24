@@ -92,11 +92,13 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 		};
 
 		appRouter.on('route:login', function(actions){
+			window.location.replace("http://yeplive.com");
+			/*
 			cleanView();
 			if(navbarView){
 				navbarView.remove();
 			}
-			currentView = new LoginView({el: '#main'});
+			currentView = new LoginView({el: '#main'});*/
 		});
 
 		appRouter.on('route:user', function(userId){
