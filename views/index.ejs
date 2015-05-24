@@ -9,12 +9,12 @@
 		<% if(yep) { %>
 			
 			<meta property="og:title" content="<%= yep.title %>" />
-			<meta property="og:url" content="http://app.yeplive.com/watch/<%= yep.id %>" />
+			<meta property="og:url" content="yplv.tv/<%= yep.url_hash" />
 			<meta property="og:image" content="<%= yep.image_path %>" />
 
 			<% if(yep.vod_enable) { %>
 
-				<meta property="og:description" content="<%= yep.user.display_name %> is on Yeplive™! Or watch here: http://app.yeplive.com/watch/<%= yep.id %>" />
+				<meta property="og:description" content="<%= yep.user.display_name %> is on Yeplive™! Watch at here: yplv.tv/<%= yep.url_hash %>" />
 				<meta property="og:type" content="video" />
 				<meta property="og:video:url" content="<%= video_path %>">
 				<meta property="og:video:type" content="<%= playback_type %>">
@@ -24,7 +24,7 @@
 			<% } else { %>
 
 				<meta property="og:type" content="article" />
-				<meta property="og:description" content="<%= yep.user.display_name %> is live streaming right now! Click to watch: http://app.yeplive.com/watch/<%= yep.id %>" />
+				<meta property="og:description" content="<%= yep.user.display_name %> is live streaming right now! Watch at here: yplv.tv/<%= yep.url_hash %>" />
 
 			<% } %>
 
