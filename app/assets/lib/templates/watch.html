@@ -137,9 +137,16 @@
 				<h4 class="modal-title text-center">Login/Signup to Yeplive</h4>
 			</div>
 			<div class="modal-body">
-				<a href="/auth/facebook?redirect=%2Fwatch%2F<%- video.yep.id %>"><button class="btn btn-block btn-facebook">Facebook</button></a>
-				<a href="/auth/twitter?redirect=%2Fwatch%2F<%- video.yep.id %>"><button class="btn btn-block btn-twitter">Twitter</button></a>
-				<a href="/auth/google?redirect=%2Fwatch%2F<%- video.yep.id %>"><button class="btn btn-block btn-google">Google</button></a>
+
+				<div class="row text-center">
+					<a class="login-social-anchor" href="/auth/facebook?redirect=%2Fwatch%2F<%- video.yep.id %>"><img class="login-social-icon" src="/img/login-facebook.png" /></a>
+				</div>
+				<div class="row text-center">
+					<a class="login-social-anchor" href="/auth/twitter?redirect=%2Fwatch%2F<%- video.yep.id %>"><img class="login-social-icon" src="/img/login-twitter.png" /></a>
+				</div>
+				<div class="row text-center">
+					<a class="login-social-anchor" href="/auth/google?redirect=%2Fwatch%2F<%- video.yep.id %>"><img class="login-social-icon" src="/img/login-google.png" /></a>
+				</div>
 
 			</div>
 		</div><!-- /.modal-content -->

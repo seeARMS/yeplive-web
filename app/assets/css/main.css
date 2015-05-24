@@ -1127,6 +1127,22 @@ b.chat-user-name{
 /* ----- DISCOVER VIEW ------ */
 
 
+img.discover-author-picture{
+	width: 75px;
+	height: 75px;
+	border-radius: 50%;
+	margin-left:10px;
+}
+
+.discover-author-name{
+	margin-top:10px;
+	margin-left:10px;
+}
+
+.discover-follow-btn{
+	margin-left:10px;
+}
+
 .discover-overlay {
     position: fixed;
     top: 0;

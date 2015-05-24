@@ -47,10 +47,13 @@
 				</div>
 			<div class="row watch-video-info">
 				<div class="col-xs-3">
-					<img class="watch-author-picture" src="<%- video.yep.user.picture_path %>" style="margin-left:10px" />
+					<img class="discover-author-picture" src="<%- video.yep.user.picture_path %>" />
 					<a href="/user/<%- video.yep.user.user_id %>" >
-						<h5 style="margin-top:10px;margin-left:15px;text-align:center;"><%- video.yep.user.display_name %></h5>
+						<h5 class="discover-author-name text-center" ><%- video.yep.user.display_name %></h5>
 					</a>
+					<div class="text-center discover-follow-btn">
+						<button id="user-follow-button" value="<%- followButtonValue %>" class="<%- followButtonClass %> disabled"><%- followButtonContent %></button>
+					</div>
 				</div>
 
 				<div class="col-xs-6 text-center">

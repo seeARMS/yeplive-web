@@ -40,7 +40,7 @@ define(['jquery',
 						if(User.authed){
 							user.followButtonClass += logedInUserId == userId ? ' disabled' : '';
 						}
-						console.log(user);
+
 						cb(null, user);
 					}
 				);
@@ -268,7 +268,7 @@ define(['jquery',
 									self.attr('class', 'btn btn-lg btn-primary');
 									self.html('follow');
 								}
-								console.log(res);
+
 							}
 
 						);

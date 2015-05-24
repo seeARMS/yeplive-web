@@ -735,73 +735,15 @@ define(['jquery',
 
 				data.timeElapsed = helper.timeElapsedCalculator(timeDiff);
 
+				console.log(data);
+				data.followButtonClass = data.video.yep.user.is_following ? 'btn btn-sm btn-danger' : 'btn btn-sm btn-primary';
+				data.followButtonValue = data.video.yep.user.is_following ? 'unfollow' : 'follow';
+				data.followButtonContent = data.video.yep.user.is_following ? 'unfollow' : 'follow';
+
+
 				$('div.discover-body').append(discoverUI(data));
-				/*
-				var videoPath = data.video.video_path;
-				var playbackType = data.video.playback_type;
-				var authorPicture = data.video.yep.user.picture_path;
-				var authorDisplayName = data.video.yep.user.display_name;
-				var videoTitle = data.video.yep.title;
-				var videoDescription = data.video.yep.description;
-				var videoViews = data.video.yep.views;
-				var voted = data.video.yep.voted;
-				var votedCount = data.video.yep.vote_count;
-				var tagsArray = data.video.yep.tags;
 
-				var userPicture = data.user.picture_path;
-				var commentArray = data.comments;
-				
-				var videoWrapper = '<div class="video-wrapper"><i id="discover-close" class="fa fa-times-circle fa-3x"></i><div class="video-content"><video id="playVideo" class="video-js vjs-default-skin" controls preload="auto" width="584" height="268" data-setup="{}">';
-					videoWrapper += '<source src="' + videoPath + '" type="' + playbackType + '"></video></div></div>';
-				
-				var videoAuthorDisplay = '<div class="container"><div class="row watch-user-info"><div class="col-xs-3"></div><div class="col-xs-6">';
-					videoAuthorDisplay += '<img class="discover-user-picture" src="' + authorPicture + '" />';
-					videoAuthorDisplay += '<h1 class="text-center">' + authorDisplayName + '</h4></div><div class="col-xs-3"></div></div></div>';
-
-				var videoInfo = '<div class="row discover-video-body"><div class="col-xs-4"></div><div class="col-xs-4">';
-					videoInfo += '<h2>'+ videoTitle + '</h2>';
-					videoInfo += '<h4>Description: ' + videoDescription + '</h4>';
-					videoInfo += '<div class="watch-view-count" ><i class="fa fa-eye fa-2x" > ' + videoViews + '</i></div><p></p>'
-				
-				if(voted){
-					videoInfo += '<i class="fa fa-thumbs-up fa-2x watch-vote"> ' + votedCount + '</i>';
-				}
-				else{
-					videoInfo += '<i class="fa fa-thumbs-o-up fa-2x watch-vote"> ' + votedCount + '</i>';
-				}
-
-				var videoTag = '';
-
-				tagsArray.forEach(function(val, index, array){
-					videoTag += '#' + val;
-				});
-
-					videoInfo += '<p></p><i class="fa fa-tags fa-2x" > ' + videoTag + '</i></div><div class="col-xs-4"></div></div><hr />';
-
-				
-				$('div.discover-body').append(videoWrapper);
-				$('div.discover-body').append(videoAuthorDisplay);
-				$('div.discover-body').append(videoInfo);
-				*/
-
-				// Deactivate Loading
 				loaderClose();
-
-
-				// Render Socket IO Messaging UI
-				
-				/*
-				var messageBox = '<div class="container"><div class="row"><div class="col-xs-3" ></div><div class="col-xs-6" ><div class="discover-message-box"></div></div><div class="col-xs-3" ></div></div></div><br>'
-
-				$('div.discover-body').append(messageBox);
-
-				var messagingUI = '<div class="discover-container comment-area"><div class="col-xs-4"></div><div class="col-xs-4"><div class="row"><div class="col-xs-2 discover-comment-user-img-col">';
-					messagingUI += '<img class="discover-comment-user-img" src="' + userPicture + '" /></div><div class="col-xs-10">';
-					messagingUI += '<textarea class="form-control discover-user-comment-area" rows="1" placeholder="say something about this video"></textarea>';
-					messagingUI += '</div></div><br><button class="btn btn-primary discover-user-comment-button">Send</button></div><div class="col-xs-3"></div></div><hr />';
-
-				$('div.discover-body').append(messagingUI);
-				*/
 
 				$('[data-toggle="tooltip"]').tooltip();
 
@@ -813,10 +755,64 @@ define(['jquery',
 				this.initFacebookShare(data.video.yep);
 				this.initTwitterShare(data.video.yep);
 				this.initGoogleShare(data.video.yep);
+				this.registerFollowAction(data.video.yep.user.user_id);
 
 				// Setting up VideoJS
 				this.setupVideo(data);
 				
+			},
+
+			registerFollowAction: function(userId){
+
+				$('button#user-follow-button').on('click', function(e){
+
+					var self = $(this);
+					e.preventDefault();
+
+					var current = self.attr('value');
+
+					if(current === 'follow'){
+
+						API.post('/users/' + userId + '/following', {}, window.localStorage.getItem('token'),
+
+							function(err, res){
+
+								if( err ){
+									return Swal("Warning", "Something is wrong", "warning");
+								}
+								
+								if(res.success){
+									self.attr('value', 'unfollow');
+									self.attr('class', 'btn btn-sm btn-danger');
+									self.html('unfollow');
+								}
+
+							}
+						);
+					}
+					else if(current === 'unfollow'){
+
+						API.delete('/users/' + userId + '/following', {}, window.localStorage.getItem('token'),
+
+							function(err, res){
+
+								if( err ){
+									return Swal("Warning", "Something is wrong", "warning");
+								}
+								
+								if(res.success){
+									self.attr('value', 'follow');
+									self.attr('class', 'btn btn-sm btn-primary');
+									self.html('follow');
+								}
+								
+							}
+
+						);
+
+					}
+				});
+
 			},
 
 			messagingListener: function(data){
