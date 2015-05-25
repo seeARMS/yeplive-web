@@ -53,6 +53,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 
 			var passThrough = [
 				'https://play.google.com',
+				'http://yplv.tv/',
 				'/auth/facebook',
 				'/auth/google',
 				'/auth/twitter',

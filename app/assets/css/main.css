@@ -84,6 +84,11 @@ html, body{
 	margin-bottom: 0px !important;
 }
 
+
+.link-anchor-tag{
+	display: inline-block;
+}
+
 .rotateCW{
 	-webkit-transform: rotate(90deg);
 	-moz-transform: rotate(90deg);
