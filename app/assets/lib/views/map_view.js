@@ -728,17 +728,20 @@ define(['jquery',
 
 			renderDiscover: function(data){
 
-				console.log(data);
-
 				var currentTime = (new Date).getTime()/1000;
 				var timeDiff = currentTime - data.video.yep.start_time;
 
 				data.timeElapsed = helper.timeElapsedCalculator(timeDiff);
 
-				console.log(data);
 				data.followButtonClass = data.video.yep.user.is_following ? 'btn btn-xs btn-danger' : 'btn btn-xs btn-primary';
 				data.followButtonValue = data.video.yep.user.is_following ? 'unfollow' : 'follow';
 				data.followButtonContent = data.video.yep.user.is_following ? 'unfollow' : 'follow';
+
+				var logedInUserId = User.user.get('user_id');
+
+				if(User.authed){
+					data.followButtonClass += logedInUserId == data.video.yep.user.user_id ? ' disabled' : '';
+				}
 
 
 				$('div.discover-body').append(discoverUI(data));
