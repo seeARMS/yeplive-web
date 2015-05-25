@@ -6,7 +6,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 				'lib/api',
 				'lib/views/create_yep_view',
 				'lib/views/not_found_view',
-				'text!lib/templates/download_app_modal.html'
+				'text!lib/templates/download_app_modal.html',
 ],
 
 	function($, _, Backbone, MapView, NavbarView, LoginView, WatchView, UserView, User, API, CreateYepView, NotFoundView, DownloadAppTpl){
@@ -150,7 +150,21 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 
 		appRouter.on('route:notFound', function(actions){
 			cleanView();
-			return appRouter.navigate('404', true);
+			console.log(actions);
+			return API.get('/users?name='+actions,
+				window.localStorage.getItem('token'),
+				function(err, res){
+				if(err){
+					if(err.status === 404){
+						return appRouter.navigate('404', true);
+					}
+				} else {
+					navbarView = new NavbarView({el: '#navbar'});
+					console.log(res);
+					currentView = new UserView({el: '#main', userId : res.user_id});
+					showMobile();
+				}
+			});
 			appRouter.navigate("#login", true)
 			return console.log('not found');
 			$.get('/api/users?name='+actions).then(function(res){

@@ -59,6 +59,7 @@ require('./auth')(app);
 app.get(/^[^.]*$/, function(req, res){
 	var url = req.url.split('/');
 	var id;
+
 	if(url[1] === 'watch'){
 		id = url[2];
 	}

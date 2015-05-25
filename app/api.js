@@ -30,6 +30,22 @@ module.exports = (function(){
 		}
 	});
 
+	router.get('/users', function(req, res){
+		var name = req.query.name;
+		var token = req.headers["authorization"];
+		console.log(name);
+		helpers.getAPI('/users?name='+name, token, function(err, response, body){
+			console.log(err);
+			console.log(body);
+			if(response.statusCode !== 200){
+				if(response.statusCode === 500){ return res.send(body); }
+				return res.status(response.statusCode).json({error: response.statusCode});
+			}
+			if(err) return res.status(500).json({error:'internal error'});
+			res.status(200).json(JSON.parse(body));
+		});
+	});
+
 
 	router.get('/me', function(req, res){
 		var token = req.headers["authorization"];
