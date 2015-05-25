@@ -7,9 +7,10 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 				'lib/views/create_yep_view',
 				'lib/views/not_found_view',
 				'text!lib/templates/download_app_modal.html',
+				'bootstrap'
 ],
 
-	function($, _, Backbone, MapView, NavbarView, LoginView, WatchView, UserView, User, API, CreateYepView, NotFoundView, DownloadAppTpl){
+	function($, _, Backbone, MapView, NavbarView, LoginView, WatchView, UserView, User, API, CreateYepView, NotFoundView, DownloadAppTpl, BS){
 
 	var AppRouter = Backbone.Router.extend({
 		routes:{
@@ -90,9 +91,16 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 		});
 
 		var showMobile = function(){
+			var hasShown = localStorage.getItem('showModal') == "1";	
 			if(navigator.appVersion.indexOf("iPad") != -1 || navigator.appVersion.indexOf("iPhone") != -1 || ua.indexOf("android") != -1 || ua.indexOf("ipod") != -1 || ua.indexOf("windows ce") != -1 || ua.indexOf("windows phone") != -1){
-				$('#main').append(DownloadAppTpl);
-				$('#login-appstore-prompt').modal('show');
+				if(! hasShown){
+					$('#modal-holder').append(DownloadAppTpl);
+					$('#login-appstore-prompt').modal();
+					$('#download-close').click(function(){
+						$('#login-appstore-prompt').modal('hide');
+					});
+					localStorage.setItem('showModal',"1");
+				}
 			}
 		};
 
@@ -102,7 +110,9 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 		};
 
 		appRouter.on('route:login', function(actions){
-			return window.location.replace("http://yeplive.com");
+			if(window.location.href.indexOf('localhost') == -1){	
+				return window.location.replace("http://yeplive.com");
+			}
 			cleanView();
 			if(navbarView){
 				navbarView.remove();
