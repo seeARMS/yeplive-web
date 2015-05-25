@@ -456,7 +456,11 @@ define(['jquery',
 			},
 
 			render: function(data, options){
-
+				console.log(data);
+				var tmp = data.video.yep.image_path.split('/');
+				tmp[4] = 'r_'+tmp[4];
+				data.video.yep.rotated_image_path = tmp.join('/');
+				console.log(data.video.yep);
 				this.$el.html(this.tpl(data));
 
 				$('[data-toggle="tooltip"]').tooltip();
