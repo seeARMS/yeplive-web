@@ -258,7 +258,6 @@ define(['jquery',
 								return updateExplorer('delete', yepId);
 							}
 							else{
-								console.log(res);
 								return Swal("", "Sorry, you are not allowed to delete this video", "error");
 							}
 						}
@@ -445,7 +444,7 @@ define(['jquery',
 
 			getYepInfo: function(yepId, cb){
 
-				Api.get('/yeps/' + yepId, function(err, yep){
+				Api.get('/yeps/' + yepId, window.localStorage.getItem('token'), function(err, yep){
 
 					if( err ){
 						var data = { success : 0 };
@@ -453,7 +452,8 @@ define(['jquery',
 					}
 					
 					var video_path;
-					var playback_type;
+					var playback_type;	
+
 					
 					/*
 					if(yep.is_web){
@@ -736,7 +736,7 @@ define(['jquery',
 				data.timeElapsed = helper.timeElapsedCalculator(timeDiff);
 
 				console.log(data);
-				data.followButtonClass = data.video.yep.user.is_following ? 'btn btn-sm btn-danger' : 'btn btn-sm btn-primary';
+				data.followButtonClass = data.video.yep.user.is_following ? 'btn btn-xs btn-danger' : 'btn btn-xs btn-primary';
 				data.followButtonValue = data.video.yep.user.is_following ? 'unfollow' : 'follow';
 				data.followButtonContent = data.video.yep.user.is_following ? 'unfollow' : 'follow';
 
@@ -773,7 +773,7 @@ define(['jquery',
 
 					if(current === 'follow'){
 
-						API.post('/users/' + userId + '/following', {}, window.localStorage.getItem('token'),
+						Api.post('/users/' + userId + '/following', {}, window.localStorage.getItem('token'),
 
 							function(err, res){
 
@@ -783,7 +783,7 @@ define(['jquery',
 								
 								if(res.success){
 									self.attr('value', 'unfollow');
-									self.attr('class', 'btn btn-sm btn-danger');
+									self.attr('class', 'btn btn-xs btn-danger');
 									self.html('unfollow');
 								}
 
@@ -792,7 +792,7 @@ define(['jquery',
 					}
 					else if(current === 'unfollow'){
 
-						API.delete('/users/' + userId + '/following', {}, window.localStorage.getItem('token'),
+						Api.delete('/users/' + userId + '/following', {}, window.localStorage.getItem('token'),
 
 							function(err, res){
 
@@ -802,10 +802,10 @@ define(['jquery',
 								
 								if(res.success){
 									self.attr('value', 'follow');
-									self.attr('class', 'btn btn-sm btn-primary');
+									self.attr('class', 'btn btn-xs btn-primary');
 									self.html('follow');
 								}
-								
+
 							}
 
 						);

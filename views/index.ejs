@@ -8,6 +8,7 @@
 
 		<% if(yep) { %>
 			
+		 <link rel="alternate" href="android-app://com.yeplive.app/http/yeplive.com/watch/<%= yep.id %>" />
 			<meta property="og:title" content="<%= yep.title %>" />
 			<meta property="og:url" content="http://app.yeplive.com/watch/<%= yep.id %>" />
 			<meta property="og:image" content="<%= yep.image_path %>" />
