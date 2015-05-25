@@ -25,12 +25,12 @@
 								src="<%- video.video_path %>"
 								type="<%- video.playback_type %>">  
 
-					<% if(video.yep.vod_enable) { %>
+						<% if(video.yep.vod_enable) { %>
 							<source
 								type="<%- video.playback_type %>">  
 
 							</video>
-					<% } %>
+						<% } %>
 
 						</div>
 					</div>
@@ -53,6 +53,11 @@
 					<a href="/user/<%- video.yep.user.user_id %>" >
 						<h5 style="margin-top:10px;margin-left:15px;text-align:center;"><%- video.yep.user.display_name %></h5>
 					</a>
+				<% if(user){ %>
+					<div class="text-center watch-follow-btn">
+						<button id="watch-follow-button" value="<%- followButtonValue %>" class="<%- followButtonClass %>"><%- followButtonContent %></button>
+					</div>
+				<% } %>
 				</div>
 
 				<div class="col-xs-6 text-center">
@@ -63,7 +68,9 @@
 					<i data-toggle="tooltip" data-placement="bottom" title="Share on Twitter" id="share-twitter" class="watch-share-btn fa fa-twitter-square fa-2x" /></i>
 					<i data-toggle="tooltip" data-placement="bottom" title="Share on Google Plus" id="share-google" class="watch-share-btn fa fa-google-plus-square fa-2x" /></i>
 					</p>
-					<h5><i class="fa fa-link" ></i> yplv.tv/<%- video.yep.url_hash %></h5>
+					<a target="_blank" class="link-anchor-tag" href="http://yplv.tv/<%- video.yep.url_hash %>">
+						<h5><i class="fa fa-link" ></i> yplv.tv/<%- video.yep.url_hash %></h5>
+					</a>
 				</div>
 				<div class="col-xs-3">
 					<div class="watch-view-count" ><h5><span class="watch-view-count"><%- video.yep.views %></span> views</h5></div>

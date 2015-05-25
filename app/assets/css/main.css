@@ -84,6 +84,11 @@ html, body{
 	margin-bottom: 0px !important;
 }
 
+
+.link-anchor-tag{
+	display: inline-block;
+}
+
 .rotateCW{
 	-webkit-transform: rotate(90deg);
 	-moz-transform: rotate(90deg);
@@ -949,7 +954,7 @@ img.explorer-landscape{
 
 .btn-navbar-button{
 	font-family: 'roboto';
-	font-weight: 200;
+	font-weight: 400;
 	margin-top:13px;
 	font-size:14px;
 }
@@ -964,6 +969,9 @@ img.explorer-landscape{
 
 /* ----- WATCH VIEW ------ */
 
+.watch-follow-btn{
+	margin-left:15px;
+}
 
 img.commenter-picture{
 	border-radius: 100px;
