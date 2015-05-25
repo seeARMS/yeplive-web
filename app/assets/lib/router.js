@@ -102,7 +102,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 		};
 
 		appRouter.on('route:login', function(actions){
-//			return window.location.replace("http://yeplive.com");
+			return window.location.replace("http://yeplive.com");
 			cleanView();
 			if(navbarView){
 				navbarView.remove();
