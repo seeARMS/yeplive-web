@@ -25,12 +25,12 @@
 								src="<%- video.video_path %>"
 								type="<%- video.playback_type %>">  
 
-					<% if(video.yep.vod_enable) { %>
+						<% if(video.yep.vod_enable) { %>
 							<source
 								type="<%- video.playback_type %>">  
 
 							</video>
-					<% } %>
+						<% } %>
 
 						</div>
 					</div>
@@ -53,6 +53,11 @@
 					<a href="/user/<%- video.yep.user.user_id %>" >
 						<h5 style="margin-top:10px;margin-left:15px;text-align:center;"><%- video.yep.user.display_name %></h5>
 					</a>
+				<% if(user){ %>
+					<div class="text-center watch-follow-btn">
+						<button id="watch-follow-button" value="<%- followButtonValue %>" class="<%- followButtonClass %>"><%- followButtonContent %></button>
+					</div>
+				<% } %>
 				</div>
 
 				<div class="col-xs-6 text-center">

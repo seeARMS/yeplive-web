@@ -964,6 +964,9 @@ img.explorer-landscape{
 
 /* ----- WATCH VIEW ------ */
 
+.watch-follow-btn{
+	margin-left:15px;
+}
 
 img.commenter-picture{
 	border-radius: 100px;

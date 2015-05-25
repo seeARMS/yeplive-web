@@ -28,7 +28,7 @@ define(['jquery',
 
 			getYepInfo: function(options, cb){
 
-				Api.get('/yeps/' + options.yepId, function(err, yep){
+				Api.get('/yeps/' + options.yepId, window.localStorage.getItem('token'), function(err, yep){
 
 					if( err ){
 						var data = { success : 0 };
@@ -114,7 +114,72 @@ define(['jquery',
 						user : User.authed ? User.user.attributes : "",
 						success : 1
 					}
+
+					if(User.authed) {
+
+						data.followButtonClass = data.video.yep.user.is_following ? 'btn btn-xs btn-danger' : 'btn btn-xs btn-primary';
+						data.followButtonValue = data.video.yep.user.is_following ? 'unfollow' : 'follow';
+						data.followButtonContent = data.video.yep.user.is_following ? 'unfollow' : 'follow';
+
+						var logedInUserId = User.user.get('user_id');
+
+						data.followButtonClass += logedInUserId == data.video.yep.user.user_id ? ' disabled' : '';
+					}
+
 					self.render(data, options);
+				});
+
+			},
+
+			registerFollowAction: function(userId){
+
+				$('button#watch-follow-button').on('click', function(e){
+
+					var self = $(this);
+					e.preventDefault();
+
+					var current = self.attr('value');
+
+					if(current === 'follow'){
+
+						Api.post('/users/' + userId + '/following', {}, window.localStorage.getItem('token'),
+
+							function(err, res){
+
+								if( err ){
+									return Swal("Warning", "Something is wrong", "warning");
+								}
+								
+								if(res.success){
+									self.attr('value', 'unfollow');
+									self.attr('class', 'btn btn-xs btn-danger');
+									self.html('unfollow');
+								}
+
+							}
+						);
+					}
+					else if(current === 'unfollow'){
+
+						Api.delete('/users/' + userId + '/following', {}, window.localStorage.getItem('token'),
+
+							function(err, res){
+
+								if( err ){
+									return Swal("Warning", "Something is wrong", "warning");
+								}
+								
+								if(res.success){
+									self.attr('value', 'follow');
+									self.attr('class', 'btn btn-xs btn-primary');
+									self.html('follow');
+								}
+
+							}
+
+						);
+
+					}
 				});
 
 			},
@@ -457,11 +522,14 @@ define(['jquery',
 
 			render: function(data, options){
 
+				console.log(data);
+
 				this.$el.html(this.tpl(data));
 
 				$('[data-toggle="tooltip"]').tooltip();
 
 				this.addMessagingListener(options);
+				this.registerFollowAction(data.video.yep.user.user_id);
 				this.setupVideo(data);
 				//this.addCommentListener(options);
 				this.addVoteListener(options.yepId);

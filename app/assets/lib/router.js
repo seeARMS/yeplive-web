@@ -65,8 +65,6 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 			for(var i = 0; i< passThrough.length; i++){
 
 				var currentPassThrough = passThrough[i];
-				console.log(currentPassThrough);
-				console.log(href);
 				if(href.search(currentPassThrough) >= 0){
 					href = href.slice(0, currentPassThrough.length);
 					break;
