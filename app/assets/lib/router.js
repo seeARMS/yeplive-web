@@ -5,10 +5,11 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 				'lib/user',
 				'lib/api',
 				'lib/views/create_yep_view',
-				'lib/views/not_found_view'
+				'lib/views/not_found_view',
+				'text!lib/templates/download_app_modal.html'
 ],
 
-	function($, _, Backbone, MapView, NavbarView, LoginView, WatchView, UserView, User, API, CreateYepView, NotFoundView){
+	function($, _, Backbone, MapView, NavbarView, LoginView, WatchView, UserView, User, API, CreateYepView, NotFoundView, DownloadAppTpl){
 
 	var AppRouter = Backbone.Router.extend({
 		routes:{
@@ -39,6 +40,8 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 	var initialize = function(){
 
 		var appRouter = new AppRouter;
+
+			var ua = navigator.userAgent.toLowerCase();
 
 		$(document).click("a[href^='/']", function(event){
 
@@ -86,19 +89,24 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 			}
 		});
 
+		var showMobile = function(){
+			if(navigator.appVersion.indexOf("iPad") != -1 || navigator.appVersion.indexOf("iPhone") != -1 || ua.indexOf("android") != -1 || ua.indexOf("ipod") != -1 || ua.indexOf("windows ce") != -1 || ua.indexOf("windows phone") != -1){
+				$('#main').append(DownloadAppTpl);
+				$('#login-appstore-prompt').modal('show');
+			}
+		};
+
 		var loaderInit = function(){
 			$('div#main').css('opacity', '0.2');
 			$('div#load-boy').append('<img class="loading" src="/img/loading.gif" />');
 		};
 
 		appRouter.on('route:login', function(actions){
-			window.location.replace("http://yeplive.com");
-			/*
+			return window.location.replace("http://yeplive.com");
 			cleanView();
 			if(navbarView){
 				navbarView.remove();
-			}
-			currentView = new LoginView({el: '#main'});*/
+			} currentView = new LoginView({el: '#main'});
 		});
 
 		appRouter.on('route:user', function(userId){
@@ -108,6 +116,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 			}
 			navbarView = new NavbarView({el: '#navbar'});
 			currentView = new UserView({el: '#main', userId : userId});
+			showMobile();
 		});
 
 		appRouter.on('route:logout', function(actions){
@@ -129,12 +138,14 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 			loaderInit();
 			currentView = new MapView({el:'#main'});
 			navbarView = new NavbarView({el:'#navbar'});
+			showMobile();
 		});
 
 		appRouter.on('route:404', function(){
 			cleanView();
 			currentView = new NotFoundView({el:'#main'});
 			navbarView = new NavbarView({el:'#navbar'});
+			showMobile();
 		});
 
 		appRouter.on('route:notFound', function(actions){
@@ -177,6 +188,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 			cleanView();
 			currentView = new WatchView({ el: '#main', yepId: yepId});
 			navbarView = new NavbarView({el: '#navbar'});
+			showMobile();
 		});
 	};
 
