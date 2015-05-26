@@ -8,11 +8,14 @@
 
 		<% if(yep) { %>
 			
-		 <link rel="alternate" href="android-app://com.yeplive.app/http/yeplive.com/watch/<%= yep.id %>" />
+		 <link rel="alternate" href="android-app://com.yeplive.app/http/app.yeplive.com/watch/<%= yep.id %>" />
 			<meta property="og:title" content="<%= yep.title %>" />
 			<meta property="og:url" content="http://app.yeplive.com/watch/<%= yep.id %>" />
-			<meta property="og:image" content="<%= yep.image_path %>" />
-
+			<% if(yep.portrait) { %>
+				<meta property="og:image" content="<%= yep.rotated_image_path %>" />
+			<% }else{ %>
+				<meta property="og:image" content="<%= yep.image_path %>" />
+			<% } %>
 			<% if(yep.vod_enable) { %>
 
 				<meta property="og:description" content="<%= yep.user.display_name %> is on Yeplive™! Watch at here: yplv.tv/<%= yep.url_hash %>" />
@@ -59,6 +62,8 @@
 
 		<div id="navbar"></div>
 		<div id="load-boy"></div>
+		<div id="modal-holder">
+		</div>
 		<div id="main">
 			<div class="yeplive-loading">
 				<div class="loader-center-outside">

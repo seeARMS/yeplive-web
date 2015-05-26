@@ -59,6 +59,7 @@ require('./auth')(app);
 app.get(/^[^.]*$/, function(req, res){
 	var url = req.url.split('/');
 	var id;
+
 	if(url[1] === 'watch'){
 		id = url[2];
 	}
@@ -93,6 +94,9 @@ app.get(/^[^.]*$/, function(req, res){
 				video_path : video_path.replace('http', 'https'),
 				playback_type : playback_type
 			};
+			var tmp = data.yep.image_path.split('/');
+			tmp[4] = 'r_'+tmp[4];
+			data.yep.rotated_image_path = tmp.join('/');
 
 			res.render('index', data);
 		});
