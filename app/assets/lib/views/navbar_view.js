@@ -11,13 +11,14 @@ define(['jquery',
 
 		var NavbarView = Backbone.View.extend({
 			tpl: _.template(navbarTpl),
-			initialize: function(){
+			initialize: function(options){
 				var self = this;	
-				this.render();
+				this.render(options);
 			},
-			render: function(){
+			render: function(options){
 				var data = {
-					User: User.authed ? User.user : ""
+					User: User.authed ? User.user : "",
+					redirectPath : options.redirect
 				};
 				this.$el.html(this.tpl(data));
 				$('[data-toggle="tooltip"]').tooltip();

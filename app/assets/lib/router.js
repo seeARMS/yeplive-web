@@ -42,7 +42,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 
 		var appRouter = new AppRouter;
 
-			var ua = navigator.userAgent.toLowerCase();
+		var ua = navigator.userAgent.toLowerCase();
 
 		$(document).click("a[href^='/']", function(event){
 
@@ -120,10 +120,11 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 
 		appRouter.on('route:user', function(userId){
 			cleanView();
+			/*
 			if(! User.authed){
 				return appRouter.navigate("/login", {trigger:true})
-			}
-			navbarView = new NavbarView({el: '#navbar'});
+			}*/
+			navbarView = new NavbarView({el: '#navbar', redirect : '%2Fuser%2F' + userId });
 			currentView = new UserView({el: '#main', userId : userId});
 			showMobile();
 		});
@@ -160,7 +161,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 		appRouter.on('route:notFound', function(actions){
 			cleanView();
 			console.log(actions);
-			return API.get('/users?name='+actions,
+			return API.get('/users?name=' + actions,
 				window.localStorage.getItem('token'),
 				function(err, res){
 				if(err){
@@ -168,18 +169,18 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 						return appRouter.navigate('404', true);
 					}
 				} else {
-					navbarView = new NavbarView({el: '#navbar'});
-					console.log(res);
+					navbarView = new NavbarView({el: '#navbar', redirect : '%2F' + actions });
 					currentView = new UserView({el: '#main', userId : res.user_id});
 					showMobile();
 				}
 			});
-			appRouter.navigate("#login", true)
+			/*
+			appRouter.navigate("#login", true);
 			return console.log('not found');
 			$.get('/api/users?name='+actions).then(function(res){
 					App.events.trigger('route:user', res);
 			}, function(err){
-			});
+			});*/
 		});	
 
 		appRouter.on('route:new', function(){
@@ -209,8 +210,8 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 
 		appRouter.on('route:watch', function(yepId){
 			cleanView();
-			currentView = new WatchView({ el: '#main', yepId: yepId});
-			navbarView = new NavbarView({el: '#navbar'});
+			currentView = new WatchView({ el : '#main', yepId : yepId});
+			navbarView = new NavbarView({el : '#navbar', redirect : '%2Fwatch%2F' + yepId });
 			showMobile();
 		});
 	};
