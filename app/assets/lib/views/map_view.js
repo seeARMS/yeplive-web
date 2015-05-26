@@ -286,7 +286,7 @@ define(['jquery',
 					mouseout: markerMousedOut
 				},
 				cluster:{
-					radius: 100,
+					radius: 20,
 					events:{ // events trigged by clusters 
 						mouseover: function(overlay, event, context){
 							//console.log(context);
