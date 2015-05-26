@@ -7,8 +7,8 @@ module.exports = function(app){
   var GOOGLE_CONSUMER_SECRET="UaYmjJkY5IX5xIF84rZXvO-2";
   var FACEBOOK_APP_ID = '1577314819194083';
   var FACEBOOK_APP_SECRET = '5c6167095ce3987081efad0612ad9003';
-  var TWITTER_CONSUMER_KEY = 'bbvlvahg8Yy4QkIHmFeqwlrVu';
-  var TWITTER_CONSUMER_SECRET = 'mcVORCE10obPArdKVjyE3vQPmUDAPmjxWE3ijWjSH98eLtOCHp';
+  var TWITTER_CONSUMER_KEY = 'iNrFlFNrbOVfiIdtnNZP46kgAo4ctbkbC7VbJiES005vsnR2oC';
+  var TWITTER_CONSUMER_SECRET = '';
   		//SOCIAL LOGIN
   var helpers = require('./helpers');
   var passport = require('passport')
