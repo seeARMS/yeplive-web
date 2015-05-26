@@ -953,6 +953,9 @@ define(['jquery',
 					yepsCollection.add(yep);
 				});
 
+				socket.on('yep:delete', function(yep){
+					updateExplorer('delete', yep.id);
+				})
 			},
 
 			discover: function(){
