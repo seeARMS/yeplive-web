@@ -188,6 +188,9 @@ body{
 	width: 80%;
 }
 
+.login-social-icon:hover{
+	opacity:0.7;
+}
 
 #main{
 	margin-top:82px;
@@ -1355,7 +1358,9 @@ div.user-yeps-video{
 }
 
 div.user-follow-display-name{
-	margin-top: 68px;
+	/*margin-top: 68px;*/
+	text-align: center;
+	margin-top: 34px;
 }
 
 div.user-view-selection-button{
@@ -1682,6 +1687,10 @@ div.user-view{
 
 /* Mini devices (tablets, 430 and below) */
 @media (max-width: 430px){
+
+	.text-center-mobile{
+		text-align: center;
+	}
 
 	.explorer-image-frame{
 		width:130px;

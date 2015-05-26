@@ -33,9 +33,12 @@ define(['jquery',
 
 		var markerClicked = function(marker, event, context){
 			
-			var self = this;
 
+			/*
+			var self = this;
+			*/
 			// Lock the view
+			/*
 			viewLocker();
 
 			var yepId = context.data;
@@ -49,6 +52,7 @@ define(['jquery',
 					console.log('error');
 					return;
 				}*/
+				/*
 				var data = {
 					video : results['one'],
 					//comments : results['two'],
@@ -61,72 +65,14 @@ define(['jquery',
 
 
 			// Close Button is clicked
-			addCloseDiscoverListener();
-
+			addCloseDiscoverListener();*/
+			var thisMarker = context;
+			var context = {};
+			context.data = {};
+			context.data.markers = [ thisMarker ];
+			context.data.latLng = marker.position;
+			clusterClick({}, {}, context);
 		};
-
-		/*
-		var clusterContent = function(context){
-
-			var yepMarks = context.data.markers;
-
-			var cluster = [];
-
-			for(var i = 0; i < yepMarks.length; i++){
-				var yep = yepsCollection.findWhere({ id : yepMarks[i].data });
-				cluster.push(yep);
-			}
-
-			var content = '<div class="infoWindow">';
-
-			for(var i = 0; i < cluster.length; i++){
-
-				var yep = cluster[i].attributes;
-
-				var yepId = yep.id;
-				var yepTitle = yep.title;
-				var imagePath = yep.image_path;
-				var displayName = yep.user.display_name;
-				var views = yep.views;
-				var vodEnable = yep.vod_enable;
-				var startTime = yep.start_time;
-				var currentTime = (new Date).getTime();
-				var timeDiff = (currentTime / 1000) - startTime;
-
-				if (imagePath === ''){
-					imagePath = '/img/video-thumbnail.png'
-				}
-
-				if (yepTitle === ''){
-					yepTitle = 'Title'
-				}
-
-				if (displayName === ''){
-					displayName = 'Andrew'
-				}
-
-
-				content += '<div class="cluster-wrapper"><a class="discover" href="#" id="' + yepId + '">';
-				content += '<img src="' + imagePath + '" class="cluster-Image">';
-				content += '<div class="cluster-body">';
-				content += '<div class="cluster-title"><strong>' + yepTitle + '</strong></div>';
-				content += '<div class="cluster-display-name">' + displayName + '</div>';
-				content += '<div class="cluster-views">Views: ' + views + '</div>';
-				content += '</div>';
-				content += '<div class="cluster-created-time">' + helper.timeElapsedCalculator(timeDiff) + '</div>';
-				content += '</div></a><hr />';
-
-			}
-
-			content += '</div>'
-			return content;
-		};
-
-
-		var infoWindowOpen = function($this, marker, data){
-			console.log(marker)
-		};
-		*/
 
 		var markerMousedOver = function(marker, event, context){
 		};
@@ -165,6 +111,7 @@ define(['jquery',
 			var cluster = [];
 
 			for(var i = 0; i < yepMarks.length; i++){
+				console.log( yepMarks[i].data);
 				var yep = yepsCollection.findWhere({ id : yepMarks[i].data });
 				cluster.push(yep);
 			}
@@ -209,7 +156,6 @@ define(['jquery',
 					yepPositionClass : yepPositionClass,
 					yepImagePath : yepImagePath,
 					yepOwnerPicture : yep.user.picture_path,
-					yepOwnerId : yep.user.user_id,
 					yepOwnerName : yepOwnerName,
 					yepTimeElapsed : yepTimeElapsed,
 					yepViews : yep.views,
@@ -953,6 +899,9 @@ define(['jquery',
 					yepsCollection.add(yep);
 				});
 
+				socket.on('yep:delete', function(yep){
+					updateExplorer('delete', yep.id);
+				})
 			},
 
 			discover: function(){
@@ -1046,7 +995,7 @@ define(['jquery',
 				$('#share-twitter').on('click',function(){
 
 					var url = 'http://yplv.tv/' + yep.url_hash;
-					var text = yep.user.display_name + ' is on yeplive "' + yep.title + '".';
+					var text = yep.vod_enable ? yep.user.display_name + ' is streaming on Yeplive!' : 'Check out my live-stream';
 					var via = 'yeplive';
 					var related = 'yeplive';
 					window.open('https://twitter.com/intent/tweet?url=' + url + '&text=' + text +'&via=' + via + '&related=' + related, '_blank', 'location=yes,height=280,width=520,scrollbars=yes,status=yes');

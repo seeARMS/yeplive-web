@@ -503,7 +503,7 @@ define(['jquery',
 				$('#share-twitter').on('click',function(){
 
 					var url = 'http://yplv.tv/' + yep.url_hash;
-					var text = yep.user.display_name + ' is on yeplive "' + yep.title + '".';
+					var text = yep.vod_enable ? yep.user.display_name + ' is streaming on Yeplive!' : 'Check out my live-stream';
 					var via = 'yeplive';
 					var related = 'yeplive';
 					window.open('https://twitter.com/intent/tweet?url=' + url + '&text=' + text +'&via=' + via + '&related=' + related, '_blank', 'location=yes,height=280,width=520,scrollbars=yes,status=yes');

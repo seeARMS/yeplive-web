@@ -8,7 +8,6 @@ define(['jquery',
 	var NotFoundView = Backbone.View.extend({
 		tpl: _.template(notFoundTpl),
 		initialize: function(){
-			console.log('nice');
 			this.render();
 		},
 		render: function(){

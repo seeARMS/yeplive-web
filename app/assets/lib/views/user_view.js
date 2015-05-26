@@ -116,8 +116,6 @@ define(['jquery',
 
 						followings.users.forEach(function(following, index){
 
-							following.userLink = '/user/' + following.user_id;
-
 							$userContents.append(self.displayFollow(following));
 
 						});
@@ -150,8 +148,6 @@ define(['jquery',
 						}
 
 						followers.users.forEach(function(follower, index){
-
-							follower.userLink = '/user/' + follower.user_id;
 
 							$userContents.append(self.displayFollow(follower));
 

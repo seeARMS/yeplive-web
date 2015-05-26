@@ -13,7 +13,7 @@
 			</a>
 		</div>
 	</div>
-	<div class="col-md-4">
+	<div class="col-md-4 text-center-mobile">
 		<div class="row">
 			<div class="col-md-12">
 				<h1><%- title %></h1>
@@ -25,14 +25,14 @@
 			</div>
 			<div class="col-md-8">
 				<div class="user-profile-display-name">
-					<a href="/user/<%- user.user_id %>">
+					<a href="/<%- user.display_name %>">
 						<h3><%- user.display_name %></h3>
 					</a>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-3 text-center-mobile">
 		<div class="row">
 			<div class="col-md-12">
 				<h3><i class="fa fa-eye"></i> <%- views %></h3>
