@@ -1358,7 +1358,9 @@ div.user-yeps-video{
 }
 
 div.user-follow-display-name{
-	margin-top: 68px;
+	/*margin-top: 68px;*/
+	text-align: center;
+	margin-top: 34px;
 }
 
 div.user-view-selection-button{
