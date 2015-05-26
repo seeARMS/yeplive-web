@@ -9,6 +9,9 @@
 		<% if(yep) { %>
 			
 		 <link rel="alternate" href="android-app://com.yeplive.app/http/app.yeplive.com/watch/<%= yep.id %>" />
+			<meta property="al:android:url" content="android-app://com.yeplive.app/http/app.yeplive.com/watch/<%= yep.id %>">
+			<meta property="al:android:package" content="com.yeplive.app">
+			<meta property="al:android:app_name" content="Yeplive">
 			<meta property="og:title" content="<%= yep.title %>" />
 			<meta property="og:url" content="http://app.yeplive.com/watch/<%= yep.id %>" />
 			<% if(yep.portrait) { %>
