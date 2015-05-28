@@ -2,6 +2,7 @@ requirejs.config({
 	baseUrl: '/',
 	paths:{
 		jquery: 'vendor/jquery/dist/jquery',
+		liveQuery: 'vendor/livequery/livequery',
 		helper: 'lib/helper',
 		underscore: 'vendor/underscore/underscore',
 		backbone: 'vendor/backbone/backbone',
@@ -9,6 +10,7 @@ requirejs.config({
 		async: 'require/async',
 		asyncJS: 'vendor/async/lib/async',
 		gmap3: 'vendor/gmap3/dist/gmap3',
+		markerWithLabel: 'vendor/markerwithlabel/markerwithlabel',
 		bootstrap: 'vendor/bootstrap/dist/js/bootstrap',
 		swfobject: 'vendor/swfobject/swfobject/swfobject',
 		videojs: 'vendor/videojs/dist/video-js/video',
@@ -24,6 +26,9 @@ requirejs.config({
 		backbone: {
 			exports: 'Backbone',
 			deps: ['underscore', 'jquery']
+		},
+		liveQuery: {
+			deps: ['jquery']
 		},
 		bootstrap:{
 			deps: ['jquery']
@@ -42,6 +47,9 @@ requirejs.config({
 		},
 		facebook: {
 			exports: 'FB'
+		},
+		markerWithLabel:{
+			deps: ['gmap3', 'lib/map']
 		}
 	}
 });

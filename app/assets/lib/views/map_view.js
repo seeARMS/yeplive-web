@@ -1,4 +1,5 @@
 define(['jquery',
+		'liveQuery',
 		'lib/helper',
 		'asyncJS',
 		'swal',
@@ -7,6 +8,7 @@ define(['jquery',
 		'backbone', 
 		'lib/api',
 		'gmap3',
+		'markerWithLabel',
 		'text!lib/templates/map.html',
 		'text!lib/templates/discover.html',
 		'text!lib/templates/chat_message.html',
@@ -21,7 +23,7 @@ define(['jquery',
 		'facebook'
 		],
 
-	function($, helper, async, Swal, User, _, Backbone, Api, gmap3, mapTpl, discoverTpl, messageTpl, explorerTpl, googleMaps, yepsCollection, vj, vjm, vjh, socket, Yep, FB){
+	function($, liveQuery, helper, async, Swal, User, _, Backbone, Api, gmap3, markerWithLabel, mapTpl, discoverTpl, messageTpl, explorerTpl, googleMap, yepsCollection, vj, vjm, vjh, socket, Yep, FB){
 
 		var yepsCollection = new yepsCollection();
 
@@ -111,7 +113,6 @@ define(['jquery',
 			var cluster = [];
 
 			for(var i = 0; i < yepMarks.length; i++){
-				console.log( yepMarks[i].data);
 				var yep = yepsCollection.findWhere({ id : yepMarks[i].data });
 				cluster.push(yep);
 			}
@@ -359,13 +360,114 @@ define(['jquery',
 		var loaderClose = function(){
 			$('div#load-boy').empty();
 			$('div#main').css('opacity', '1');
-		}
+		};
+
+
+		var createUserMarker = function(lat, lng){
+
+			/*
+			var userLocation = {
+				latLng : [lat, lng],
+			}*/
+
+			var userLatLng = new google.maps.LatLng(parseFloat(lat),parseFloat(lng));
+
+			/*
+			var userMarker = {
+
+				values: [userLocation],
+				options:{
+					draggable: false,
+					// This animation does nothing, but has to be here to be able to make this load PNG (instead of Canvas)
+					//animation: 'NININI',
+					icon: {
+						url: User.user.get('picture_path'),
+						scaledSize: new google.maps.Size(40, 40)
+					}
+				},
+				events:{
+					click: markerClicked,
+					mouseover: markerMousedOver,
+					mouseout: markerMousedOut,
+				}*/
+				/*
+				callback : function(){
+					$('img[src^="/img/map-user-marker.png"]').css('background-image', 'url("' + User.user.get('picture_path') + '")');
+				}*/
+			/*};*/
+
+			var marker = new MarkerWithLabel({
+
+				position: userLatLng,
+				icon: {
+					path: google.maps.SymbolPath.CIRCLE,
+					scale: 0, //tamaño 0
+				},
+				map: $('#map-canvas').gmap3('get'),
+				draggable: false,
+				labelAnchor: new google.maps.Point(10, 10),
+				labelClass: "markerLabel", // the CSS class for the label
+
+			});
+			
+			
+			/*
+			$('#map-canvas').gmap3({
+				marker : marker
+			});
+			*/
+			/*
+			google.maps.event.addListener($('#map-canvas').gmap3('get'), 'idle', function(){
+				$('img[src^="/img/map-user-marker.png"]').css('background-image', 'url("' + User.user.get('picture_path') + '")');
+			});*/
+
+			/*
+			setTimeout(function(){
+				$('img[src^="/img/map-user-marker.png"]').css('background-image', 'url("' + User.user.get('picture_path') + '")');
+			},5000);*/
+
+			/*
+			$('img[src^="/img/map-user-marker.png"]').livequery(function(){
+				
+				$(this).css('background-image', 'url("' + User.user.get('picture_path') + '")');
+		
+				
+				$(this).css('background-repeat', 'no-repeat');
+				
+				
+				$(this).css('background-size', '50px 50px');
+				
+
+				$(this).css('-webkit-border-radius', '50px');
+				$(this).css('-moz-border-radius', '50px');
+				$(this).css('border-radius', '50px');
+				$(this).css('border', 'none');
+
+			});*/
+
+		};
+
+		var setUserMarkerCss = function(){
+			var css = document.createElement('style')
+			css.innerHTML = '.markerLabel { background-image: url("' + User.user.get('picture_path') + '");}';
+			document.body.appendChild(css);
+		};
 
 		var MapView = Backbone.View.extend({
 
 			tpl: _.template(mapTpl),
 
 			initialize: function(){
+
+				User.setLocation(function(err, res){
+					if(err){
+						//Do something
+						return;
+					}
+					createUserMarker(User.user.get('latitude'), User.user.get('longitude'))
+				}, true);
+
+				setUserMarkerCss();
 
 				mapView = this;
 
@@ -727,7 +829,7 @@ define(['jquery',
 							function(err, res){
 
 								if( err ){
-									return Swal("Warning", "Something is wrong", "warning");
+									return Swal("", "Something is wrong", "warning");
 								}
 								
 								if(res.success){
@@ -746,7 +848,7 @@ define(['jquery',
 							function(err, res){
 
 								if( err ){
-									return Swal("Warning", "Something is wrong", "warning");
+									return Swal("", "Something is wrong", "warning");
 								}
 								
 								if(res.success){
@@ -893,6 +995,7 @@ define(['jquery',
 						data : data.id
 					}
 					mapMarkers.push(newYep);
+
 					populateMapView(mapMarkers);
 
 					var yep = new Yep(data);
