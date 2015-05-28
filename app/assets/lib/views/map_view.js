@@ -213,12 +213,12 @@ define(['jquery',
 			//disable map control changes
 			mapTypeControl: false,
 			//allow pan control + move to left_center
-			panControl:true,
+			panControl:false,
 			panControlOptions: {
 				position: google.maps.ControlPosition.LEFT_CENTER
 			},
 			//allow zoom control + move to left_center
-			zoomControl:true,
+			zoomControl:false,
 			zoomControlOptions:{
 				style: google.maps.ZoomControlStyle.LARGE,
 				position: google.maps.ControlPosition.LEFT_CENTER
