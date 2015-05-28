@@ -34,39 +34,6 @@ define(['jquery',
 
 		var markerClicked = function(marker, event, context){
 			
-
-			/*
-			var self = this;
-			*/
-			// Lock the view
-			/*
-			viewLocker();
-
-			var yepId = context.data;
-			
-
-			async.parallel({
-				one: mapView.getYepInfo.bind(null, yepId)
-				//two: mapView.getCommentInfo.bind(null, yepId) 
-			}, function(err, results){
-				/*if(err){
-					console.log('error');
-					return;
-				}*/
-				/*
-				var data = {
-					video : results['one'],
-					//comments : results['two'],
-					user : User.user.attributes,
-					success : 1
-				}
-				mapView.renderDiscover(data);
-				socketJoinRoom(data);
-			});
-
-
-			// Close Button is clicked
-			addCloseDiscoverListener();*/
 			var thisMarker = context;
 			var context = {};
 			context.data = {};
@@ -364,38 +331,9 @@ define(['jquery',
 
 		var createUserMarker = function(lat, lng){
 
-			/*
-			var userLocation = {
-				latLng : [lat, lng],
-			}*/
-
 			var userLatLng = new google.maps.LatLng(parseFloat(lat),parseFloat(lng));
 
-			/*
-			var userMarker = {
-
-				values: [userLocation],
-				options:{
-					draggable: false,
-					// This animation does nothing, but has to be here to be able to make this load PNG (instead of Canvas)
-					//animation: 'NININI',
-					icon: {
-						url: User.user.get('picture_path'),
-						scaledSize: new google.maps.Size(40, 40)
-					}
-				},
-				events:{
-					click: markerClicked,
-					mouseover: markerMousedOver,
-					mouseout: markerMousedOut,
-				}*/
-				/*
-				callback : function(){
-					$('img[src^="/img/map-user-marker.png"]').css('background-image', 'url("' + User.user.get('picture_path') + '")');
-				}*/
-			/*};*/
-
-			var marker = new MarkerWithLabel({
+			var userMarker = new MarkerWithLabel({
 
 				position: userLatLng,
 				icon: {
@@ -405,45 +343,56 @@ define(['jquery',
 				map: $('#map-canvas').gmap3('get'),
 				draggable: false,
 				labelAnchor: new google.maps.Point(10, 10),
-				labelClass: "markerLabel", // the CSS class for the label
+				labelClass: "markerLabel",
 
 			});
-			
-			
-			/*
-			$('#map-canvas').gmap3({
-				marker : marker
-			});
-			*/
-			/*
-			google.maps.event.addListener($('#map-canvas').gmap3('get'), 'idle', function(){
-				$('img[src^="/img/map-user-marker.png"]').css('background-image', 'url("' + User.user.get('picture_path') + '")');
-			});*/
 
-			/*
-			setTimeout(function(){
-				$('img[src^="/img/map-user-marker.png"]').css('background-image', 'url("' + User.user.get('picture_path') + '")');
-			},5000);*/
-
-			/*
-			$('img[src^="/img/map-user-marker.png"]').livequery(function(){
+			console.log($('#map-canvas').gmap3('get').getZoom());
+			// Register marker controller
+			$('.map-user-focus').on('click', function(){
 				
-				$(this).css('background-image', 'url("' + User.user.get('picture_path') + '")');
+				$('#map-canvas').gmap3('get').panTo(userMarker.getPosition());
+				smoothZoomIn($('#map-canvas').gmap3('get'), 12, $('#map-canvas').gmap3('get').getZoom());
+
+			});
+
+			$('.map-user-unfocus').on('click', function(){
+				$('#map-canvas').gmap3('get').panTo(userMarker.getPosition());
+				smoothZoomOut($('#map-canvas').gmap3('get'), 2, $('#map-canvas').gmap3('get').getZoom());
+			});
 		
-				
-				$(this).css('background-repeat', 'no-repeat');
-				
-				
-				$(this).css('background-size', '50px 50px');
-				
 
-				$(this).css('-webkit-border-radius', '50px');
-				$(this).css('-moz-border-radius', '50px');
-				$(this).css('border-radius', '50px');
-				$(this).css('border', 'none');
+		};
 
-			});*/
+		var smoothZoomIn = function(map, max, cnt){
+			
+			if (cnt >= max) {
+				return;
+			}
+			else {
+				z = google.maps.event.addListener(map, 'zoom_changed', function(event){
+					google.maps.event.removeListener(z);
+					smoothZoomIn(map, max, cnt + 1);
+				});
+				setTimeout(function(){
+					map.setZoom(cnt);
+				},80);
+			}
+		};
 
+		var smoothZoomOut = function(map, max, cnt){
+			if (cnt <= max){
+				return;
+			}
+			else{
+				z = google.maps.event.addListener(map, 'zoom_changed', function(event){
+					google.maps.event.removeListener(z);
+					smoothZoomOut(map, max, cnt - 1);
+				});
+				setTimeout(function(){
+					map.setZoom(cnt);
+				},80);
+			}
 		};
 
 		var setUserMarkerCss = function(){
@@ -1050,6 +999,7 @@ define(['jquery',
 				var self = this;
 
 				self.$el.html(this.tpl());
+
 				$('div#map-container').append('<div class="explore-container"></div>');
 
 				yepsCollection.fetch().then(function(){

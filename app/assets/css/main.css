@@ -740,6 +740,44 @@ img.loading{
 
 
 /* ----- GOOGLE MAP ------ */
+
+
+.map-user-focus{
+	position: fixed;
+	top: 120px;
+	right: 50px;
+	background-color: rgb(255, 255, 255);
+	width: 50px;
+	height: 50px;
+	text-align: center;
+	border: 1px solid rgb(182, 182, 182);
+	border-radius: 8px;
+	padding-top: 4px;
+	cursor: pointer;
+	-webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+	-moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+	box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+
+.map-user-unfocus{
+	position: fixed;
+	top: 187px;
+	right: 50px;
+	width: 50px;
+	height: 50px;
+	background-color: rgb(255, 255, 255);
+	text-align: center;
+	border: 1px solid rgb(182, 182, 182);
+	border-radius: 8px;
+	padding-top: 4px;
+	cursor: pointer;
+	-webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+	-moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+	box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+
 .markerLabel {
 
   box-shadow: 1px 1px 3px #333;
