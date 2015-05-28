@@ -1697,6 +1697,17 @@ div.user-view{
 /* Small devices (tablets, 768px - 431px) */
 @media (max-width: 768px){
 
+
+	.map-user-focus{
+		top:70px;
+		right:10px;
+	}
+
+	.map-user-unfocus{
+		top:130px;
+		right:10px;
+	}
+
 	.explore-image-container{
 		width:130px;
 	}
