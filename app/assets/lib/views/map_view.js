@@ -1,5 +1,4 @@
 define(['jquery',
-		'liveQuery',
 		'lib/helper',
 		'asyncJS',
 		'swal',
@@ -23,7 +22,7 @@ define(['jquery',
 		'facebook'
 		],
 
-	function($, liveQuery, helper, async, Swal, User, _, Backbone, Api, gmap3, markerWithLabel, mapTpl, discoverTpl, messageTpl, explorerTpl, googleMap, yepsCollection, vj, vjm, vjh, socket, Yep, FB){
+	function($, helper, async, Swal, User, _, Backbone, Api, gmap3, markerWithLabel, mapTpl, discoverTpl, messageTpl, explorerTpl, googleMap, yepsCollection, vj, vjm, vjh, socket, Yep, FB){
 
 		var yepsCollection = new yepsCollection();
 
