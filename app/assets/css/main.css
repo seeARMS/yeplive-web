@@ -897,9 +897,18 @@ img.discover-comment-user-img{
 
 .explorer-delete-video{
 	position: relative;
+	display: inline-block;
 	cursor:pointer;
 	top: 55px;
 	left: 114px;
+}
+
+.explorer-edit-video{
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	top: 55px;
+	left: 70px;
 }
 
 img.cluster-Image{

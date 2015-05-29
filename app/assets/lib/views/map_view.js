@@ -79,6 +79,7 @@ define(['jquery',
 			var cluster = [];
 
 			for(var i = 0; i < yepMarks.length; i++){
+
 				var yep = yepsCollection.findWhere({ id : yepMarks[i].data });
 				cluster.push(yep);
 			}
@@ -112,13 +113,14 @@ define(['jquery',
 				var yepImagePath = yep.image_path === '' ? '/img/video-thumbnail.png' : yep.image_path
 				var yepTimeElapsed = helper.timeElapsedCalculator(((new Date).getTime() / 1000) - yep.start_time);
 				var yepDuration = yep.vod_enable ? helper.videoDurationConverter(parseInt(yep.end_time) - parseInt(yep.start_time)) : 'Live';
-				var yepTitle = helper.truncate(yep.title, 15);
+				var yepShortTitle = helper.truncate(yep.title, 15);
 				var yepOwnerName = helper.truncate(yep.user.display_name, 15);
-				var yepDeletable = yep.user.user_id == User.user.attributes.user_id ? true : false
+				var yepControllable = yep.user.user_id == User.user.attributes.user_id ? true : false
 
 				var explorerData = {
 					yepId : yep.id,
-					yepTitle : yepTitle,
+					yepShortTitle : yepShortTitle,
+					yepTitle : yep.title,
 					yepDuration : yepDuration,
 					yepPositionClass : yepPositionClass,
 					yepImagePath : yepImagePath,
@@ -127,7 +129,7 @@ define(['jquery',
 					yepTimeElapsed : yepTimeElapsed,
 					yepViews : yep.views,
 					yepStars : yep.vote_count,
-					yepDeletable : yepDeletable,
+					yepControllable : yepControllable,
 					yepOverlayClass : yepOverlayClass
 				}
 
@@ -147,12 +149,17 @@ define(['jquery',
 				var self = $(this);
 				deleteYep(parseInt(self.attr('value')));
 			});
+
+			$('.js-edit-video').on('click', function(){
+				var self = $(this);
+				editYep(parseInt(self.attr('id')), self.attr('value'));
+			});
 		};
 
 
 		var deleteYep = function(yepId){
 			Swal({
-				title: "Do you want to remove this video?",
+				title: "Do you want to remove this yep?",
 				text: "You will not be able to recover once you remove it!",
 				type: "warning",
 				showCancelButton: true,
@@ -164,14 +171,14 @@ define(['jquery',
 						window.localStorage.getItem('token'),
 						function(err, res){
 							if(err){
-								return Swal("", "Oops something went wrong", "warning");;
+								return Swal("", "Oops something went wrong", "warning");
 							}
 							if(res.success){
-								Swal("", "Your video has been deleted.", "success");
+								Swal("", "Your yep has been deleted.", "success");
 								return updateExplorer('delete', yepId);
 							}
 							else{
-								return Swal("", "Sorry, you are not allowed to delete this video", "error");
+								return Swal("", "Sorry, you are not allowed to delete this yep", "error");
 							}
 						}
 					);
@@ -180,7 +187,47 @@ define(['jquery',
 			);
 		};
 
-		var updateExplorer = function(action, yepId){
+		var editYep = function(yepId, yepTitle){
+			Swal({
+				title: "Enter a new title for your yep",
+				text: "Write something interesting with hashtag tags:",
+				type: "input",
+				inputValue: yepTitle,
+				showCancelButton: true,
+				closeOnConfirm: false
+				}, function(inputValue){
+					if (inputValue === false){
+						return false;
+					}      
+					if (inputValue === ""){
+						swal.showInputError("Title can not be empty");
+						return false;
+					}
+					if (inputValue === yepTitle){
+						swal.showInputError("Title is the same as the old one");
+						return false;
+					}
+					Api.put('/yeps/' + yepId,
+						{ title: inputValue },
+						window.localStorage.getItem('token'),
+						function(err, res){
+							if(err){
+								return Swal("", "Oops something went wrong", "warning");
+							}
+							if(res.success){
+								Swal("Nice!", "Your yep title has been changed","success");
+								return updateExplorer('changeTitle', yepId, { title: inputValue });
+							}
+							else{
+								return Swal("", "Sorry, you are not allowed to edit this yep", "error");
+							}
+						}
+					);
+				}
+			);
+		};
+
+		var updateExplorer = function(action, yepId, options){
 			if( action === 'delete' ){
 				// Remove UI
 				$('#explorer-' + yepId).remove();
@@ -194,6 +241,10 @@ define(['jquery',
 					}
 				}
 				populateMapView(mapMarkers);
+			}
+			if( action === 'changeTitle'){
+				// Change Explorer UI
+				$('#explorer-' + yepId + ' .explorer-title').html(options.title);
 			}
 		};
 
@@ -347,7 +398,6 @@ define(['jquery',
 
 			});
 
-			console.log($('#map-canvas').gmap3('get').getZoom());
 			// Register marker controller
 			$('.map-user-focus').on('click', function(){
 				
@@ -555,7 +605,6 @@ define(['jquery',
 							}
 						}
 						if(data.video.yep.portrait && ! data.video.yep.front_facing){
-							console.log('rotatin');
 							this.zoomrotate({
 								rotate: 90,
 								zoom: 1
@@ -739,6 +788,7 @@ define(['jquery',
 					data.followButtonClass += logedInUserId == data.video.yep.user.user_id ? ' disabled' : '';
 				}
 
+				console.log(data);
 
 				$('div.discover-body').append(discoverUI(data));
 
@@ -938,16 +988,23 @@ define(['jquery',
 					if(!data.hasOwnProperty('user')){
 						return;
 					}
-					var newYep = {
-						latLng : [data.latitude, data.longitude],
-						data : data.id
+					// If it is an update of title
+					if(yepsCollection.get(data.id)){
+						yepsCollection.get({ id: data.id }).set({ title: data.title });
 					}
-					mapMarkers.push(newYep);
+					// Create a new yep
+					else{
+						var newYep = {
+							latLng : [data.latitude, data.longitude],
+							data : data.id
+						}
+						mapMarkers.push(newYep);
 
-					populateMapView(mapMarkers);
+						populateMapView(mapMarkers);
 
-					var yep = new Yep(data);
-					yepsCollection.add(yep);
+						var yep = new Yep(data);
+						yepsCollection.add(yep);
+					}
 				});
 
 				socket.on('yep:delete', function(yep){

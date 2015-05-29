@@ -17,7 +17,7 @@ requirejs.config({
 		videojsHLS: 'vendor/videojs-contrib-hls/dist/videojs.hls.min',
 		videojsZoomRotate: 'vendor/videojs-zoomrotate/videojs.zoomrotate',
 		socketio: 'vendor/socket.io-client/socket.io',
-		swal: 'vendor/sweetalert/lib/sweet-alert.min',
+		swal: 'vendor/sweetalert/dist/sweetalert.min',
 		facebook: '//connect.facebook.net/en_US/sdk',
 		twitter: 'vendor/twitter-share/twitter-share'
 	},

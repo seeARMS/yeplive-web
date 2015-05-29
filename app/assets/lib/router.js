@@ -2,6 +2,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 				'lib/views/login_view',
 				'lib/views/watch_view',
 				'lib/views/user_view',
+				'lib/views/tag_view',
 				'lib/user',
 				'lib/api',
 				'lib/views/create_yep_view',
@@ -10,12 +11,13 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 				'bootstrap'
 ],
 
-	function($, _, Backbone, MapView, NavbarView, LoginView, WatchView, UserView, User, API, CreateYepView, NotFoundView, DownloadAppTpl, BS){
+	function($, _, Backbone, MapView, NavbarView, LoginView, WatchView, UserView, TagView, User, API, CreateYepView, NotFoundView, DownloadAppTpl, BS){
 
 	var AppRouter = Backbone.Router.extend({
 		routes:{
 			'watch/:yepId' : 'watch',
 			'user/:userId' : 'user',
+			'tag/:tag': 'tag',
 			'': 'root',
 			'me': 'me',
 			'_=_': 'facebookRedirect',
@@ -212,6 +214,13 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 			cleanView();
 			currentView = new WatchView({ el : '#main', yepId : yepId});
 			navbarView = new NavbarView({el : '#navbar', redirect : '%2Fwatch%2F' + yepId });
+			showMobile();
+		});
+
+		appRouter.on('route:tag', function(tag){
+			cleanView();
+			currentView = new TagView({ el: '#main', tag : tag });
+			navbarView = new NavbarView({el : '#navbar', redirect : '%2Ftag%2F' + tag });
 			showMobile();
 		});
 	};
