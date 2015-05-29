@@ -759,6 +759,9 @@ img.loading{
 	box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 }
 
+.map-user-focus:hover, .map-user-unfocus:hover{
+	background-color: rgb(190, 190, 190);
+}
 
 .map-user-unfocus{
 	position: fixed;
