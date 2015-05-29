@@ -9,6 +9,7 @@ requirejs.config({
 		async: 'require/async',
 		asyncJS: 'vendor/async/lib/async',
 		gmap3: 'vendor/gmap3/dist/gmap3',
+		markerWithLabel: 'vendor/markerwithlabel/markerwithlabel',
 		bootstrap: 'vendor/bootstrap/dist/js/bootstrap',
 		swfobject: 'vendor/swfobject/swfobject/swfobject',
 		videojs: 'vendor/videojs/dist/video-js/video',
@@ -42,6 +43,9 @@ requirejs.config({
 		},
 		facebook: {
 			exports: 'FB'
+		},
+		markerWithLabel:{
+			deps: ['gmap3', 'lib/map']
 		}
 	}
 });

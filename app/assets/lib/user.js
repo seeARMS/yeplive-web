@@ -1,5 +1,6 @@
-define(['jquery','underscore','backbone','lib/models/user'],
-	function($, _, Backbone, UserModel){
+define(['jquery','underscore','backbone','lib/models/user', 'swal'],
+
+	function($, _, Backbone, UserModel, Swal){
     var instance = null;
  
     function User(data){
@@ -13,7 +14,7 @@ define(['jquery','underscore','backbone','lib/models/user'],
         initialize: function(data){
 			this.user = new UserModel();
         },
-		setLocation: function(cb){
+		setLocation: function(cb, strict){
 			var self = this;
 			var latitude;// = window.localStorage.getItem('latitude');
 			var longitude;//= window.localStorage.getItem('longitude');
@@ -26,8 +27,9 @@ define(['jquery','underscore','backbone','lib/models/user'],
 				cb(null, true);
 				
 			}, function(err){
-				alert('you must set location to be able to stream');
-				console.log(err);
+				if(strict){
+					Swal('', 'You must set location to be able to record', 'warning');
+				}
 			});
 			} else {
 				self.user.set('latitude', latitude);

@@ -69,14 +69,14 @@ define(['jquery',
 			socket.emit('leave_room');
 			window.onbeforeunload = false;
 		},
-		renderPreview: function(){	
+		renderPreview: function(){
 			this.$el.html(this.previewTpl());
 			$('.js-start').text('waiting...');
 			$('.js-start').attr('disabled',true);
 			user.setLocation(function(err, res){
-					$('.js-start').html('Go Live!');
-					$('.js-start').attr('disabled',false);
-			});
+				$('.js-start').html('Go Live!');
+				$('.js-start').attr('disabled',false);
+			}, true);
 			setupHDFVR('livestream');
 		},
 

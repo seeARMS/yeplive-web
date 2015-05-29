@@ -7,6 +7,7 @@ define(['jquery',
 		'backbone', 
 		'lib/api',
 		'gmap3',
+		'markerWithLabel',
 		'text!lib/templates/map.html',
 		'text!lib/templates/discover.html',
 		'text!lib/templates/chat_message.html',
@@ -21,7 +22,7 @@ define(['jquery',
 		'facebook'
 		],
 
-	function($, helper, async, Swal, User, _, Backbone, Api, gmap3, mapTpl, discoverTpl, messageTpl, explorerTpl, googleMaps, yepsCollection, vj, vjm, vjh, socket, Yep, FB){
+	function($, helper, async, Swal, User, _, Backbone, Api, gmap3, markerWithLabel, mapTpl, discoverTpl, messageTpl, explorerTpl, googleMap, yepsCollection, vj, vjm, vjh, socket, Yep, FB){
 
 		var yepsCollection = new yepsCollection();
 
@@ -33,39 +34,6 @@ define(['jquery',
 
 		var markerClicked = function(marker, event, context){
 			
-
-			/*
-			var self = this;
-			*/
-			// Lock the view
-			/*
-			viewLocker();
-
-			var yepId = context.data;
-			
-
-			async.parallel({
-				one: mapView.getYepInfo.bind(null, yepId)
-				//two: mapView.getCommentInfo.bind(null, yepId) 
-			}, function(err, results){
-				/*if(err){
-					console.log('error');
-					return;
-				}*/
-				/*
-				var data = {
-					video : results['one'],
-					//comments : results['two'],
-					user : User.user.attributes,
-					success : 1
-				}
-				mapView.renderDiscover(data);
-				socketJoinRoom(data);
-			});
-
-
-			// Close Button is clicked
-			addCloseDiscoverListener();*/
 			var thisMarker = context;
 			var context = {};
 			context.data = {};
@@ -111,7 +79,6 @@ define(['jquery',
 			var cluster = [];
 
 			for(var i = 0; i < yepMarks.length; i++){
-				console.log( yepMarks[i].data);
 				var yep = yepsCollection.findWhere({ id : yepMarks[i].data });
 				cluster.push(yep);
 			}
@@ -246,12 +213,12 @@ define(['jquery',
 			//disable map control changes
 			mapTypeControl: false,
 			//allow pan control + move to left_center
-			panControl:true,
+			panControl:false,
 			panControlOptions: {
 				position: google.maps.ControlPosition.LEFT_CENTER
 			},
 			//allow zoom control + move to left_center
-			zoomControl:true,
+			zoomControl:false,
 			zoomControlOptions:{
 				style: google.maps.ZoomControlStyle.LARGE,
 				position: google.maps.ControlPosition.LEFT_CENTER
@@ -286,7 +253,7 @@ define(['jquery',
 					mouseout: markerMousedOut
 				},
 				cluster:{
-					radius: 100,
+					radius: 20,
 					events:{ // events trigged by clusters 
 						mouseover: function(overlay, event, context){
 							//console.log(context);
@@ -359,13 +326,96 @@ define(['jquery',
 		var loaderClose = function(){
 			$('div#load-boy').empty();
 			$('div#main').css('opacity', '1');
-		}
+		};
+
+
+		var createUserMarker = function(lat, lng){
+
+			var userLatLng = new google.maps.LatLng(parseFloat(lat),parseFloat(lng));
+
+			var userMarker = new MarkerWithLabel({
+
+				position: userLatLng,
+				icon: {
+					path: google.maps.SymbolPath.CIRCLE,
+					scale: 0, //tamaño 0
+				},
+				map: $('#map-canvas').gmap3('get'),
+				draggable: false,
+				labelAnchor: new google.maps.Point(10, 10),
+				labelClass: "markerLabel",
+
+			});
+
+			console.log($('#map-canvas').gmap3('get').getZoom());
+			// Register marker controller
+			$('.map-user-focus').on('click', function(){
+				
+				$('#map-canvas').gmap3('get').panTo(userMarker.getPosition());
+				smoothZoomIn($('#map-canvas').gmap3('get'), 12, $('#map-canvas').gmap3('get').getZoom());
+
+			});
+
+			$('.map-user-unfocus').on('click', function(){
+				$('#map-canvas').gmap3('get').panTo(userMarker.getPosition());
+				smoothZoomOut($('#map-canvas').gmap3('get'), 2, $('#map-canvas').gmap3('get').getZoom());
+			});
+		
+
+		};
+
+		var smoothZoomIn = function(map, max, cnt){
+			
+			if (cnt >= max) {
+				return;
+			}
+			else {
+				z = google.maps.event.addListener(map, 'zoom_changed', function(event){
+					google.maps.event.removeListener(z);
+					smoothZoomIn(map, max, cnt + 1);
+				});
+				setTimeout(function(){
+					map.setZoom(cnt);
+				},80);
+			}
+		};
+
+		var smoothZoomOut = function(map, max, cnt){
+			if (cnt <= max){
+				return;
+			}
+			else{
+				z = google.maps.event.addListener(map, 'zoom_changed', function(event){
+					google.maps.event.removeListener(z);
+					smoothZoomOut(map, max, cnt - 1);
+				});
+				setTimeout(function(){
+					map.setZoom(cnt);
+				},80);
+			}
+		};
+
+		var setUserMarkerCss = function(){
+			var css = document.createElement('style')
+			css.innerHTML = '.markerLabel { background-image: url("' + User.user.get('picture_path') + '");}';
+			document.body.appendChild(css);
+		};
 
 		var MapView = Backbone.View.extend({
 
 			tpl: _.template(mapTpl),
 
 			initialize: function(){
+
+				User.setLocation(function(err, res){
+					if(err){
+						//Do something
+						return;
+					}
+					createUserMarker(User.user.get('latitude'), User.user.get('longitude'))
+				}, true);
+
+				setUserMarkerCss();
 
 				mapView = this;
 
@@ -727,7 +777,7 @@ define(['jquery',
 							function(err, res){
 
 								if( err ){
-									return Swal("Warning", "Something is wrong", "warning");
+									return Swal("", "Something is wrong", "warning");
 								}
 								
 								if(res.success){
@@ -746,7 +796,7 @@ define(['jquery',
 							function(err, res){
 
 								if( err ){
-									return Swal("Warning", "Something is wrong", "warning");
+									return Swal("", "Something is wrong", "warning");
 								}
 								
 								if(res.success){
@@ -893,6 +943,7 @@ define(['jquery',
 						data : data.id
 					}
 					mapMarkers.push(newYep);
+
 					populateMapView(mapMarkers);
 
 					var yep = new Yep(data);
@@ -948,6 +999,7 @@ define(['jquery',
 				var self = this;
 
 				self.$el.html(this.tpl());
+
 				$('div#map-container').append('<div class="explore-container"></div>');
 
 				yepsCollection.fetch().then(function(){
