@@ -352,6 +352,7 @@ define(['jquery',
 
 			$('div#map-canvas').css('opacity', '1');
 			$('div.explore-container').css('opacity', '1');
+			$('div.map-controller').css('opacity', '1');
 
 			socket.emit('client:leave', {});
 			socket.emit('disconnect', socket);
@@ -370,6 +371,7 @@ define(['jquery',
 		var viewLocker = function(){
 			$('div#map-canvas').css('opacity', '0.2');
 			$('div.explore-container').css('opacity', '0.2');
+			$('div.map-controller').css('opacity', '0.2');
 			$('#main').append('<div class="discover-body"></div>');
 			$('div#load-boy').append('<img class="loading" src="/img/loading.gif" />');
 		};
