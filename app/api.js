@@ -231,6 +231,23 @@ module.exports = (function(){
 		});
 	});
 
+	router.put('/yeps/:id', function(req, res){
+		var token = req.headers["authorization"];
+		var id = req.params.id;
+		var title = req.body.title;
+		helpers.putAPI('/yeps/'+ id, { title: title }, token, function(err, response, body){
+			console.log(response.statusCode);
+			console.log('HSIT');
+			if(response.statusCode !== 200){
+				if(response.statusCode === 500){ return res.send(body); }
+				return res.status(response.statusCode).json({error: response.statusCode});
+			}
+			var json = JSON.parse(body);
+			console.log(json);
+			res.status(200).json(json);
+		});
+	});
+
 	router.delete('/yeps/:yepId', function(req, res){
 		var token = req.headers["authorization"];
 		var id = req.params.yepId;

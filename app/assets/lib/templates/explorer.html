@@ -15,7 +15,7 @@
 		<div class="col-xs-5 explorer-body-col">
 			<div class="explorer-body">
 				<div class="explorer-title">
-					<%- yepTitle %>
+					<%- yepShortTitle %>
 				</div>
 				<div class="row explorer-video-author-info" >
 					<div class="col-xs-2" >
@@ -44,8 +44,13 @@
 			</div>
 		</div>
 	</a>
-	<% if(yepDeletable) { %>
-		<i value="<%- yepId %>" class="fa fa-trash-o fa-lg js-delete-video explorer-delete-video" data-toggle="tooltip" data-placement="left" title="Remove this video"></i>
+	<% if(yepControllable) { %>
+		<div value="<%- yepId %>" class="explorer-delete-video js-delete-video" data-toggle="tooltip" data-placement="top" title="Remove this video">
+			<i class="fa fa-trash-o fa-lg"></i>
+		</div>
+		<div value="<%- yepTitle %>" id="<%- yepId %>" class="explorer-edit-video js-edit-video" data-toggle="tooltip" data-placement="left" title="Edit this video">
+			<i class="fa fa-cog fa-lg"></i>
+		</div>
 	<% } %>
 </div>
 <!--<hr class="yep-hr" />-->

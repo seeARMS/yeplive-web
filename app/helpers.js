@@ -23,6 +23,27 @@ module.exports = (function(){
 		}
 	}
 
+	//Put request to the api
+	function putAPI(route, params, auth, cb) {
+		if(typeof auth == "function"){
+			cb = auth;
+			return request({
+			method: 'PUT',
+			uri: config.yeplive_api.host +'/api/v1'+ route,
+			form: params
+			}, cb);
+		} else {
+		request({
+			method: 'PUT',
+			uri: config.yeplive_api.host + '/api/v1' + route,
+		 headers: {
+			'Authorization': auth,
+		 },
+		form: params
+			}, cb);
+		}
+	}
+
 	//get request to the api
 	function getAPI(route, auth, cb) {
 		if(typeof auth == "function"){
@@ -68,7 +89,8 @@ module.exports = (function(){
 	return {
 		postAPI: postAPI,
 		getAPI: getAPI,
-		deleteAPI: deleteAPI	
+		deleteAPI: deleteAPI,
+		putAPI: putAPI
 	}
 	
 }());

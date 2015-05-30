@@ -759,6 +759,9 @@ img.loading{
 	box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 }
 
+.map-user-focus:hover, .map-user-unfocus:hover{
+	background-color: rgb(190, 190, 190);
+}
 
 .map-user-unfocus{
 	position: fixed;
@@ -897,9 +900,18 @@ img.discover-comment-user-img{
 
 .explorer-delete-video{
 	position: relative;
+	display: inline-block;
 	cursor:pointer;
 	top: 55px;
 	left: 114px;
+}
+
+.explorer-edit-video{
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	top: 55px;
+	left: 70px;
 }
 
 img.cluster-Image{
