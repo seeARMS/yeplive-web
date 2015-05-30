@@ -144,9 +144,10 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 
 		appRouter.on('route:root', function(actions){
 			cleanView();
+			/*
 			if(! User.authed){
 				return appRouter.navigate("/login", {trigger:true})
-			}
+			}*/
 			loaderInit();
 			currentView = new MapView({el:'#main'});
 			navbarView = new NavbarView({el:'#navbar'});
