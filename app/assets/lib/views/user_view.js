@@ -13,6 +13,16 @@ define(['jquery',
 	],
 	function($, _, Async, Swal, User, Helper, Backbone, userTpl, yepsTpl, followTpl, noDataTpl, API){
 
+		var videoSort = function(a,b) {
+			if (a.start_time < b.start_time){
+				return 1;
+			}
+			if (a.start_time > b.start_time){
+				return -1;
+			}
+			return 0;
+		};
+
 		var UserView = Backbone.View.extend({
 
 			tpl: _.template(userTpl),
@@ -28,7 +38,14 @@ define(['jquery',
 
 						if ( err ){
 							var data = { success : 0 };
-							cb(404, user)
+							return cb(404, user)
+						}
+
+						if ( ! User.authed ){
+							user.followButtonClass = 'btn btn-lg btn-primary disabled';
+							user.followButtonValue = 'follow';
+							user.followButtonContent = 'follow';
+							return cb(null, user);
 						}
 
 						user.followButtonClass = user.is_following ? 'btn btn-lg btn-danger' : 'btn btn-lg btn-primary';
@@ -37,11 +54,11 @@ define(['jquery',
 
 						var logedInUserId = User.user.get('user_id');
 
-						if(User.authed){
-							user.followButtonClass += logedInUserId == userId ? ' disabled' : '';
+						if(logedInUserId == userId){
+							user.followButtonClass += ' disabled';
 						}
 
-						cb(null, user);
+						return cb(null, user);
 					}
 				);
 
@@ -55,7 +72,6 @@ define(['jquery',
 						var data = { success : 0 };
 						cb(404, yeps)
 					}
-					console.log(yeps)
 					cb(null, yeps);
 				});
 			},
@@ -182,6 +198,9 @@ define(['jquery',
 
 						var currentTime = (new Date).getTime();
 
+						// Sort Yeps
+						yeps.yeps.sort(videoSort);
+
 						yeps.yeps.forEach(function(yep, index){
 
 							yep.video_timeElapsed = Helper.timeElapsedCalculator((currentTime / 1000) - yep.start_time);
@@ -289,6 +308,9 @@ define(['jquery',
 				}
 
 				var currentTime = (new Date).getTime();
+
+				// Sort Yeps
+				data.yeps.yeps.sort(videoSort);
 				
 				for(var i = data.yeps.yeps.length-1; i >= 0; i--){
 
@@ -317,7 +339,7 @@ define(['jquery',
 						yep.yepOverlayClass = 'overlay-landscape';
 					}
 
-					$userContents.append(self.displayYeps(yep));
+					$userContents.prepend(self.displayYeps(yep));
 				}
 				
 				$('.user-stars h2').prepend(starCount);
