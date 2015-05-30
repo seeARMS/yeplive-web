@@ -386,6 +386,8 @@ define(['jquery',
 
 			var userLatLng = new google.maps.LatLng(parseFloat(lat),parseFloat(lng));
 
+			Swal(lat + ' : ' + lng, '', 'warning')
+
 			var userMarker = new MarkerWithLabel({
 
 				position: userLatLng,
