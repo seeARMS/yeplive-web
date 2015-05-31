@@ -423,7 +423,7 @@ define(['jquery',
 			for(var i = 0; i < users.length; i++){
 				var user = users[i];
 				// Skip if it is either a guest or author
-				if(user.user_id === -1 || ){
+				if(user.user_id === -1){
 					continue;
 				}
 				connectionUsers += '<a href="/' + user.display_name + '" class="connection-user-link" target="_blank" data-toggle="tooltip" data-placement="bottom" title="' + user.display_name + '" ><img class="connection-user-picture" src="' + user.picture_path + '" /></a>';
