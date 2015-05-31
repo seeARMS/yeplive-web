@@ -71,7 +71,7 @@ html, body{
 }
 
 .vjs-control-bar{
-	display:none !important;
+	/*display:none !important;*/
 }
 
 .yep-hr{
