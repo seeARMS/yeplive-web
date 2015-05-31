@@ -75,8 +75,6 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 				}
 			}
 
-			console.log(href);
-
 			if(passThrough.indexOf(href) === -1){
 				event.preventDefault();
 
@@ -162,7 +160,6 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 
 		appRouter.on('route:notFound', function(actions){
 			cleanView();
-			console.log(actions);
 			return API.get('/users?name=' + actions,
 				window.localStorage.getItem('token'),
 				function(err, res){
@@ -171,6 +168,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 						return appRouter.navigate('404', true);
 					}
 				} else {
+					console.log(res);
 					navbarView = new NavbarView({el: '#navbar', redirect : '%2F' + actions });
 					currentView = new UserView({el: '#main', userId : res.user_id});
 					showMobile();

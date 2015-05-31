@@ -22,6 +22,23 @@ define(['jquery',
 
 		var currentVoteCount;
 
+		var appendConnectionUsers = function(users){
+
+			var connectionUsers = '';
+
+			for(var i = 0; i < users.length; i++){
+				var user = users[i];
+				if(user.user_id === -1){
+					continue;
+				}
+				connectionUsers += '<a href="/' + user.display_name + '" class="connection-user-link" target="_blank" data-toggle="tooltip" data-placement="bottom" title="' + user.display_name + '" ><img class="connection-user-picture" src="' + user.picture_path + '" /></a>';
+			}
+
+			$('.connection-users').html(connectionUsers);
+
+			$('[data-toggle="tooltip"]').tooltip();
+		};
+
 		var WatchView = Backbone.View.extend({
 
 			tpl: _.template(watchTpl),
@@ -339,10 +356,11 @@ define(['jquery',
 					picturePath = User.user.get('picture_path');
 
 				socket.emit('join_room', {
-					user_id: userId ? userId : 'guest',
+					user_id: userId ? userId : -1,
 					yep_id: options.yepId,
 					display_name: displayName ? displayName : 'guest',
-					picture_path: picturePath ? picturePath : 'no picture path'
+					picture_path: picturePath ? picturePath : 'no picture path',
+					version:1
 				});
 
 
@@ -363,6 +381,10 @@ define(['jquery',
 
 				socket.on('chat:message', function(data){
 					addMessage(data);
+				});
+
+				socket.on('chat:users', function(users){
+					appendConnectionUsers(users.users);
 				});
 
 				socket.on('yep:vote', function(data){

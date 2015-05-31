@@ -705,7 +705,7 @@ img.loading{
 }
 
 .record-chat-box{
-	height: 250px;
+	height: 190px;
 	overflow: scroll;
 	overflow-x: hidden;
 }
@@ -730,11 +730,21 @@ img.loading{
 	cursor: pointer;
 }
 
+.connection-users{
+	padding-left:30px;
+}
+
+.connection-user-link{
+	margin-right:10px;
+}
+
+img.connection-user-picture{
+	width:30px;
+	height:30px;
+	border-radius:30px;
+}
+
 /* ----- END OF RECORDING VIEW ------ */
-
-
-
-
 
 
 
@@ -1126,7 +1136,7 @@ img.watch-author-picture{
 
 
 div.watch-chat-box{
-	height: 250px;
+	height: 190px;
 	overflow-y: scroll;
 	overflow-x:hidden;
 }

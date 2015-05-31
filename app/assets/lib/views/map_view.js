@@ -286,7 +286,8 @@ define(['jquery',
 				user_id: user.user_id,
 				display_name: user.display_name,
 				yep_id: yep.id,
-				picture_path: user.picture_path
+				picture_path: user.picture_path,
+				version: 1
 			});
 
 		};
@@ -354,8 +355,7 @@ define(['jquery',
 			$('div.explore-container').css('opacity', '1');
 			$('div.map-controller').css('opacity', '1');
 
-			socket.emit('client:leave', {});
-			socket.emit('disconnect', socket);
+			socket.emit('leave_room', {});
 
 		};
 
@@ -414,6 +414,23 @@ define(['jquery',
 			});
 		
 
+		};
+
+		var appendConnectionUsers = function(users){
+
+			var connectionUsers = '';
+
+			for(var i = 0; i < users.length; i++){
+				var user = users[i];
+				if(user.user_id === -1){
+					continue;
+				}
+				connectionUsers += '<a href="/' + user.display_name + '" class="connection-user-link" target="_blank" data-toggle="tooltip" data-placement="bottom" title="' + user.display_name + '" ><img class="connection-user-picture" src="' + user.picture_path + '" /></a>';
+			}
+
+			$('.connection-users').html(connectionUsers);
+
+			$('[data-toggle="tooltip"]').tooltip();
 		};
 
 		var smoothZoomIn = function(map, max, cnt){
@@ -790,8 +807,6 @@ define(['jquery',
 					data.followButtonClass += logedInUserId == data.video.yep.user.user_id ? ' disabled' : '';
 				}
 
-				console.log(data);
-
 				$('div.discover-body').append(discoverUI(data));
 
 				loaderClose();
@@ -972,6 +987,14 @@ define(['jquery',
 
 				socket.on('yep:connection', function(data){
 					$('.connection-count').html(data.connection_count);
+				});
+
+				socket.on('yep:disconnection', function(data){
+					$('.connection-count').html(data.connection_count);
+				});
+
+				socket.on('chat:users', function(users){
+					appendConnectionUsers(users.users);
 				});
 
 				socket.on('chat:history', function(data){

@@ -193,14 +193,6 @@ define(['jquery',
 		var $votes = $('#votes');
 		var $views = $('#views');
 
-		/*
-		var testMessage = {
-			display_name: user.user.get('display_name'),
-			picture_path: user.user.get('picture_path'),
-			message: 'this is a pretty cool stream bro, I wish you all the best'
-		};
-		*/
-
 		var message = false;
 
 		var chatOffset = parseInt($chat.parent().css('bottom'));
@@ -212,32 +204,33 @@ define(['jquery',
 			$chat.append($el);
 			$('div.record-chat-box').animate({scrollTop: $('div.record-chat-box')[0].scrollHeight },'slow');
 
-			/*
-			if(message){
-				chatOffset+=80;
-				$chat.parent().animate({
-					'bottom': chatOffset+'px'
-				},1000);
-			} else {
-				message = true;
+		};
+
+		var appendConnectionUsers = function(users){
+
+			var connectionUsers = '';
+
+			for(var i = 0; i < users.length; i++){
+				var user = users[i];
+				if(user.user_id === -1){
+					continue;
+				}
+				connectionUsers += '<a href="/' + user.display_name + '" class="connection-user-link" target="_blank" data-toggle="tooltip" data-placement="bottom" title="' + user.display_name + '" ><img class="connection-user-picture" src="' + user.picture_path + '" /></a>';
 			}
-			var $el = $(chatMessage(data));
-			$el.addClass('animated fadeIn');	
-			setTimeout(function(){
-				$el.removeClass('fadeIn');
-				$el.addClass('fadeOut');
-			}, 5000);
-			$chat.append($el);
-			*/
+
+			$('.connection-users').html(connectionUsers);
+
+			$('[data-toggle="tooltip"]').tooltip();
 		};
 
 		var room = {
 			user_id: user.user.get('user_id'),
 			yep_id: data.id,
 			display_name: user.user.get('display_name'),
-			picture_path: user.user.get('picture_path')
+			picture_path: user.user.get('picture_path'),
+			version: 1
 		};
-		
+
 		socket.emit('join_room', room);
 
 		socket.on('chat:history', function(messages){
@@ -247,8 +240,16 @@ define(['jquery',
 			addMessage(message);
 		});
 
+		socket.on('chat:users', function(users){
+			appendConnectionUsers(users.users);
+		});
+
 		socket.on('yep:connection', function(data){
-			$connections.html(data.connection_count);	
+			$connections.html(data.connection_count);
+		});
+
+		socket.on('yep:disconnection', function(data){
+			$connections.html(data.connection_count);
 		});
 
 		socket.on('yep:vote', function(data){

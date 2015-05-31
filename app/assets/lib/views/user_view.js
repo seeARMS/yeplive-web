@@ -78,6 +78,8 @@ define(['jquery',
 
 			initialize: function(opts){
 
+				console.log(opts);
+
 				var userId = opts.userId;
 				var self = this;
 
