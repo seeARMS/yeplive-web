@@ -783,12 +783,12 @@ img.loading{
 
 .markerLabel {
 
-  box-shadow: 1px 1px 3px #333;
+  box-shadow: 1px 1px 2px #333;
   border:0px solid #346FF7;
-  height: 35px;
-  width: 35px;
+  height: 20px;
+  width: 20px;
   border-radius: 50%;
-  background-size: 35px 35px;
+  background-size: 20px 20px;
   background-repeat: no-repeat;
   
   -webkit-animation: pulse 1s ease 0s 3;
