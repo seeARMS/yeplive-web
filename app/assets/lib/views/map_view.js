@@ -422,7 +422,8 @@ define(['jquery',
 
 			for(var i = 0; i < users.length; i++){
 				var user = users[i];
-				if(user.user_id === -1){
+				// Skip if it is either a guest or author
+				if(user.user_id === -1 || ){
 					continue;
 				}
 				connectionUsers += '<a href="/' + user.display_name + '" class="connection-user-link" target="_blank" data-toggle="tooltip" data-placement="bottom" title="' + user.display_name + '" ><img class="connection-user-picture" src="' + user.picture_path + '" /></a>';
@@ -941,38 +942,6 @@ define(['jquery',
 				}
 
 				$('div.watch-chat-box').animate({scrollTop: $('div.watch-chat-box')[0].scrollHeight },'slow');
-
-				/*
-
-				var newMessage = '';
-
-				// If loading history
-				if(messages.messages){
-					messages.messages.forEach(function(val, index){
-						newMessage += '<div class="new-message" >'
-						newMessage += '<img class="message-box-user-picture" src="' + val.picture_path + '" /> ';
-						newMessage += '<span class="message-box-message-owner"> ' + val.display_name + ': </span>';
-						newMessage += '<div class="message-box-messsage">' + val.message + '</div>';
-						newMessage += '</div><br>'
-					});
-				}
-				else if(messages.message){
-					var displayName = messages.display_name;
-					var message = messages.message;
-					var picturePath = messages.picture_path;
-
-					newMessage += '<div class="new-message" >';
-					newMessage += '<img class="message-box-user-picture" src="' + picturePath + '" /> ';
-					newMessage += '<span class="message-box-message-owner"> ' + displayName + ': </span>';
-					newMessage += '<div class="message-box-messsage">' + message + '</div>';
-					newMessage += '</div><br>'
-				}
-
-				$('div.discover-message-box').append(newMessage);
-				$('textarea.discover-user-comment-area').val('');
-				$('div.discover-message-box').animate({scrollTop: $('div.discover-message-box')[0].scrollHeight },'slow');
-
-				*/
 			},
 
 			

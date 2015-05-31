@@ -14,7 +14,7 @@ define(['jquery',
 		'text!lib/templates/get_app.html'
 		],
 
-	function($, _, Backbone, nope, swal, API, previewTpl, recordingTpl, socket, user, chatMessageTpl, videoOverlayTpl, completeTpl, getAppTpl){
+	function($, _, Backbone, nope, swal, API, previewTpl, recordingTpl, socket, User, chatMessageTpl, videoOverlayTpl, completeTpl, getAppTpl){
 
 	var recording = false;
 
@@ -22,10 +22,10 @@ define(['jquery',
 		events:{
 			'click .js-start': function(){
 				var self = this;
-				var pos = user.getLocation();
+				var pos = User.getLocation();
 				var title = $('#title').val();
-				var latitude = user.user.get('latitude');
-				var longitude = user.user.get('longitude');
+				var latitude = User.user.get('latitude');
+				var longitude = User.user.get('longitude');
 
 				API.post('/yeps',{
 					staging: 0,
@@ -73,7 +73,7 @@ define(['jquery',
 			this.$el.html(this.previewTpl());
 			$('.js-start').text('waiting...');
 			$('.js-start').attr('disabled',true);
-			user.setLocation(function(err, res){
+			User.setLocation(function(err, res){
 				$('.js-start').html('Go Live!');
 				$('.js-start').attr('disabled',false);
 			}, true);
@@ -89,7 +89,7 @@ define(['jquery',
 					event.preventDefault();
 					socket.emit('message',{
 						message: $('.record-chat-input').val(),
-						user_id: user.user.get('user_id')
+						user_id: User.user.get('user_id')
 					});
 					$('.record-chat-input').val('');
 			    }
@@ -208,11 +208,14 @@ define(['jquery',
 
 		var appendConnectionUsers = function(users){
 
+			console.log(data);
+
 			var connectionUsers = '';
 
 			for(var i = 0; i < users.length; i++){
 				var user = users[i];
-				if(user.user_id === -1){
+				// Skip if it is either a guest or author
+				if(user.user_id === -1 || user.user_id === User.user.get('user_id') ){
 					continue;
 				}
 				connectionUsers += '<a href="/' + user.display_name + '" class="connection-user-link" target="_blank" data-toggle="tooltip" data-placement="bottom" title="' + user.display_name + '" ><img class="connection-user-picture" src="' + user.picture_path + '" /></a>';
@@ -224,10 +227,10 @@ define(['jquery',
 		};
 
 		var room = {
-			user_id: user.user.get('user_id'),
+			user_id: User.user.get('user_id'),
 			yep_id: data.id,
-			display_name: user.user.get('display_name'),
-			picture_path: user.user.get('picture_path'),
+			display_name: User.user.get('display_name'),
+			picture_path: User.user.get('picture_path'),
 			version: 1
 		};
 
