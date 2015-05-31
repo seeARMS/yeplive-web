@@ -522,9 +522,19 @@ define(['jquery',
 
 			render: function(data, options){
 
-				console.log(data);
+				var self = this;
 
 				this.$el.html(this.tpl(data));
+
+				$('#js-close-watch').on('click', function(){
+					console.log('nice');
+					if(User.authed){
+						window.location.replace('/');
+					}
+					else{
+						self.promptLogin();
+					}
+				});
 
 				$('[data-toggle="tooltip"]').tooltip();
 
