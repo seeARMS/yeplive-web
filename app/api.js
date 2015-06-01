@@ -15,6 +15,7 @@ module.exports = (function(){
 
 		if(req.session.passport && req.session.passport.user){
 			var user = req.session.passport.user;
+      user.type = 'web';
 			helpers.postAPI('/auth/social', user, function(err, response, body){
 				if(err || response.statusCode !== 200){
 					if(err) return res.json({erro:'error'});
