@@ -244,7 +244,7 @@ define(['jquery',
 			}
 
 			if( action === 'changeTitle' ){
-				$('.discover-yep-title').html(options.title);
+				$('#discover-yep-title').html(options.title);
 			}
 			
 			if( action === 'delete'){
@@ -860,6 +860,23 @@ define(['jquery',
 
 				if(User.authed){
 					data.followButtonClass += logedInUserId == data.video.yep.user.user_id ? ' disabled' : '';
+				}
+
+				// This is based on a 214 px wide container
+				if(data.video.yep.title.length < 24){
+					data.yepTitleFontSize = 'h3';
+				}
+				else if(data.video.yep.title.length < 39){
+					data.yepTitleFontSize = 'h4';
+				}
+				else if(data.video.yep.title.length < 58 ){
+					data.yepTitleFontSize = 'h5';
+				}
+				else if(data.vide.yep.title.length < 76){
+					data.yepTitleFontSize = 'h6';
+				}
+				else{
+					data.yepTitleFontSize = 'h6';
 				}
 
 				data.yepControllable = data.video.yep.user.user_id == User.user.attributes.user_id ? true : false;

@@ -1186,7 +1186,7 @@ b.chat-user-name{
 }
 
 .watch-video-info{
-	margin-bottom: 25px;
+	margin-bottom: 10px;
 }
 
 .watch-share-btn{
@@ -1280,6 +1280,9 @@ b.chat-user-name{
 
 /* ----- DISCOVER VIEW ------ */
 
+.discover-yep-title{
+	word-wrap: break-word;
+}
 
 img.discover-author-picture{
 	width: 75px;
