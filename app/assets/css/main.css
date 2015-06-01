@@ -856,29 +856,31 @@ img.discover-comment-user-img{
 	border-radius: 30px;
 }
 
-.cluster-1, .cluster-2, .cluster-3{
+.cluster-live, .cluster-vod{
 	line-height: 115px;
 	width: 56px;
 	height: 81px;
+	background-size: 56px 81px;
+	background-repeat: no-repeat;
 }
 
-.cluster-1{
-	background-image: url(/img/map/cluster-marker.png);
+
+
+.cluster-live{
+	background-image: url(/img/map/LIVE_Large_Pin.png);
+	color: white;
 }
 
-.cluster-2{
-	background-image: url(/img/map/cluster-marker.png);
-}
-
-.cluster-3{
-	background-image: url(/img/map/cluster-marker.png);
+.cluster-vod{
+	background-image: url(/img/map/Large_Pin.png);
+	color: red;
 }
 
 .cluster{
-	color: red;
+	
 	text-align: center;
 	font-family: Roboto;
-	font-size: 17px;
+	font-size: 15px;
 	font-weight: bold;
 }
 
@@ -1081,6 +1083,21 @@ img.explorer-landscape{
 	background-color:black;
 }*/
 
+.discover-edit-video{
+	margin-left:10px;
+	cursor: pointer;
+}
+
+.discover-delete-video{
+	margin-left:18px;
+	cursor: pointer;
+}
+
+.discover-connection-users-hr{
+	margin-top:5px;
+	margin-bottom: 5px;
+}
+
 
 /* ----- End of GOOGLE MAP ------ */
 
@@ -1136,7 +1153,7 @@ img.watch-author-picture{
 
 
 div.watch-chat-box{
-	height: 190px;
+	height: 220px;
 	overflow-y: scroll;
 	overflow-x:hidden;
 }

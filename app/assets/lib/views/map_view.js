@@ -31,6 +31,7 @@ define(['jquery',
 		var discoverUI = _.template(discoverTpl);
 		var explorerUI = _.template(explorerTpl);
 		var mapMarkers;
+		var mapMarkersLive;
 
 		var markerClicked = function(marker, event, context){
 			
@@ -115,7 +116,7 @@ define(['jquery',
 				var yepDuration = yep.vod_enable ? helper.videoDurationConverter(parseInt(yep.end_time) - parseInt(yep.start_time)) : 'Live';
 				var yepShortTitle = helper.truncate(yep.title, 15);
 				var yepOwnerName = helper.truncate(yep.user.display_name, 15);
-				var yepControllable = yep.user.user_id == User.user.attributes.user_id ? true : false
+				var yepControllable = yep.user.user_id == User.user.attributes.user_id ? true : false;
 
 				var explorerData = {
 					yepId : yep.id,
@@ -145,6 +146,11 @@ define(['jquery',
 
 			$('[data-toggle="tooltip"]').tooltip();
 
+			registerUserControl();
+		};
+
+		var registerUserControl = function(){
+
 			$('.js-delete-video').on('click', function(){
 				var self = $(this);
 				deleteYep(parseInt(self.attr('value')));
@@ -154,8 +160,8 @@ define(['jquery',
 				var self = $(this);
 				editYep(parseInt(self.attr('id')), self.attr('value'));
 			});
-		};
 
+		};
 
 		var deleteYep = function(yepId){
 			Swal({
@@ -175,7 +181,9 @@ define(['jquery',
 							}
 							if(res.success){
 								Swal("", "Your yep has been deleted.", "success");
-								return updateExplorer('delete', yepId);
+								updateExplorer('delete', yepId);
+								updateDiscover('delete', yepId);
+								return;
 							}
 							else{
 								return Swal("", "Sorry, you are not allowed to delete this yep", "error");
@@ -216,7 +224,9 @@ define(['jquery',
 							}
 							if(res.success){
 								Swal("Nice!", "Your yep title has been changed","success");
-								return updateExplorer('changeTitle', yepId, { title: inputValue });
+								updateDiscover('changeTitle', yepId, { title: inputValue });
+								updateExplorer('changeTitle', yepId, { title: inputValue });
+								return;
 							}
 							else{
 								return Swal("", "Sorry, you are not allowed to edit this yep", "error");
@@ -225,6 +235,21 @@ define(['jquery',
 					);
 				}
 			);
+		};
+
+		var updateDiscover = function(action, yepId, options){
+
+			if(!$('.discover-body').length){
+				return;
+			}
+
+			if( action === 'changeTitle' ){
+				$('.discover-yep-title').html(options.title);
+			}
+			
+			if( action === 'delete'){
+				closeDiscoverView();
+			}
 		};
 
 		var updateExplorer = function(action, yepId, options){
@@ -253,6 +278,13 @@ define(['jquery',
 			$('#map-canvas').gmap3({
 				marker: marker(data)
 			});
+
+			/*
+			setTimeout(function(){
+				$('#map-canvas').gmap3({
+					marker: marker2(data.splice(0,10))
+				});
+			},5000)*/
 		};
 
 		var options = {
@@ -293,6 +325,7 @@ define(['jquery',
 		};
 
 		var marker = function(data){
+			console.log(data);
 			return {
 				values: data,
 				options:{
@@ -317,35 +350,56 @@ define(['jquery',
 						click: clusterClick
 					},
 					0: {
-						content: "<div class='cluster cluster-3'>CLUSTER_COUNT</div>",
+						content: "<div class='cluster cluster-vod'>CLUSTER_COUNT</div>",
 						width: 53,
 						height: 52,
 						offset:{
 							y: -72,
 							x:-26 
 						}
+					}
+				}
+			};
+		};
+
+
+		var marker2 = function(data){
+			return {
+				values: data,
+				options:{
+					draggable: false,
+					icon: 'img/map/yeplive-marker.png'
+				},
+				events:{
+					click: markerClicked,
+					mouseover: markerMousedOver,
+					mouseout: markerMousedOut
+				},
+				cluster:{
+					radius: 20,
+					events:{ // events trigged by clusters 
+						mouseover: function(overlay, event, context){
+							//console.log(context);
+							//$(cluster.main.getDOMElement()).css("border", "1px solid red");
+						},
+						mouseout: function(overlay, event, context){
+							//$(cluster.main.getDOMElement()).css("border", "0px");
+						},
+						click: clusterClick
 					},
-					20: {
-						content: "<div class='cluster cluster-3'>CLUSTER_COUNT</div>",
-						width: 56,
-						height: 55,
+					0: {
+						content: "<div class='cluster cluster-live'>CLUSTER_COUNT</div>",
+						width: 53,
+						height: 52,
 						offset:{
 							y: -72,
 							x:-26 
 						}
-					},
-					50: {
-						content: "<div class='cluster cluster-3'>CLUSTER_COUNT</div>",
-						width: 66,
-						height: 65,
-						offset:{
-							y: -82,
-							x:-26 
-						}
 					}
 				}
-			}
+			};
 		};
+
 
 		var closeDiscoverView = function(){
 
@@ -808,11 +862,15 @@ define(['jquery',
 					data.followButtonClass += logedInUserId == data.video.yep.user.user_id ? ' disabled' : '';
 				}
 
+				data.yepControllable = data.video.yep.user.user_id == User.user.attributes.user_id ? true : false;
+
 				$('div.discover-body').append(discoverUI(data));
 
 				loaderClose();
 
 				$('[data-toggle="tooltip"]').tooltip();
+
+				registerUserControl();
 
 				this.messagingListener(data);
 
