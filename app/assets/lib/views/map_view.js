@@ -223,7 +223,7 @@ define(['jquery',
 								return Swal("", "Oops something went wrong", "warning");
 							}
 							if(res.success){
-								Swal("Nice!", "Your yep title has been changed","success");
+								Swal("Nice!", "Your yep title has been changed" ,"success");
 								updateDiscover('changeTitle', yepId, { title: inputValue });
 								updateExplorer('changeTitle', yepId, { title: inputValue });
 								return;
@@ -245,6 +245,7 @@ define(['jquery',
 
 			if( action === 'changeTitle' ){
 				$('#discover-yep-title').html(options.title);
+				$('.discover-edit-video').attr('value', options.title);
 			}
 			
 			if( action === 'delete'){
@@ -270,6 +271,7 @@ define(['jquery',
 			if( action === 'changeTitle'){
 				// Change Explorer UI
 				$('#explorer-' + yepId + ' .explorer-title').html(options.title);
+				$('#explorer-' + yepId + ' .js-edit-video').attr('value', options.title);
 			}
 		};
 
