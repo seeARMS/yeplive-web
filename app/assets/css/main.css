@@ -1410,6 +1410,16 @@ div.login-continue-webapp{
 
 /* ------------------------- USER PAGE ---------------------------- */
 
+.user-yepControllable{
+	margin-top:20px;
+}
+
+.user-delete-video, .user-edit-video{
+	margin-right:30px;
+	display: inline-block;
+	cursor:pointer;
+}
+
 .user-profile-picture{
 	width: 200px;
 	height: 200px;

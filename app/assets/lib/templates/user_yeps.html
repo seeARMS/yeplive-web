@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row <%- id %>">
 	<div class="col-md-5">
 		<div class="user-yeps-video">
 			<a href="<%- watchYep %>">
@@ -16,7 +16,7 @@
 	<div class="col-md-4 text-center-mobile">
 		<div class="row">
 			<div class="col-md-12">
-				<h1><%- title %></h1>
+				<h1 class="user-yep-title"><%- title %></h1>
 			</div>
 		</div>
 		<div class="row user-yeps-profile-id">
@@ -43,6 +43,21 @@
 				<h3><%- video_timeElapsed %></h3>
 			</div>
 		</div>
+
+		<% if(yepControllable){ %>
+
+		<div class="row user-yepControllable">
+			<div class="col-sm-12">
+				<span value="<%- id %>" class="user-delete-video js-delete-video" data-toggle="tooltip" data-placement="bottom" title="Remove this video">
+					<i class="fa fa-trash-o fa-lg fa-2x"></i>
+				</span>
+				<span value="<%- title %>" id="<%- id %>" class="user-edit-video js-edit-video" data-toggle="tooltip" data-placement="bottom" title="Edit this video">
+					<i class="fa fa-cog fa-lg fa-2x"></i>
+				</span>
+			</div>
+		</div>
+
+		<% } %>
 	</div>
 </div>
 <hr />
