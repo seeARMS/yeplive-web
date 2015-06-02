@@ -327,7 +327,6 @@ define(['jquery',
 		};
 
 		var marker = function(data){
-			console.log(data);
 			return {
 				values: data,
 				options:{
