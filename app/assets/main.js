@@ -19,7 +19,8 @@ requirejs.config({
 		socketio: 'vendor/socket.io-client/socket.io',
 		swal: 'vendor/sweetalert/dist/sweetalert.min',
 		facebook: '//connect.facebook.net/en_US/sdk',
-		twitter: 'vendor/twitter-share/twitter-share'
+		twitter: 'vendor/twitter-share/twitter-share',
+		footer: 'lib/footer'
 	},
 	shim:{
 		backbone: {
@@ -46,6 +47,9 @@ requirejs.config({
 		},
 		markerWithLabel:{
 			deps: ['gmap3', 'lib/map']
+		},
+		footer:{
+			dep: ['jquery']
 		}
 	}
 });

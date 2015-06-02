@@ -348,13 +348,26 @@ ul.navbar-button{
 
 .footer{
 	background:black;
-	height:50px;
+	height:20px;
 	width:100%;
 	position:absolute;
 	bottom:0px;
 	left:0px;
 	z-index:10;
-	opacity:0.5;
+	opacity:0.6;
+}
+
+.footer-content{
+	text-align: center;
+	color: white;
+}
+
+.footer-terms-of-use, .footer-privacy-policy, .footer-content-policy{
+	cursor: pointer;
+}
+
+.footer-terms-of-use:hover, .footer-privacy-policy:hover, .footer-content-policy:hover{
+	text-decoration: underline;
 }
 
 .down-arrow{
