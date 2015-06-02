@@ -404,6 +404,10 @@ define(['jquery',
 
 		var closeDiscoverView = function(){
 
+			if(!('div.discover-body').length){
+				return;
+			}
+
 			$('div.discover-body').remove();
 
 			$('div#map-canvas').css('opacity', '1');
@@ -556,11 +560,14 @@ define(['jquery',
 					},
 					marker: marker
 				});
-				//App.Map.el = document.getElementById('map-canvas');
-				//App.Map.$el = $('#map-canvas');
-				//App.Map.initialize();
-				//	this.showMarkers();
-				//google.maps.event.addDomListener(window, 'load', Map.initialize);
+				
+
+				$(document).keyup(function(e){
+					if (e.keyCode == 27){
+						closeDiscoverView();
+					}
+				});
+
 			},
 
 			getYepInfo: function(yepId, cb){
