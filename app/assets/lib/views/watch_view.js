@@ -31,7 +31,7 @@ define(['jquery',
 				if(user.user_id === -1){
 					continue;
 				}
-				connectionUsers += '<a href="/' + user.display_name + '" class="connection-user-link" target="_blank" data-toggle="tooltip" data-placement="bottom" title="' + user.display_name + '" ><img class="connection-user-picture" src="' + user.picture_path + '" /></a>';
+				connectionUsers += '<a href="/' + user.display_name + '" class="connection-user-link" target="_blank" data-toggle="tooltip" data-placement="bottom" title="' + user.display_name + '" ><div class="connection-user-picture" style="background-image:url(' + user.picture_path + ');" /></div></a>';
 			}
 
 			$('.connection-users').html(connectionUsers);

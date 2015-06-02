@@ -45,7 +45,8 @@
 			<div id="close-discover" class="close-discover">X</div>
 			<div class="row watch-video-info">
 				<div class="col-xs-3">
-					<img class="discover-author-picture" src="<%- video.yep.user.picture_path %>" />
+					<div class="discover-profile-picture" style="background-image: url('<%- video.yep.user.picture_path %>');"></div>
+					<!--<img class="discover-author-picture" src="<%- video.yep.user.picture_path %>" />-->
 					<a href="/<%- video.yep.user.display_name %>" >
 						<h5 class="discover-author-name text-center" ><%- video.yep.user.display_name %></h5>
 					</a>

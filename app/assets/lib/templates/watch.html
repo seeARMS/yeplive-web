@@ -51,7 +51,8 @@
 			<div class="row watch-video-info">
 
 				<div class="col-xs-3 text-center">
-					<img class="watch-author-picture" src="<%- video.yep.user.picture_path %>" style="margin-left:10px" />
+					<div class="watch-profile-picture" style="background-image: url('<%- video.yep.user.picture_path %>');"></div>
+					<!--<img class="watch-author-picture" src="<%- video.yep.user.picture_path %>" style="margin-left:10px" />-->
 					<a href="/<%- video.yep.user.display_name %>" >
 						<h5 style="margin-top:10px;margin-left:15px;text-align:center;"><%- video.yep.user.display_name %></h5>
 					</a>
