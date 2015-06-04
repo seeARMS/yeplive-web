@@ -355,6 +355,19 @@ define(['jquery',
 						}
 						else {
 							if(data.video.yep.portrait && ! data.video.yep.front_facing){
+                  if($('#playVideo_html5_api')[0]){
+                    this.zoomrotate({
+                      rotate: 90,
+                      zoom: 1
+                    });
+                  }
+									if($(window).width() < 600){
+										var width = $('#playVideo_html5_api').css('width');
+										var height = $('#playVideo_html5_api').css('height');
+										$('#playVideo_html5_api').css('width',height);
+										$('#playVideo_html5_api').css('height',width);
+									}
+
 								var width = $('#playVideo_flash_api').css('width');
 								var height = $('#playVideo_flash_api').css('height');
 								$('#playVideo_flash_api').css('width',height);
@@ -368,6 +381,18 @@ define(['jquery',
 								).css("transform","rotate(90deg)");
 							}
 							else if(data.video.yep.portrait && data.video.yep.front_facing){
+                if($('#playVideo_html5_api')[0]){
+                    this.zoomrotate({
+                      rotate: 270,
+                      zoom: 1
+                    });
+                  }
+									if($(window).width() < 600){
+										var width = $('#playVideo_html5_api').css('width');
+										var height = $('#playVideo_html5_api').css('height');
+										$('#playVideo_html5_api').css('width',height);
+										$('#playVideo_html5_api').css('height',width);
+									}
 								var width = $('#playVideo_flash_api').css('width');
 								var height = $('#playVideo_flash_api').css('height');
 								$('#playVideo_flash_api').css('width',height);
