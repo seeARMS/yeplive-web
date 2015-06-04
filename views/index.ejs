@@ -42,11 +42,7 @@
 		<link href='http://fonts.googleapis.com/css?family=Roboto:100,300,400' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="/css/animate.css" />
 		<link rel="stylesheet" href="/css/main.css" />
-		<link rel="stylesheet" href="/vendor/sweetalert/lib/sweet-alert.css" />
-<script
-  src="//d2wy8f7a9ursnm.cloudfront.net/bugsnag-2.min.js"
-  data-apikey="928d71d071fbc16f9e8fe762e674167c">
-</script>
+		<script src="//d2wy8f7a9ursnm.cloudfront.net/bugsnag-2.min.js" data-apikey="928d71d071fbc16f9e8fe762e674167c"></script>
 		<link rel="stylesheet" href="/vendor/sweetalert/dist/sweetalert.css" />
 		<script>
 			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -68,13 +64,62 @@
 			<div class="yeplive-loading">
 				<div class="loader-center-outside">
 					<div class="loader-center-inside">
-					<div class="loader2"></div>
-				</div>
+						<div class="loader2"></div>
+					</div>
 				</div>
 			</div>
 		</div>
 
-	
+		<footer class="footer">
+			<div class="container">
+				<div class="footer-content">
+					© 2015 Yeplive™ Inc. All rights reserved. / <span class="footer-terms-of-use">Terms of Use</span> / <span class="footer-privacy-policy">Privacy Policy</span> / <span class="footer-content-policy">Content Policy</span>
+				</div>
+			</div>
+		</footer>
+
+		<div class="modal fade terms-of-use-modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header text-center">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h3 class="modal-title">Yeplive™ Terms of Use</h3>
+					</div>
+					<div class="modal-body" id="terms-of-use-modal"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade privacy-policy-modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header text-center">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h3 class="modal-title">Yeplive™ Privacy Policy</h3>
+					</div>
+					<div class="modal-body" id="privacy-policy-modal"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade content-policy-modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header text-center">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h3 class="modal-title">Yeplive™ Content Policy & Community Guidelines</h3>
+					</div>
+					<div class="modal-body" id="content-policy-modal"></div>
+				</div>
+			</div>
+		</div>
+
 		<script src="/require.js" data-main="/main" ></script>
 
 	</body>

@@ -20,7 +20,8 @@
 					<% if(User) { %>
 						<div class="dropdown">
 <!--							<div class="user-picture-container" style="background-image:url('<%- User.get('picture_path') %>');"></div>-->
-							 <img src="<%- User.get('picture_path') %>" class="img-user img-circle" data-toggle="dropdown" />
+							 <!--<img src="<%- User.get('picture_path') %>" class="img-user img-circle" data-toggle="dropdown" />-->
+							 <div class="img-user" style="background-image: url('<%- User.get('picture_path') %>');" data-toggle="dropdown"></div>
 							 <ul class="user-dropdown dropdown-menu" role="menu" aria-labelledby="dLabel">
 							<!--
 								<li role="presentation">

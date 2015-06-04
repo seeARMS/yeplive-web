@@ -51,7 +51,8 @@
 			<div class="row watch-video-info">
 
 				<div class="col-xs-3 text-center">
-					<img class="watch-author-picture" src="<%- video.yep.user.picture_path %>" style="margin-left:10px" />
+					<div class="watch-profile-picture" style="background-image: url('<%- video.yep.user.picture_path %>');"></div>
+					<!--<img class="watch-author-picture" src="<%- video.yep.user.picture_path %>" style="margin-left:10px" />-->
 					<a href="/<%- video.yep.user.display_name %>" >
 						<h5 style="margin-top:10px;margin-left:15px;text-align:center;"><%- video.yep.user.display_name %></h5>
 					</a>
@@ -63,7 +64,9 @@
 				</div>
 
 				<div class="col-xs-6 text-center">
-					<h3 style="margin-top:0px"><%- video.yep.title %></h3>
+					<div class="watch-yep-title">
+						<h3 id="watch-yep-title" style="margin-top:0px"><%- video.yep.title %></h3>
+					</div>
 					<p><%- video.timeElapsed %></p>
 					<p>
 					<i data-toggle="tooltip" data-placement="bottom" title="Share on Facebook" id="share-fb" class="watch-share-btn fa fa-facebook-square fa-2x" /></i>
@@ -76,18 +79,36 @@
 				</div>
 				<div class="col-xs-3">
 					<div class="watch-view-count" ><h5><span class="watch-view-count"><%- video.yep.views %></span> views</h5></div>
-					<h5><span class="watch-vote-count"><%- video.yep.vote_count %></span> stars</h5>
+					<!--<h5><span class="watch-vote-count"><%- video.yep.vote_count %></span> stars</h5>-->
+					<h5><span class="watch-vote-count"><%- video.yep.vote_count %></span> <img src='/img/star-icon.png' width="18px" heigh="18px" style="margin-bottom: 4px;" /></h5>
 					<h5><span class="connection-count">0</span> viewing</h5>
+
+				<% if(yepControllable) { %>
+				
+					<br>
+					<div class="row">
+						<span value="<%- video.yep.id %>" class="discover-delete-video js-delete-video" data-toggle="tooltip" data-placement="bottom" title="Remove this video">
+							<i class="fa fa-trash-o fa-lg"></i>
+						</span>
+
+						<span value="<%- video.yep.title %>" id="<%- video.yep.id %>" class="discover-edit-video js-edit-video" data-toggle="tooltip" data-placement="bottom" title="Edit this video">
+							<i class="fa fa-cog fa-lg"></i>
+						</span>
+					</div>
+
+				<% } %>
+
 				</div>
 
 			</div>
-			<hr style="margin-top:10px" />
+
+			<hr class="discover-connection-users-hr" />
 
 			<div class="row">
 				<div class="connection-users"></div>
 			</div>
 
-			<hr />
+			<hr class="discover-connection-users-hr" />
 
 			<div class="row">
 

@@ -31,12 +31,105 @@ define(['jquery',
 				if(user.user_id === -1){
 					continue;
 				}
-				connectionUsers += '<a href="/' + user.display_name + '" class="connection-user-link" target="_blank" data-toggle="tooltip" data-placement="bottom" title="' + user.display_name + '" ><img class="connection-user-picture" src="' + user.picture_path + '" /></a>';
+				connectionUsers += '<a href="/' + user.display_name + '" class="connection-user-link" target="_blank" data-toggle="tooltip" data-placement="bottom" title="' + user.display_name + '" ><div class="connection-user-picture" style="background-image:url(' + user.picture_path + ');" /></div></a>';
 			}
 
 			$('.connection-users').html(connectionUsers);
 
 			$('[data-toggle="tooltip"]').tooltip();
+		};
+
+		var registerUserControl = function(){
+
+			$('.js-delete-video').on('click', function(){
+				var self = $(this);
+				deleteYep(parseInt(self.attr('value')));
+			});
+
+			$('.js-edit-video').on('click', function(){
+				var self = $(this);
+				editYep(parseInt(self.attr('id')), self.attr('value'));
+			});
+
+		};
+
+		var deleteYep = function(yepId){
+			Swal({
+				title: "Do you want to remove this yep?",
+				text: "You will not be able to recover once you remove it!",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "Yes, delete it!",
+				closeOnConfirm: false
+				},function(){
+					Api.delete('/yeps/' + yepId, {},
+						window.localStorage.getItem('token'),
+						function(err, res){
+							if(err){
+								return Swal("", "Oops something went wrong", "warning");
+							}
+							if(res.success){
+								Swal("", "Your yep has been deleted.", "success");
+								setTimeout(function(){
+									window.location.replace('/');
+								},1000);
+								return;
+							}
+							else{
+								return Swal("", "Sorry, you are not allowed to delete this yep", "error");
+							}
+						}
+					);
+					
+				}
+			);
+		};
+
+		var editYep = function(yepId, yepTitle){
+			Swal({
+				title: "Enter a new title for your yep",
+				text: "Write something interesting with hashtag tags:",
+				type: "input",
+				inputValue: yepTitle,
+				showCancelButton: true,
+				closeOnConfirm: false
+				}, function(inputValue){
+					if (inputValue === false){
+						return false;
+					}      
+					if (inputValue === ""){
+						swal.showInputError("Title can not be empty");
+						return false;
+					}
+					if (inputValue === yepTitle){
+						swal.showInputError("Title is the same as the old one");
+						return false;
+					}
+					Api.put('/yeps/' + yepId,
+						{ title: inputValue },
+						window.localStorage.getItem('token'),
+						function(err, res){
+							if(err){
+								return Swal("", "Oops something went wrong", "warning");
+							}
+							if(res.success){
+								Swal("Nice!", "Your yep title has been changed", "success");
+								updateWatch(inputValue);
+								return;
+							}
+							else{
+								return Swal("", "Sorry, you are not allowed to edit this yep", "error");
+							}
+						}
+					);
+				}
+			);
+		};
+
+		var updateWatch = function(title){
+			$('#watch-yep-title').html(title);
+			$('.js-edit-video').attr('value', title);
 		};
 
 		var WatchView = Backbone.View.extend({
@@ -141,7 +234,10 @@ define(['jquery',
 						var logedInUserId = User.user.get('user_id');
 
 						data.followButtonClass += logedInUserId == data.video.yep.user.user_id ? ' disabled' : '';
+
 					}
+
+					data.yepControllable = data.video.yep.user.user_id == User.user.attributes.user_id ? true : false;
 
 					self.render(data, options);
 				});
@@ -559,6 +655,8 @@ define(['jquery',
 				});
 
 				$('[data-toggle="tooltip"]').tooltip();
+
+				registerUserControl();
 
 				this.addMessagingListener(options);
 				this.registerFollowAction(data.video.yep.user.user_id);

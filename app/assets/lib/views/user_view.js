@@ -11,7 +11,7 @@ define(['jquery',
 		'text!lib/templates/user_no_data.html',
 		'lib/api'
 	],
-	function($, _, Async, Swal, User, Helper, Backbone, userTpl, yepsTpl, followTpl, noDataTpl, API){
+	function($, _, Async, Swal, User, Helper, Backbone, userTpl, yepsTpl, followTpl, noDataTpl, Api){
 
 		var videoSort = function(a,b) {
 			if (a.start_time < b.start_time){
@@ -23,6 +23,104 @@ define(['jquery',
 			return 0;
 		};
 
+		var registerUserControl = function(){
+
+			$('.js-delete-video').on('click', function(){
+				var self = $(this);
+				deleteYep(parseInt(self.attr('value')));
+			});
+
+			$('.js-edit-video').on('click', function(){
+				var self = $(this);
+				editYep(parseInt(self.attr('id')), self.attr('value'));
+			});
+
+		};
+
+		var deleteYep = function(yepId){
+			Swal({
+				title: "Do you want to remove this yep?",
+				text: "You will not be able to recover once you remove it!",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "Yes, delete it!",
+				closeOnConfirm: false
+				},function(){
+					Api.delete('/yeps/' + yepId, {},
+						window.localStorage.getItem('token'),
+						function(err, res){
+							if(err){
+								return Swal("", "Oops something went wrong", "warning");
+							}
+							if(res.success){
+								Swal("", "Your yep has been deleted.", "success");
+								updateUser('delete', yepId);
+								return;
+							}
+							else{
+								return Swal("", "Sorry, you are not allowed to delete this yep", "error");
+							}
+						}
+					);
+					
+				}
+			);
+		};
+
+		var editYep = function(yepId, yepTitle){
+			Swal({
+				title: "Enter a new title for your yep",
+				text: "Write something interesting with hashtag tags:",
+				type: "input",
+				inputValue: yepTitle,
+				showCancelButton: true,
+				closeOnConfirm: false
+				}, function(inputValue){
+					if (inputValue === false){
+						return false;
+					}      
+					if (inputValue === ""){
+						swal.showInputError("Title can not be empty");
+						return false;
+					}
+					if (inputValue === yepTitle){
+						swal.showInputError("Title is the same as the old one");
+						return false;
+					}
+					Api.put('/yeps/' + yepId,
+						{ title: inputValue },
+						window.localStorage.getItem('token'),
+						function(err, res){
+							if(err){
+								return Swal("", "Oops something went wrong", "warning");
+							}
+							if(res.success){
+								Swal("Nice!", "Your yep title has been changed" ,"success");
+								updateUser('changeTitle', yepId, { title: inputValue });
+								return;
+							}
+							else{
+								return Swal("", "Sorry, you are not allowed to edit this yep", "error");
+							}
+						}
+					);
+				}
+			);
+		};
+
+
+		var updateUser = function(action, yepId, options){
+			if( action === 'delete' ){
+				// Remove UI
+				$('div.' + yepId).remove();
+			}
+			if( action === 'changeTitle'){
+				$('div.' + yepId + ' .user-yep-title').html(options.title);
+				$('div.' + yepId + ' .js-edit-video').attr('value', options.title);
+			}
+		};
+
 		var UserView = Backbone.View.extend({
 
 			tpl: _.template(userTpl),
@@ -32,7 +130,7 @@ define(['jquery',
 
 			getUserInfo: function(userId, cb){
 
-				API.get('/users/' + userId,
+				Api.get('/users/' + userId,
 					window.localStorage.getItem('token'),
 					function(err, user){
 
@@ -56,6 +154,10 @@ define(['jquery',
 
 						if(logedInUserId == userId){
 							user.followButtonClass += ' disabled';
+							user.yepControllable = 1;
+						}
+						else{
+							user.yepControllable = 0;
 						}
 
 						return cb(null, user);
@@ -66,7 +168,7 @@ define(['jquery',
 
 			getUserYeps: function(userId, cb){
 
-				API.get('/users/' + userId + '/yeps', function(err, yeps){
+				Api.get('/users/' + userId + '/yeps', function(err, yeps){
 
 					if( err ){
 						var data = { success : 0 };
@@ -77,8 +179,6 @@ define(['jquery',
 			},
 
 			initialize: function(opts){
-
-				console.log(opts);
 
 				var userId = opts.userId;
 				var self = this;
@@ -119,7 +219,7 @@ define(['jquery',
 					self.clearUserContents();
 					self.toggleContentsView('following');
 
-					API.get('/users/' + userId + '/following', function(err, followings){
+					Api.get('/users/' + userId + '/following', function(err, followings){
 
 						if(err){
 							console.log(err); 
@@ -153,7 +253,7 @@ define(['jquery',
 					self.clearUserContents();
 					self.toggleContentsView('followers');
 
-					API.get('/users/' + userId + '/followers', function(err, followers){
+					Api.get('/users/' + userId + '/followers', function(err, followers){
 
 						if(err){
 							return Swal("Warning", "Something is wrong", "warning");
@@ -176,7 +276,7 @@ define(['jquery',
 				});
 			},
 
-			registerShowYeps: function(userId){
+			registerShowYeps: function(userId, yepControllable){
 
 				var self = this;
 
@@ -186,7 +286,7 @@ define(['jquery',
 					self.toggleContentsView('yeps');
 
 
-					API.get('/users/' + userId + '/yeps', function(err, yeps){
+					Api.get('/users/' + userId + '/yeps', function(err, yeps){
 
 						if( err ){
 							return Swal("Warning", "Something is wrong", "warning");
@@ -204,6 +304,8 @@ define(['jquery',
 						yeps.yeps.sort(videoSort);
 
 						yeps.yeps.forEach(function(yep, index){
+
+							yep.yepControllable = yepControllable;
 
 							yep.video_timeElapsed = Helper.timeElapsedCalculator((currentTime / 1000) - yep.start_time);
 
@@ -230,6 +332,9 @@ define(['jquery',
 							$userContents.append(self.displayYeps(yep));
 						});
 
+						$('[data-toggle="tooltip"]').tooltip();
+						registerUserControl();
+
 					});
 
 				});
@@ -253,7 +358,7 @@ define(['jquery',
 
 					if(current === 'follow'){
 
-						API.post('/users/' + userId + '/following', {}, window.localStorage.getItem('token'),
+						Api.post('/users/' + userId + '/following', {}, window.localStorage.getItem('token'),
 
 							function(err, res){
 
@@ -272,7 +377,7 @@ define(['jquery',
 					}
 					else if(current === 'unfollow'){
 
-						API.delete('/users/' + userId + '/following', {}, window.localStorage.getItem('token'),
+						Api.delete('/users/' + userId + '/following', {}, window.localStorage.getItem('token'),
 
 							function(err, res){
 
@@ -318,6 +423,8 @@ define(['jquery',
 
 					var yep = data.yeps.yeps[i];
 
+					yep.yepControllable = data.user.yepControllable;
+
 					yep.video_timeElapsed = Helper.timeElapsedCalculator((currentTime / 1000) - yep.start_time);
 
 					yep.video_duration = yep.vod_enable ? Helper.videoDurationConverter(yep.end_time - yep.start_time) : 'LIVE';
@@ -343,12 +450,14 @@ define(['jquery',
 
 					$userContents.prepend(self.displayYeps(yep));
 				}
+
+				$('[data-toggle="tooltip"]').tooltip();
 				
 				$('.user-stars h2').prepend(starCount);
 				
-				
+				registerUserControl();
 				this.toggleContentsView('yeps');
-				this.registerShowYeps(userId);
+				this.registerShowYeps(userId, data.user.yepControllable);
 				this.registerShowFollowing(userId);
 				this.registerShowFollowers(userId);
 				this.registerFollowAction(userId);

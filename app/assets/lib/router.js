@@ -8,10 +8,11 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 				'lib/views/create_yep_view',
 				'lib/views/not_found_view',
 				'text!lib/templates/download_app_modal.html',
-				'bootstrap'
+				'bootstrap',
+				'footer'
 ],
 
-	function($, _, Backbone, MapView, NavbarView, LoginView, WatchView, UserView, TagView, User, API, CreateYepView, NotFoundView, DownloadAppTpl, BS){
+	function($, _, Backbone, MapView, NavbarView, LoginView, WatchView, UserView, TagView, User, API, CreateYepView, NotFoundView, DownloadAppTpl, BS, footer){
 
 	var AppRouter = Backbone.Router.extend({
 		routes:{
@@ -168,7 +169,6 @@ define(['jquery', 'underscore', 'backbone', 'lib/views/map_view', 'lib/views/nav
 						return appRouter.navigate('404', true);
 					}
 				} else {
-					console.log(res);
 					navbarView = new NavbarView({el: '#navbar', redirect : '%2F' + actions });
 					currentView = new UserView({el: '#main', userId : res.user_id});
 					showMobile();

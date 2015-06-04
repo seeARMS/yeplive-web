@@ -278,11 +278,17 @@ body{
 }
 
 .img-user{
-	cursor:pointer;
-	margin-top:0.5em;
-	margin-right:1em;
 	height:60px;
 	width:60px;
+	cursor:pointer;
+	position: relative;
+	top: 9px;
+	background-size: cover;
+	margin:0 auto;
+	margin-left:17px;
+	background-position: center center;
+	background-repeat: no-repeat;
+	padding: 15px 15px 0;
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
@@ -348,13 +354,26 @@ ul.navbar-button{
 
 .footer{
 	background:black;
-	height:50px;
+	height:20px;
 	width:100%;
-	position:absolute;
+	position:fixed;
 	bottom:0px;
 	left:0px;
 	z-index:10;
-	opacity:0.5;
+	opacity:0.6;
+}
+
+.footer-content{
+	text-align: center;
+	color: white;
+}
+
+.footer-terms-of-use, .footer-privacy-policy, .footer-content-policy{
+	cursor: pointer;
+}
+
+.footer-terms-of-use:hover, .footer-privacy-policy:hover, .footer-content-policy:hover{
+	text-decoration: underline;
 }
 
 .down-arrow{
@@ -732,16 +751,24 @@ img.loading{
 
 .connection-users{
 	padding-left:30px;
+	padding-top: 5px;
 }
 
 .connection-user-link{
 	margin-right:10px;
 }
 
-img.connection-user-picture{
-	width:30px;
-	height:30px;
-	border-radius:30px;
+.connection-user-picture{
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 }
 
 /* ----- END OF RECORDING VIEW ------ */
@@ -856,29 +883,31 @@ img.discover-comment-user-img{
 	border-radius: 30px;
 }
 
-.cluster-1, .cluster-2, .cluster-3{
+.cluster-live, .cluster-vod{
 	line-height: 115px;
 	width: 56px;
 	height: 81px;
+	background-size: 56px 81px;
+	background-repeat: no-repeat;
 }
 
-.cluster-1{
-	background-image: url(/img/map/cluster-marker.png);
+
+
+.cluster-live{
+	background-image: url(/img/map/LIVE_Large_Pin.png);
+	color: white;
 }
 
-.cluster-2{
-	background-image: url(/img/map/cluster-marker.png);
-}
-
-.cluster-3{
-	background-image: url(/img/map/cluster-marker.png);
+.cluster-vod{
+	background-image: url(/img/map/Large_Pin.png);
+	color: red;
 }
 
 .cluster{
-	color: red;
+	
 	text-align: center;
 	font-family: Roboto;
-	font-size: 17px;
+	font-size: 15px;
 	font-weight: bold;
 }
 
@@ -889,6 +918,19 @@ img.discover-comment-user-img{
 
 .cluster-wrapper{
 	overflow: hidden;
+}
+
+.explorer-profile-picture{
+	width: 25px;
+	height: 25px;
+	background-size: cover;
+	margin:0 auto;
+	background-position: center center;
+	background-repeat: no-repeat;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 }
 
 .explorer-wrapper {
@@ -1081,6 +1123,21 @@ img.explorer-landscape{
 	background-color:black;
 }*/
 
+.discover-edit-video{
+	margin-left:10px;
+	cursor: pointer;
+}
+
+.discover-delete-video{
+	margin-left:18px;
+	cursor: pointer;
+}
+
+.discover-connection-users-hr{
+	margin-top:5px;
+	margin-bottom: 5px;
+}
+
 
 /* ----- End of GOOGLE MAP ------ */
 
@@ -1136,7 +1193,7 @@ img.watch-author-picture{
 
 
 div.watch-chat-box{
-	height: 190px;
+	height: 220px;
 	overflow-y: scroll;
 	overflow-x:hidden;
 }
@@ -1158,18 +1215,30 @@ input.watch-chat-input, input.record-chat-input{
 }
 
 
-img.chat-picture{
+.chat-picture{
 	width: 25px;
 	height: 25px;
+	display: inline-block;
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 }
 
-b.chat-user-name{
+.chat-user-name{
 	font-family: 'roboto';
 	font-weight: 200;
+	display: inline-block;
+	position: relative;
+	bottom: 6px;
+	left: 3px;
 }
 
 .watch-video-info{
-	margin-bottom: 25px;
+	margin-bottom: 10px;
 }
 
 .watch-share-btn{
@@ -1257,6 +1326,28 @@ b.chat-user-name{
     }
 }
 
+
+.watch-yep-title{
+	word-wrap: break-word;
+}
+
+.watch-profile-picture{
+	width: 75px;
+	height: 75px;
+	background-size: cover;
+	margin:0 auto;
+	margin-left:17px;
+	background-position: center center;
+	background-repeat: no-repeat;
+	padding: 15px 15px 0;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	border: 2px solid #ddd;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+
 /* ----- End of WATCH VIEW ------ */
 
 
@@ -1264,11 +1355,23 @@ b.chat-user-name{
 /* ----- DISCOVER VIEW ------ */
 
 
-img.discover-author-picture{
+.discover-profile-picture{
 	width: 75px;
 	height: 75px;
+	background-size: cover;
+	margin:0 auto;
+	background-position: center center;
+	background-repeat: no-repeat;
+	padding: 15px 15px 0;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
 	border-radius: 50%;
-	margin-left:10px;
+	border: 2px solid #ddd;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.discover-yep-title{
+	word-wrap: break-word;
 }
 
 .discover-author-name{
@@ -1370,6 +1473,16 @@ div.login-continue-webapp{
 
 
 /* ------------------------- USER PAGE ---------------------------- */
+
+.user-yepControllable{
+	margin-top:20px;
+}
+
+.user-delete-video, .user-edit-video{
+	margin-right:30px;
+	display: inline-block;
+	cursor:pointer;
+}
 
 .user-profile-picture{
 	width: 200px;
@@ -1555,8 +1668,7 @@ div.user-view{
 	}
 
 	.img-user{
-		margin-top:0.5em;
-		margin-right:0.5em;
+		top:5px;
 		height:55px;
 		width:55px;
 	}
@@ -1620,11 +1732,6 @@ div.user-view{
 
 	}
 	*/
-
-	img.chat-picture{
-		width: 25px;
-		height: 25px;
-	}
 	
 	.chat-message{
 		padding-left: 8px;
@@ -1687,8 +1794,7 @@ div.user-view{
 	}
 
 	.img-user{
-		margin-top:0.5em;
-		margin-right:0.5em;
+		top:3px;
 		height:50px;
 		width:50px;
 	}
@@ -1782,8 +1888,7 @@ div.user-view{
 	}
 
 	.img-user{
-		margin-top:0.5em;
-		margin-right:0.5em;
+		top:3px;
 		height:45px;
 		width:45px;
 	}
@@ -1923,8 +2028,7 @@ div.user-view{
 	}
 
 	.img-user{
-		margin-top:1em;
-		margin-right:0.5em;
+		top:13px;
 		height:40px;
 		width:40px;
 	}
