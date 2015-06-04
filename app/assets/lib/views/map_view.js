@@ -855,6 +855,8 @@ define(['jquery',
 
 			renderDiscover: function(data){
 
+				console.log(data);
+
 				var currentTime = (new Date).getTime()/1000;
 				var timeDiff = currentTime - data.video.yep.start_time;
 

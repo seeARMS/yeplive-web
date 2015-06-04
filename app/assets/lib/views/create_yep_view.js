@@ -14,11 +14,12 @@ define(['jquery',
 		'text!lib/templates/get_app.html'
 		],
 
-	function($, _, Backbone, nope, swal, API, previewTpl, recordingTpl, socket, User, chatMessageTpl, videoOverlayTpl, completeTpl, getAppTpl){
+	function($, _, Backbone, nope, Swal, Api, previewTpl, recordingTpl, socket, User, chatMessageTpl, videoOverlayTpl, completeTpl, getAppTpl){
 
 	var recording = false;
 
 	var CreateYepView = Backbone.View.extend({
+		/*
 		events:{
 			'click .js-start': function(){
 				var self = this;
@@ -27,24 +28,25 @@ define(['jquery',
 				var latitude = User.user.get('latitude');
 				var longitude = User.user.get('longitude');
 
-				API.post('/yeps',{
+				Api.post('/yeps',{
 					staging: 0,
 					title: title,
 					latitude: latitude,
 					longitude: longitude 
 				}, window.localStorage.getItem('token'), function(err, res){
 					if(err){
-						return swal("Warning", "Something is wrong", "warning");
+						return Swal("", "Something is wrong", "warning");
 					}
 					res.title = title;
 					self.renderRecorder(res);	
 					setTimeout(function(){
-						API.post('/thumbnail/'+res.id,{},window.localStorage.getItem('token'), function(err, tres){
+						Api.post('/thumbnail/'+res.id,{},window.localStorage.getItem('token'), function(err, tres){
 						});
 					},5000);
 				});
 			}
-		},
+		},*/
+
 		previewTpl: _.template(previewTpl),
 		recordingTpl: _.template(recordingTpl),
 		completeTpl: _.template(completeTpl),
@@ -56,8 +58,14 @@ define(['jquery',
 				this.$el.html(this.getAppTpl());
 				return;
 			}
-			this.renderPreview();
+			this.setUserLocation();
+			this.$el.html(this.recordingTpl());
+			this.showOverlay();
+			this.renderRecorder();
+			setupHDFVR('test', false);
+			$('[data-toggle="tooltip"]').tooltip();
 		},
+
 		isMobile: function(){
 			var ua = navigator.userAgent.toLowerCase();
 			if(navigator.appVersion.indexOf("iPad") != -1 || navigator.appVersion.indexOf("iPhone") != -1 || ua.indexOf("android") != -1 || ua.indexOf("ipod") != -1 || ua.indexOf("windows ce") != -1 || ua.indexOf("windows phone") != -1){
@@ -65,25 +73,41 @@ define(['jquery',
 			}
 			return false;
 		},
+
 		close: function(){
 			socket.emit('leave_room');
 			window.onbeforeunload = false;
 		},
-		renderPreview: function(){
-			this.$el.html(this.previewTpl());
-			$('.js-start').text('waiting...');
-			$('.js-start').attr('disabled',true);
+
+		setUserLocation: function(){
+			Swal({ 	title: "",
+					text: "Getting Your Location...",
+					imageUrl: "img/geo-location-loader.gif",
+					showConfirmButton: false });
+
 			User.setLocation(function(err, res){
-				$('.js-start').html('Go Live!');
-				$('.js-start').attr('disabled',false);
+
+				if(err){
+					//Do something
+				}
+
+				Swal.close();
 			}, true);
-			setupHDFVR('livestream');
 		},
 
-		showOverlay: function(res){
+		showOverlay: function(){
 
-			$('div.recording-chat').append(this.chatTpl(res));
+			var self = this;
+
+			var obj = {
+				display_name : User.user.get('display_name')
+			}
+
+			$('div.recording-chat').append(this.chatTpl(obj));
+
+			$('.record-title-input').focus();
 			
+			// Register Chat Listener
 			$(".record-chat-input").bind("keypress", function(event) {
 				if(event.which == 13) {
 					event.preventDefault();
@@ -94,26 +118,33 @@ define(['jquery',
 					$('.record-chat-input').val('');
 			    }
 			});
-		},
+			
 
-		renderRecorder: function(res){
+			// When Recording Begins
+			$('#js-record').on('click', function(){
 
-			var self = this;
+				var pos = User.getLocation();
+				var title = $('.record-title-input').val() == '' ? User.user.get('display_name') + "'s Yep" : $('.record-title-input').val();
+				var latitude = User.user.get('latitude');
+				var longitude = User.user.get('longitude');
 
-			this.$el.html(this.recordingTpl(res));
-			window.onRecordingStarted = function(){
-				
-			};
-			window.onCamAccess = function(allowed, id){
-				// If user clicked allowed, and also the templates have not been appended
-				// Because user may click allow and click disallow again
-				if(allowed && $('.recording-chat').is(':empty')){
+				Api.post('/yeps',{
+					staging: 0,
+					title: title,
+					latitude: latitude,
+					longitude: longitude 
+				}, window.localStorage.getItem('token'), function(err, res){
 
-					self.showOverlay(res);
+					if(err){
+						return Swal("", "Something is wrong", "warning");
+					}
 
-					$('[data-toggle="tooltip"]').tooltip();
+					$('.js-title').html(title);
+					$('.control-button').html('<button id="js-stop" class="btn btn-default record-control-button" data-toggle="tooltip" data-placement="top" title="Stop Recording"><i class="fa fa-stop fa-2x"></i></button>');
+					$('.video-recorder').html('<div id="recorder"></div>');
+					$('.record-chat-input').prop('disabled', false);
 
-					$('.js-title').html(res.title);
+					setupHDFVR(res.stream_name, true);
 
 					initFacebookShare(res);
 					initTwitterShare(res);
@@ -121,22 +152,65 @@ define(['jquery',
 
 					setupSocket(res);	
 					self.setupStop(res);
+
+					setTimeout(function(){
+						Api.post('/thumbnail/' + res.id, {}, window.localStorage.getItem('token'), function(err, tres){});
+					},5000);
+				});
+			});
+
+		},
+
+		renderRecorder: function(){
+
+			var self = this;
+
+			//this.$el.html(this.recordingTpl(res));
+
+			window.onRecordingStarted = function(){
+				
+			};
+
+			window.onCamAccess = function(allowed, id){
+				// If user clicked allowed, and also the templates have not been appended
+				// Because user may click allow and click disallow again
+				if(allowed){
+					$('#js-record').removeClass('disabled')
+					//self.showOverlay(res);
+
+					
+
+					//$('.js-title').html(res.title);
+
+
+					//$('.control-button').html('<button id="js-stop" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Stop Recording"><i class="fa fa-stop"></i></button>');
+					
+
+					//$('#js-record i').attr('class', 'fa fa-stop');
+					//$('#js-record').attr('id', 'js-stop');
+
+					
+				}
+				else{
+					$('#js-record').addClass('disabled');
 				}
 			};
+
 			window.onFlashReady = function(id){
 				window.onbeforeunload = confirmOnPageExit;
-				document.getElementById('VideoRecorder').record();
 			};
-			setupHDFVR(res.stream_name);
+			
 		},
+
 		renderComplete: function(res){
 			this.$el.html(this.chatTpl(res));
 		},
+
 		setupStop: function(res){
 			var id = res.id;
 			var self = this;
-			$('.js-stop').click(function(){	
-				API.post('/yeps/'+id+'/complete',{},
+			$('#js-stop').click(function(){	
+				Api.post('/yeps/'+id+'/complete',{},
 					 window.localStorage.getItem('token'), function(err, body){
 						$('#VideoRecorder')[0].stopVideo();
 						socket.emit('leave_room');
@@ -149,7 +223,8 @@ define(['jquery',
 		
 	});
 
-	var setupHDFVR = function(streamName){
+	var setupHDFVR = function(streamName, record){
+
 		var flashvars = {
 			userId : "XXY",
 			qualityurl: "audio_video_quality_profiles/640x480x30x90.xml",
@@ -172,18 +247,39 @@ define(['jquery',
 		
 		var mobile = false;
 		var ua = navigator.userAgent.toLowerCase();
+
 		if(navigator.appVersion.indexOf("iPad") != -1 || navigator.appVersion.indexOf("iPhone") != -1 || ua.indexOf("android") != -1 || ua.indexOf("ipod") != -1 || ua.indexOf("windows ce") != -1 || ua.indexOf("windows phone") != -1){
 			mobile = true;
 		}
-		
+
 		if(mobile == false){
-			swfobject.embedSWF("/hdfvr/VideoRecorder.swf", "recorder", "640", "480", "10.3.0", "", flashvars, params, attributes);
-		}else{
+			swfobject.embedSWF("/hdfvr/VideoRecorder.swf", "recorder", "640", "480", "10.3.0", "", flashvars, params, attributes, function(e){
+				if(e.success && record){
+					var recorder = document.getElementById('VideoRecorder');
+					turnOnRecord(recorder);
+				}
+				else{
+
+				}
+			});
+		}
+		else{
 			// HTML Media Capture
 		}
+		
 	};
 
 
+	var turnOnRecord = function(recorder){
+		if(typeof recorder.record === 'undefined'){
+			setTimeout(function(){
+				turnOnRecord(recorder);
+			},500);
+		}
+		else{
+			recorder.record();
+		}
+	};
 
 	var setupSocket = function(data){
 		
@@ -207,9 +303,7 @@ define(['jquery',
 		};
 
 		var appendConnectionUsers = function(users){
-
-			console.log(data);
-
+			console.log(users);
 			var connectionUsers = '';
 
 			for(var i = 0; i < users.length; i++){

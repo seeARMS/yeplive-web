@@ -6,7 +6,9 @@
 
 			<div class="col-xs-12">
 
-				<h3 class="js-title text-center"></h3>
+				<h3 class="js-title text-center">
+					<input type="text" class="record-title-input" placeholder="What are you #seeing?"></input>
+				</h3>
 
 			</div>
 
@@ -28,9 +30,7 @@
 
 			<div class="col-xs-12">
 
-				<a target="_blank" class="link-anchor-tag" href="<%- share_url %>">
-					<h5><i class="fa fa-link" ></i> <%- share_url %></h5>
-				</a>
+				
 
 			</div>
 
@@ -74,13 +74,14 @@
 	</div>
 	<hr style="margin-top:8px;margin-bottom:8px;" />
 	<div class="row record-chat-bottom" >
-		<div class="col-xs-3">
-			<button class="btn btn-default js-stop">
-				<span class="glyphicon glyphicon-stop" aria-hidden="true"></span>
+		<div class="col-xs-3 control-button">
+			<button id="js-record" class="btn btn-default record-control-button disabled" data-toggle="tooltip" data-placement="top" title="Start Recording">
+				<i class="fa fa-video-camera fa-2x"></i>
+				<!--<span class="glyphicon glyphicons-record" aria-hidden="true"></span>-->
 			</button>
 		</div>
 		<div class="col-xs-9">
-			<input class="record-chat-input" placeholder="say something...">
+			<input class="record-chat-input" placeholder="say something..." disabled>
 		</div>
 	</div>
 
