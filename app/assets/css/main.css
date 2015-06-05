@@ -1932,6 +1932,11 @@ div.user-view{
 	.dropdown-menu{
 		min-width:130px;
 	}
+
+	.footer-content{
+		font-size: 0.7em;
+		margin-top: 4px;
+	}
 	/*
 	.record-button{
 		margin-top:12px;
@@ -1944,7 +1949,7 @@ div.user-view{
 
 
 
-/* Mini devices (tablets, 430 and below) */
+/* Mini devices (tablets, 430 - 351 below) */
 @media (max-width: 430px){
 
 	.text-center-mobile{
@@ -2086,8 +2091,46 @@ div.user-view{
 	.explorer-delete-video{
 		left: 35px;
 	}
+
+	.footer-content {
+		font-size: 0.55em;
+		margin-top: 5px;
+	}
+
 }
 
+/* Super Mini devices (tablets, 350 and below) */
+@media (max-width: 350px){
+
+	.yeplive-img {
+		width: 100px;
+		margin-top: 10%;
+	}
+
+	.map-user-focus, .map-user-unfocus{
+		width: 40px;
+		height: 40px;
+		padding-top: 2px;
+	}
+
+	.map-user-focus{
+		top: 60px;
+		right: 6px;
+	}
+
+	.map-user-unfocus{
+		top: 104px;
+		right: 6px;
+	}
+
+	i.fa-map-marker{
+		font-size: 2.5em;
+	}
+
+	i.fa-globe{
+		font-size: 2.5em;
+	}
+}
 
 
 /* For watching video only */
